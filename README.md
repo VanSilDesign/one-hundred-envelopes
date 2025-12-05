@@ -1,1 +1,1 @@
-# a-hundred-envelopes
+# "One hundred envelope" is a little application to save earcning through the one hundred envelopes game. Click the button, and depending on the amount that appears, it will withdraw the sum from your wallet (physical or virtual) and move it to your piggy bank!
