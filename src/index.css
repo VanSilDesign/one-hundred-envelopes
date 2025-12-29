@@ -9,8 +9,8 @@ body {
   font-family: 'Lato', serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#222c31, #111d32);
-  color: #d9e2f1;
+  background: linear-gradient(#faf9f8, #f8e8e1);
+  color: #383533;
   min-height: 100vh;
   font-family: 'Quicksand', sans-serif;
 }
@@ -19,21 +19,21 @@ body {
   margin: 2rem auto;
   text-align: center;
   font-family: 'Lato', sans-serif;
-  color: #87a7a4;
+  color: #5d5755;
 }
 
 #main-header img {
   object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(14, 26, 28, 0.8));
+  filter: drop-shadow(0 0 8px rgba(232, 224, 223, 0.8));
   display: block;
   width: 8rem;
   height: 8rem;
   margin: 0 auto 1rem auto;
   padding: 1rem;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
-  border: 2px solid #0a2f11;
+  filter: drop-shadow(0 0 4px rgba(98, 88, 86, 0.6));
+  border: 2px solid #cd8660;
   border-radius: 50%;
-  background: #2a3b47;
+  background: #f8e8e1;
 }
 
 #main-header h1 {
@@ -56,7 +56,7 @@ section {
 #envelopes-container {
   margin: 0 auto 2rem;
   padding: 2rem;
-  border: 1px solid #05827e;
+  border: 1px solid #f49366;
   border-radius: 6px;
   text-align: center;
   display: flex;
@@ -71,7 +71,7 @@ section {
   margin: 0.5rem;
   font-size: 1.25rem;
   font-weight: bold;
-  color: #88dbd6;
+  color: #f8af84;
   text-transform: uppercase;
 }
 
@@ -80,10 +80,10 @@ section {
   text-align: center;
   margin: 0.5rem;
   padding: 0.5rem 0.25rem;
-  border: 1px solid #88dbd6;
+  border: 1px solid #f8af84;
   border-radius: 4px;
-  background-color: #0e1a1c;
-  color: #88dbd6;
+  background-color: #faf9f8;
+  color: #f8af84;
   font-size: 1rem;
 }
 
@@ -103,9 +103,9 @@ section {
   font-size: 1.25rem;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: #16f3eb;
-  color: #051a19;
-  border: 1px solid #16f3eb;
+  background-color: #f7ce94;
+  color: #625856;
+  border: 1px solid #f7ce94;
   border-radius: 4px;
   text-decoration: none;
   text-align: center;
@@ -113,17 +113,16 @@ section {
 }
 
 #envelopes-container .button:hover {
-  background-color: #0e1a1c;
-  color: #16f3eb;
+  background-color: #fbbc86;
 }
 
 #envelopes-container .button-icon {
-  color: #051a19;
+  color: #625856;
   height: 1.25rem;
 }
 
 #envelopes-container .button:hover .button-icon{
-  color: #f29165;
+  color: #625856;
 }
 
 .envelopes-button {
@@ -133,7 +132,7 @@ section {
 
 .envelopes {
   padding: 2rem;
-  border: 1px solid #05827e;
+  border: 1px solid #5d5755;
   border-radius: 6px;
 }
 
