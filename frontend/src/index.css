@@ -79,12 +79,12 @@ section {
   width: 4rem;
   text-align: center;
   margin: 0.5rem;
-  padding: 0.5rem 0.25rem;
+  padding: 0 0.25rem;
   border: 1px solid #f8af84;
   border-radius: 4px;
   background-color: #faf9f8;
   color: #f8af84;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 #envelopes-container input::-webkit-outer-spin-button,
@@ -116,12 +116,16 @@ section {
   background-color: #fbbc86;
 }
 
+#envelopes-container .button:disabled {
+  background-color: #9c9c9c;
+}
+
 #envelopes-container .button-icon {
   color: #625856;
   height: 1.25rem;
 }
 
-#envelopes-container .button:hover .button-icon{
+#envelopes-container .button:hover .button-icon {
   color: #625856;
 }
 
@@ -148,7 +152,7 @@ section {
 .envelopes .envelopes-info {
   display: block;
   font-size: 0.8rem;
-  color: #9dc5c4;
+  color: #5d5755;
   text-align: center;
 }
 
@@ -162,11 +166,11 @@ section {
   color: #f3a6a6;
 }
 
-.envelopes ol {
+.envelopes ul {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.2rem;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   margin: 0 auto;
   padding: 0;
@@ -175,20 +179,39 @@ section {
 }
 
 .envelopes li {
-  width: 2rem;
-  margin-left: 0.5rem;
-  color: #8eb6b3;
-  padding: 0.2rem;
+  min-width: 2rem;
+  margin-right: 0.5rem;
+  color: #5d5755;
+  padding: 0.2rem 0;
 }
 
-.envelopes li:first-child {
-  color: #87f0e9;
+
+.envelopes li.selected button {
+  background-color: #fbbc86;
   font-weight: bold;
-  font-size: 1.2rem;
 }
 
-.envelopes li.selected {
-  background-color: #335453;
-  color: #d9f7f6;
+.number-item button {
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
   border-radius: 4px;
+  background-color: #f7ce94;
+  color: #625856;
+}
+
+.number-item button:hover,
+.number-item button:focus {
+  background-color: #fbbc86;
+}
+
+.number-item .button-text {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: 'Raleway', sans-serif;
+  font-size: 1rem;
+  color: #5d0909;
 }
