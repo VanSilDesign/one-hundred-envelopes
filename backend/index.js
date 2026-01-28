@@ -7,6 +7,16 @@ const flash = require("connect-flash");
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// 1. IMPORTA
+const cors = require("cors");
+
+// 2. USA SUBITO (Prima dei router e delle sessioni)
+app.use(cors({
+  origin: "http://localhost:5173", // URL del tuo frontend React (Vite default)
+  credentials: true                // Necessario se userai i cookie di Passport/Session
+}));
+
 const conn = new DbConnection();
 
 /* Routers */
@@ -26,6 +36,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(flash());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(
   session({
     secret: "chiaveSegreta123",

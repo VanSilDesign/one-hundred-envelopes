@@ -1,6 +1,8 @@
 module.exports = () => {
   return (req, res, next) => {
-    if (!req.isAuthenticated()) return res.redirect("/login");
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: "Non autorizzato" });
+    }
     next();
   };
 };

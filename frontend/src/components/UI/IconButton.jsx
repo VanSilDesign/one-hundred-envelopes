@@ -1,9 +1,9 @@
-function IconButton({ children, ...props }) {
+function IconButton({ children, onClick, ...props }) {
   return (
-    <button {...props} className="button">
+    <button onClick={onClick} {...props} className="button">
       <span className="button-text">{children}</span>
     </button>
   );
-};
+}
 
 export default IconButton;

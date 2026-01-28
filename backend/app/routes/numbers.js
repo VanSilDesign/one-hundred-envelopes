@@ -5,12 +5,47 @@ const DbConnection = require("../config/db-connection");
 router.get("/get-numbers", async (req, res) => {
   try {
     // Usiamo la proprietà statica che hai impostato in DbConnection
-    const docs = await DbConnection.numbersCollection.find({}).toArray();
-    const soloNumeri = docs.map((doc) => doc.valore);
-    const html = `<div><h1>Dashboard</h1></div><div><h3>${soloNumeri}</div><div><a href="/logout">Logout</a></h3></div>`;
-    res.send(html);
+    const data = await DbConnection.numbersCollection
+      .find({})
+      .sort({ valore: 1 }) // 1 = crescente, -1 = decrescente
+      .toArray();
+    const soloNumeri = data.map((doc) => doc.valore);
+    console.log(soloNumeri);
+
+    res.json(soloNumeri);
   } catch (err) {
     res.status(500).send("Errore nel recupero dati: " + err.message);
+  }
+});
+
+router.post("/save-number", async (req, res) => {
+  const { number } = req.body;
+  console.log("Body ricevuto:", req.body);
+
+  // if (!req.isAuthenticated()) {
+  //   return res.status(401).json({ message: "Devi essere loggato!" });
+  // }
+
+  if (number === undefined) {
+    return res.status(400).json({ message: "Numero mancante!" });
+  }
+
+  const existing = await DbConnection.numbersCollection.findOne({
+    valore: number,
+  });
+  if (existing) {
+    return res.status(400).json({ message: "Numero già estratto!" });
+  }
+
+  try {
+    await DbConnection.numbersCollection.insertOne({
+      valore: number,
+      createdAt: new Date(),
+    });
+    res.status(200).json({ message: "Numero salvato con successo!" });
+  } catch (error) {
+    console.error("ERRORE NEL CATCH:", error.message);
+    res.status(500).json({ message: "Errore durante il salvataggio." });
   }
 });
 
