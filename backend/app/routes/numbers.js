@@ -49,4 +49,24 @@ router.post("/save-number", async (req, res) => {
   }
 });
 
+router.get("/delete-number/:value", async (req, res) => {
+  if (!req.params.value)
+    return res.status(400).json({ message: "Numero mancante!" });
+
+  try {
+    const numeroDaEliminare = parseInt(req.params.value);
+    const data = await DbConnection.numbersCollection.deleteOne({
+      valore: numeroDaEliminare,
+    });
+    
+    if (result.deletedCount === 1) {
+      res.status(200).json({ message: "Numero rimosso correttamente" });
+    } else {
+      res.status(404).json({ error: "Numero non trovato nel database" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: "Errore durante l'eliminazione" });
+  }
+});
+
 module.exports = router;

@@ -1,4 +1,4 @@
-export default function EnvelopeNumbers({ title, numbers, fallbackText, onSelectNumber, isLoading, loadingText }) {
+export default function EnvelopeNumbers({ title, numbers, fallbackText, onDeleteNumber, isLoading, loadingText }) {
   console.log(numbers);
   return (
     <section className="envelopes">
@@ -6,14 +6,24 @@ export default function EnvelopeNumbers({ title, numbers, fallbackText, onSelect
       {isLoading && <p className="fallback-text">{loadingText}</p>}
       {!isLoading && numbers.length === 0 && <p className="fallback-text">{fallbackText}</p>}
       {!isLoading && numbers.length > 0 && (
-        <ul>
-          {numbers.map((number) => (
-            <li key={number} className="number-item">
-              <button /*onClick={() => onSelectNumber(number)}*/>
-                <span>{typeof number === 'object' ? number.valore : number}</span>
-              </button>
-            </li>
-          ))}
+        <ul className="numbers-list">
+          {numbers.map((number) => {
+            const val = typeof number === 'object' ? number.valore : number;
+            return (
+              <li key={val} className="number-item">
+                <div className="number-wrapper">
+                   <span className="number-display">{val}</span>
+                   <button 
+                     className="delete-btn" 
+                     onClick={() => onDeleteNumber(val)}
+                     title="Cancella numero"
+                   >
+                     ×
+                   </button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>
