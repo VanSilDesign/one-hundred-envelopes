@@ -15,7 +15,7 @@ const handleDeleteSingle = async (num) => {
   }
 };
 
-function EnvelopesHistory({numbers, isFetching, onDeleteNumber}) {
+function EnvelopesHistory({numbers, isFetching, onDeleteNumber, onResetHistory}) {
   return (
     <div id="envelopes-history">
       <EnvelopeNumbers
@@ -25,6 +25,7 @@ function EnvelopesHistory({numbers, isFetching, onDeleteNumber}) {
         loadingText="Fetching numbers data..."
         fallbackText="No numbers available."
         onDeleteNumber={onDeleteNumber}
+        onResetHistory={onResetHistory}
       />
     </div>
   );
