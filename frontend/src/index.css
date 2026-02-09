@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Lato:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Lato:wght@400;700&display=swap");
 
 * {
   box-sizing: border-box;
@@ -6,7 +6,7 @@
 
 body {
   margin: 0;
-  font-family: 'Lato', serif;
+  font-family: "Lato", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(#faf9f8, #f8e8e1);
@@ -17,7 +17,7 @@ body {
 #main-header {
   margin: 2rem auto;
   text-align: center;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   color: #5d5755;
 }
 
@@ -91,7 +91,7 @@ section {
   -webkit-appearance: none;
 }
 
-#envelopes-container input[type='number'] {
+#envelopes-container input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -127,6 +127,13 @@ section {
 .button:hover .button-icon {
   color: #625856;
 }
+
+.button-flat {
+  background-color: transparent;
+  border-color: transparent;
+  color: #625856;
+}
+
 
 .envelopes-button {
   display: flex;
@@ -202,7 +209,6 @@ section {
   padding: 0.2rem 0;
 }
 
-
 .envelopes li.selected button {
   background-color: #fbbc86;
   font-weight: bold;
@@ -236,7 +242,7 @@ section {
   background: transparent;
   border: none;
   padding: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 1rem;
   color: #5d0909;
 }
@@ -260,7 +266,9 @@ section {
   font-weight: bold;
   z-index: 10;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out, transform 0.2s;
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s;
 }
 
 /* Mostra la X quando passi sopra al li */
@@ -325,7 +333,6 @@ section {
   font-size: 1rem;
 }
 
-
 @keyframes slide-down-fade-in {
   from {
     opacity: 0;
@@ -348,4 +355,101 @@ section {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+form {
+  width: 90%;
+  max-width: 40rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: linear-gradient(180deg, #f8af84, #f8e8e1);
+  border-radius: 8px;
+  box-shadow: 0 0 16px 1px rgba(76, 76, 76, 0.5);
+}
+
+.control,
+fieldset {
+  margin-bottom: 1rem;
+}
+
+.control.no-margin {
+  margin-bottom: 0;
+}
+
+.control label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  color: #625856;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.control input {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #f8af84;
+  background-color: #faf9f8;
+  color: #383533;
+}
+
+.control select {
+  display: block;
+  width: 100%;
+  max-width: 15rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #f8af84;
+  background-color: #faf9f8;
+  color: #383533;
+}
+
+.control:has(input[type='checkbox']) {
+  display: flex;
+  align-items: center;
+}
+
+.control:has(input[type='checkbox']) label {
+  margin: 0;
+}
+
+.control input[type='checkbox'] {
+  display: inline-block;
+  width: auto;
+  max-width: none;
+  margin-right: 0.5rem;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  color: #d9e2f1;
+}
+
+.control-error {
+  color: #ffca99;
+  font-size: 0.8rem;
+  height: 2rem;
+  padding: 0.5rem 0;
+}
+
+.control-error p {
+  margin: 0;
+}
+
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }

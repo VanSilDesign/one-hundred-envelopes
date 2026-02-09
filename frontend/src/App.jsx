@@ -1,13 +1,23 @@
 import { useState, useCallback, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Header from "./components/Header.jsx";
+import LoginPage from "./components/LoginPage.jsx";
 import EnvelopesHistory from "./components/Envelopes/EnvelopeHistory.jsx";
 import EnvelopesContainer from "./components/Envelopes/EnvelopesContainer.jsx";
-import Header from "./components/Header.jsx";
 import ErrorPage from "./components/ErrorPage";
 import { fetchAvailableNumbers } from "./http.js";
 import Modal from "./components/Modal.jsx";
 import PopUpAlert from "./components/PopUpAlert.jsx";
 
-//come inserire e richiamare lista
+// Un componente Home veloce per il test
+const Home = () => (
+  <div className="center">
+    <h1>Benvenuta nell'app 100 Envelopes</h1>
+    <Link to="/login" className="button">
+      Vai al Login
+    </Link>
+  </div>
+);
 
 function App() {
   const [numbers, setNumbers] = useState([]);
@@ -16,7 +26,6 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
   const [modalType, setModalType] = useState(null);
-  
 
   const loadNumbers = useCallback(async () => {
     setIsFetching(true);
@@ -128,7 +137,7 @@ function App() {
   }
 
   return (
-    <>
+    <Router>
       <Modal open={error} onClose={handleError}>
         {error && (
           <ErrorPage
@@ -139,28 +148,29 @@ function App() {
         )}
       </Modal>
       <Modal open={modalIsOpen} onClose={handleStopRemoveNumber}>
-      {modalType === 'single' && (
-        <PopUpAlert
-          type="DeletionConfirm"
-          title="Sei sicuro?"
-          text={`Vuoi davvero eliminare il numero ${selectedNumber}?`}
-          onCancel={handleStopRemoveNumber}
-          onConfirm={handleDeleteNumber}
-        />
-      )}
-      
-      {modalType === 'all' && (
-        <PopUpAlert
-          type="ResetConfirm"
-          title="Conferma di reset"
-          text="Vuoi archiviare tutta la cronologia attuale?"
-          onCancel={handleStopRemoveNumber}
-          onConfirm={handleResetHistory} // Questa ora verrà chiamata solo al click su "Conferma"
-        />
-      )}
-    </Modal>
+        {modalType === "single" && (
+          <PopUpAlert
+            type="DeletionConfirm"
+            title="Sei sicuro?"
+            text={`Vuoi davvero eliminare il numero ${selectedNumber}?`}
+            onCancel={handleStopRemoveNumber}
+            onConfirm={handleDeleteNumber}
+          />
+        )}
+
+        {modalType === "all" && (
+          <PopUpAlert
+            type="ResetConfirm"
+            title="Conferma di reset"
+            text="Vuoi archiviare tutta la cronologia attuale?"
+            onCancel={handleStopRemoveNumber}
+            onConfirm={handleResetHistory} // Questa ora verrà chiamata solo al click su "Conferma"
+          />
+        )}
+      </Modal>
       <Header />
       <main>
+        <LoginPage />
         <EnvelopesContainer onSaveSuccess={loadNumbers} />
         {/* Passiamo lo stato di caricamento alla storia */}
         <EnvelopesHistory
@@ -170,7 +180,7 @@ function App() {
           onResetHistory={handleStartResetHistory}
         />
       </main>
-    </>
+    </Router>
   );
 }
 

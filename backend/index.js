@@ -1,8 +1,9 @@
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
+require("./app/config/passport-config");
 const DbConnection = require("./app/config/db-connection");
-const checkUserLogin = require("./app/middleware/check-user-login");
+const isLoggedIn = require("./app/middleware/is-logged-in");
 const flash = require("connect-flash");
 const cors = require("cors");
 
@@ -40,18 +41,18 @@ app.use(passport.session());
 app.use(flash());
 
 /* Routers */
-const loginRouter = require("./app/routes/login");
+const authRouter = require("./app/routes/auth");
 const userRouter = require("./app/routes/user");
 const numberRouter = require("./app/routes/numbers");
 
 // --- ROTTE ---
-app.use(loginRouter);
-app.use("/user", checkUserLogin(), userRouter);
+app.use("/auth", authRouter);
+app.use("/user", isLoggedIn, userRouter);
 app.use("/numbers", numberRouter);
 
 // --- VISTE E CONNESSIONE ---
-app.set("views", "app/views");
-app.set("view engine", "ejs");
+// app.set("views", "app/views");
+// app.set("view engine", "ejs");
 
 // --- ACCESSO AL DB ---
 const conn = new DbConnection();

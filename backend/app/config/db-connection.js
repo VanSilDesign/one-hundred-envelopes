@@ -13,7 +13,7 @@ class DbConnection extends EventEmitter {
       const db = this.mongoClient.db("envelopes");
 
       DbConnection.db = db;
-      DbConnection.userCollection = db.collection("user");
+      DbConnection.userCollection = db.collection("users");
       DbConnection.numbersCollection = db.collection("numbers");
 
       console.log("MongoDB connesso");

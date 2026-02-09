@@ -1,5 +1,6 @@
-require('dotenv').config();
+require("dotenv").config();
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const DB = require("./db-connection");
@@ -20,18 +21,18 @@ passport.use(
         let user = await DB.userCollection.findOne({
           googleID: profile.id,
         });
-        
+
         // 2. Se l'utente non esiste, lo creiamo
         if (!user) {
           const userObj = {
             googleID: profile.id,
-            username: profile.emails[0].value.split('@')[0],
+            username: profile.emails[0].value.split("@")[0],
             email:
               profile.emails && profile.emails[0]
                 ? profile.emails[0].value
                 : null,
           };
-          
+
           const ris = await DB.userCollection.insertOne(userObj);
 
           // 3. FIX per le nuove versioni di MongoDB:
@@ -47,8 +48,8 @@ passport.use(
       } catch (err) {
         return done(err, null);
       }
-    }
-  )
+    },
+  ),
 );
 
 passport.use(
@@ -56,18 +57,29 @@ passport.use(
   new LocalStrategy(
     { passReqToCallback: true },
     async (req, username, password, done) => {
-      const user = await DB.userCollection.findOne({ username: username });
-      if (!user || user.password !== password) {
-        return done(null, false, {
-          message: req.flash(
-            "loginFallito",
-            "I dati non sono corretti. Riprova."
-          ),
-        });
+      try {
+        const user = await DB.userCollection.findOne({ username: username });
+        if (!user) {
+          return done(null, false, { message: "Utente non trovato." });
+        }
+
+        // CONFRONTO SICURO CON BCRYPT
+        console.log("Password inserita nel form:", password);
+        console.log("Password hashata nel DB:", user.password);
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log("Il match è:", isMatch);
+
+        if (!isMatch) {
+          return done(null, false, { message: "Password errata." });
+        }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error);
       }
-      return done(null, user);
-    }
-  )
+    },
+  ),
 );
 
 passport.serializeUser((user, done) => {
@@ -85,3 +97,14 @@ passport.deserializeUser(async (id, done) => {
 });
 
 module.exports = passport;
+
+// vecchio confronto per user e password
+/* if (!user || user.password !== password) {
+    return done(null, false, {
+      message: req.flash(
+        "loginFallito",
+        "I dati non sono corretti. Riprova."
+      ),
+    });
+  } 
+  return done(null, user);*/
