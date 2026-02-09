@@ -8,6 +8,7 @@ import ErrorPage from "./components/ErrorPage";
 import { fetchAvailableNumbers } from "./http.js";
 import Modal from "./components/Modal.jsx";
 import PopUpAlert from "./components/PopUpAlert.jsx";
+import Sidebar from "./components/sidebar/Sidebar.jsx";
 
 // Un componente Home veloce per il test
 const Home = () => (
@@ -26,6 +27,8 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(null);
   const [modalType, setModalType] = useState(null);
+  const [user, setUser] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const loadNumbers = useCallback(async () => {
     setIsFetching(true);
@@ -136,6 +139,47 @@ function App() {
     setError(null);
   }
 
+  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  console.log(isSidebarOpen);
+
+  const handleLoginSuccess = (userData) => {
+    setUser(userData); // Salviamo i dati (username, ruolo, ecc.) nello stato di App
+  };
+
+  useEffect(() => {
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch("http://localhost:3000/auth/status", {
+          credentials: "include", // FONDAMENTALE per inviare i cookie di sessione
+        });
+
+        const data = await response.json();
+
+        if (data.isAuthenticated) {
+          setUser(data.user);
+        }
+      } catch (error) {
+        console.error("Errore nel controllo autenticazione: ", error);
+      }
+    }
+
+    checkAuthStatus();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch("http://localhost:3000/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null); // Resetta lo stato
+      setIsSidebarOpen(false); // Chiude il menu
+      // Opzionale: navigate('/') per tornare in Home
+    } catch (error) {
+      console.error("Errore durante il logout:", error);
+    }
+  };
+
   return (
     <Router>
       <Modal open={error} onClose={handleError}>
@@ -168,9 +212,23 @@ function App() {
           />
         )}
       </Modal>
-      <Header />
+
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        user={user}
+        onLogout={handleLogout}
+      />
+
+      <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <main>
-        <LoginPage />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/login"
+            element={<LoginPage onLoginSuccess={handleLoginSuccess} />}
+          />
+        </Routes>
         <EnvelopesContainer onSaveSuccess={loadNumbers} />
         {/* Passiamo lo stato di caricamento alla storia */}
         <EnvelopesHistory

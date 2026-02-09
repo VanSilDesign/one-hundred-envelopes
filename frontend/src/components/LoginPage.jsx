@@ -8,7 +8,7 @@ import {
 import Input from "./UI/Input";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginPage() {
+export default function LoginPage({ onLoginSuccess }) {
   const navigate = useNavigate(); // Inizializza il navigatore
 
   const {
@@ -48,6 +48,8 @@ export default function LoginPage() {
       if (response.ok) {
         console.log("SUCCESSOTOTALE:", data);
         alert("Login effettuato con successo!");
+        // Salviamo i dati nello stato globale user in App.jsx
+        onLoginSuccess(data.user); 
         // MAGIA: Spostiamo l'utente sulla Dashboard
         navigate("/user/dashboard");
       } else {

@@ -30,10 +30,13 @@ router.post("/register-admin", async (req, res) => {
   }
 });
 
-// router.get("/login", (req, res) => {
-//   if (req.isAuthenticated()) return res.redirect("/user/dashboard");
-//   res.render("login", { message: req.flash("loginFallito") });
-// });
+router.get("/status", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ isAuthenticated: true, user: req.user });
+  } else {
+    res.json({ isAuthenticated: false });
+  }
+});
 
 router.post("/login", (req, res, next) => {
   passport.authenticate("local-login", (err, user, info) => {
@@ -76,10 +79,14 @@ router.get(
   },
 );
 
-router.get("/logout", (req, res, next) => {
+router.post("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
-      return next(err);
+      return res.status(500).json({ message: "Errore nel logout."});
+
+      req.session.destroy();
+      res.clearCookie("connect.sid"); 
+      res.json({ message: "Logout effettuato"});
     }
     res.redirect("/login");
   });
