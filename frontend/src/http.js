@@ -6,7 +6,8 @@ export async function fetchAvailableNumbers() {
   const resData = await response.json();
 
   if (!response.ok) {
-    throw new Error("Failed to fetch numbers");
+    console.log("Failed to fetch numbers, list is empty");
+    return [];
   }
   // LOG DI CONTROLLO: Così vedi esattamente cosa arriva ogni volta
   console.log("Dati caricati dal DB:", resData);
@@ -18,7 +19,7 @@ export async function saveSelectedNumber(number) {
   const response = await fetch("http://localhost:3000/numbers/save-number", {
     method: "POST",
     headers: {
-      "Content-type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ number: number }),
     credentials: "include",
