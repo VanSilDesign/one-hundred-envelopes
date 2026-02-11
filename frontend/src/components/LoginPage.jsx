@@ -1,15 +1,19 @@
+import { useEffect } from "react";
 import useInput from "../hooks/useInput.jsx";
-import {
-  isEmail,
-  isNotEmpty,
-  hasMinLength,
-  isEqualsToOtherValue,
-} from "../util/validation.js";
+import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "./UI/Input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext.jsx";
 
-export default function LoginPage({ onLoginSuccess }) {
+export default function LoginPage() {
   const navigate = useNavigate(); // Inizializza il navigatore
+  const { user, login } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/"); // Se sei già loggata, via di qui!
+    }
+  }, [user, navigate]);
 
   const {
     value: emailValue,
@@ -46,12 +50,11 @@ export default function LoginPage({ onLoginSuccess }) {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("SUCCESSOTOTALE:", data);
         alert("Login effettuato con successo!");
-        // Salviamo i dati nello stato globale user in App.jsx
-        onLoginSuccess(data.user); 
+        // Salviamo i dati nello stato globale user in App.jsx dal Provider di AuthContext
+        login(data.user);
         // MAGIA: Spostiamo l'utente sulla Dashboard
-        navigate("/user/dashboard");
+        navigate("/");
       } else {
         console.error("ERRORE LOGIN:", data.message);
         alert(data.message || "Credenziali non valide");
@@ -63,36 +66,41 @@ export default function LoginPage({ onLoginSuccess }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
+    <div className="form-modal">
+      <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
 
-      <div className="control-row">
-        <Input
-          label="Email"
-          id="email"
-          type="email"
-          name="email"
-          onBlur={handleEmailBlur}
-          onChange={handleEmailChange}
-          value={emailValue}
-          error={emailHasError && "Please enter a valid email!"}
-        />
-        <Input
-          label="Password"
-          id="password"
-          type="password"
-          name="password"
-          onBlur={handlePasswordBlur}
-          onChange={handlePasswordChange}
-          value={passwordValue}
-          error={passwordHasError && "Please enter a valid password!"}
-        />
-      </div>
+        <div className="control-column">
+          <Input
+            label="Email"
+            id="email"
+            type="email"
+            name="email"
+            onBlur={handleEmailBlur}
+            onChange={handleEmailChange}
+            value={emailValue}
+            error={emailHasError && "Please enter a valid email!"}
+          />
+          <Input
+            label="Password"
+            id="password"
+            type="password"
+            name="password"
+            onBlur={handlePasswordBlur}
+            onChange={handlePasswordChange}
+            value={passwordValue}
+            error={passwordHasError && "Please enter a valid password!"}
+          />
+        </div>
 
-      <p className="form-actions">
-        <button className="button button-flat">Reset</button>
-        <button className="button">Login</button>
+        <p className="form-actions">
+          <button className="button button-flat">Reset</button>
+          <button className="button">Login</button>
+        </p>
+      </form>
+      <p>
+        Don't have an account? <Link to="/register">Signup</Link>
       </p>
-    </form>
+    </div>
   );
 }

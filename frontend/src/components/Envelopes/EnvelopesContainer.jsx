@@ -1,10 +1,11 @@
 import { saveSelectedNumber } from "../../http.js";
 import { useState, useCallback } from "react";
-
+import { useAuth } from "../context/AuthContext";
 import EnvelopeCounter from "./EnvelopeCounter.jsx";
 import IconButton from "../UI/IconButton.jsx";
 
 function EnvelopesContainer({ onSaveSuccess }) {
+  const { user } = useAuth();
   const [count, setCount] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -35,7 +36,8 @@ function EnvelopesContainer({ onSaveSuccess }) {
       <div className="envelopes-button">
         <IconButton onClick={handleChoose}>Choose</IconButton>
         <IconButton
-          onClick={() => handleSave(count)}>
+          onClick={() => handleSave(count)} disabled={!user} // IL BOTTONE SI DISABILITA SE USER È NULL
+          title={!user ? "Login to save" : ""}>
           {isSaving ? "Saving..." : "Save"}
         </IconButton>
       </div>

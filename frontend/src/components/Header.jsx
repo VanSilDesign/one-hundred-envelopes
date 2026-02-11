@@ -1,9 +1,13 @@
 import logoImg from "../assets/logo_envelope.png";
+import { useLocation, Link } from "react-router-dom";
 
 export default function Header({ onMenuClick }) {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
   return (
     <header id="main-header">
-      <button
+       <button
         className="menu-toggle"
         onClick={onMenuClick}
         aria-label="Apri menu"
@@ -23,9 +27,15 @@ export default function Header({ onMenuClick }) {
           />
         </svg>
       </button>
-      <div id="title">
-        <img src={logoImg} alt="A open envelope with a heart inside" />
-        <h1>100 envelopes</h1>
+      <div id="title" className="main-header">
+        <Link to="/" className={`${isHome ? 'home-variant' : 'compact-variant'}`}>
+          <img
+            src={logoImg}
+            alt="A open envelope with a heart inside"
+          />
+          {!isHome && <span className="site-title">100 Envelopes</span>}
+          {isHome && <h1>100 envelopes</h1>}
+        </Link>
       </div>
     </header>
   );

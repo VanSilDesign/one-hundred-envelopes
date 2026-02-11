@@ -7,7 +7,6 @@ export default function EnvelopeNumbers({
   isLoading,
   loadingText,
 }) {
-  console.log(numbers);
   return (
     <section className="envelopes">
       <div className="history-header">

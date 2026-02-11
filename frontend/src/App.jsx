@@ -2,21 +2,33 @@ import { useState, useCallback, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import LoginPage from "./components/LoginPage.jsx";
-import EnvelopesHistory from "./components/Envelopes/EnvelopeHistory.jsx";
-import EnvelopesContainer from "./components/Envelopes/EnvelopesContainer.jsx";
+import RegisterPage from "./components/RegisterPage";
+import EnvelopesContainer from "./components/envelopes/EnvelopesContainer.jsx";
 import ErrorPage from "./components/ErrorPage";
 import { fetchAvailableNumbers } from "./http.js";
 import Modal from "./components/Modal.jsx";
 import PopUpAlert from "./components/PopUpAlert.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import DashboardPage from "./components/DashboardPage.jsx";
+import { useAuth } from "./components/context/AuthContext.jsx";
 
 // Un componente Home veloce per il test
-const Home = () => (
+const Home = ({ user }) => (
   <div className="center">
-    <h1>Benvenuta nell'app 100 Envelopes</h1>
-    <Link to="/login" className="button">
-      Vai al Login
-    </Link>
+    {!user && (
+      <div>
+        <p>Welcome to the 100 Envelopes app.</p>
+        <p>
+          Login to save your history, check your progress and set different
+          score.
+        </p>
+        <Link to="/login" className="button">
+          Login
+        </Link>
+      </div>
+    )}
+    {user && <p>Welcome back! Ready to choose another number?</p>}
   </div>
 );
 
@@ -24,11 +36,14 @@ function App() {
   const [numbers, setNumbers] = useState([]);
   const [isFetching, setIsFetching] = useState(false); // Stato di caricamento globale
   const [error, setError] = useState();
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedNumber, setSelectedNumber] = useState(null);
-  const [modalType, setModalType] = useState(null);
-  const [user, setUser] = useState(null);
+  const [modalConfig, setModalConfig] = useState({
+    isOpen: false,
+    type: null,
+    number: null,
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const { user, isLoading } = useAuth();
 
   const loadNumbers = useCallback(async () => {
     setIsFetching(true);
@@ -55,34 +70,42 @@ function App() {
   }, []);
 
   useEffect(() => {
-    loadNumbers();
-  }, [loadNumbers]);
+    if (user) {
+      loadNumbers();
+    } else {
+      setNumbers([]); // Se log out, svuota la lista
+    }
+  }, [user, loadNumbers]);
 
   function handleStartRemoveNumber(number) {
-    setSelectedNumber(number);
-    setModalType("single"); // Impostiamo il tipo
-    setModalIsOpen(true);
+    setModalConfig({
+      isOpen: true,
+      type: "single",
+      number: number,
+    });
   }
   function handleStartResetHistory() {
-    setModalType("all"); // Impostiamo il tipo
-    setModalIsOpen(true);
+    setModalConfig({
+      isOpen: true,
+      type: "all",
+      number: null,
+    });
   }
-
   function handleStopRemoveNumber() {
-    setModalIsOpen(false);
-    setSelectedNumber(null);
+    setModalConfig({
+      isOpen: false,
+      type: null,
+      number: null,
+    });
   }
   const handleDeleteNumber = useCallback(async () => {
-    if (!selectedNumber) return; // Sicurezza
-    console.log("FUNZIONE CHIAMATA! Il numero da eliminare è:", selectedNumber);
-
-    if (!selectedNumber) {
-      console.warn("Attenzione: selectedNumber è null o undefined!");
+    if (!modalConfig.number) {
+      console.warn("Attenzione: modalConfig.number è null o undefined!");
       return;
     }
     try {
       const response = await fetch(
-        `http://localhost:3000/numbers/soft-delete-number/${selectedNumber}`,
+        `http://localhost:3000/numbers/soft-delete-number/${modalConfig.number}`,
         {
           method: "PATCH",
           headers: {
@@ -92,13 +115,11 @@ function App() {
         },
       );
 
-      console.log(response.ok);
-
       if (response.ok) {
         // Aggiorniamo lo stato locale: teniamo tutti i numeri TRANNE quello appena cancellato
         setNumbers((prevNumbers) =>
           prevNumbers.filter(
-            (n) => (typeof n === "object" ? n.value : n) !== selectedNumber,
+            (n) => (typeof n === "object" ? n.value : n) !== modalConfig.number,
           ),
         );
         console.log("Il numero è ora invisibile nel frontend");
@@ -109,7 +130,7 @@ function App() {
       console.error("Errore di rete (CORS o connessione):", error);
     }
     handleStopRemoveNumber(); // Chiudiamo e resettiamo
-  }, [selectedNumber, handleStopRemoveNumber]);
+  }, [modalConfig.number, handleStopRemoveNumber]);
 
   const handleResetHistory = useCallback(async () => {
     try {
@@ -128,7 +149,7 @@ function App() {
     } catch (error) {
       console.error("Errore di rete:", error);
     }
-    setModalIsOpen(false);
+    handleStopRemoveNumber();
   }, []);
 
   if (error) {
@@ -139,46 +160,7 @@ function App() {
     setError(null);
   }
 
-  const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
-  console.log(isSidebarOpen);
-
-  const handleLoginSuccess = (userData) => {
-    setUser(userData); // Salviamo i dati (username, ruolo, ecc.) nello stato di App
-  };
-
-  useEffect(() => {
-    async function checkAuthStatus() {
-      try {
-        const response = await fetch("http://localhost:3000/auth/status", {
-          credentials: "include", // FONDAMENTALE per inviare i cookie di sessione
-        });
-
-        const data = await response.json();
-
-        if (data.isAuthenticated) {
-          setUser(data.user);
-        }
-      } catch (error) {
-        console.error("Errore nel controllo autenticazione: ", error);
-      }
-    }
-
-    checkAuthStatus();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await fetch("http://localhost:3000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-      setUser(null); // Resetta lo stato
-      setIsSidebarOpen(false); // Chiude il menu
-      // Opzionale: navigate('/') per tornare in Home
-    } catch (error) {
-      console.error("Errore durante il logout:", error);
-    }
-  };
+  if (isLoading) return <div className="loader">Loading...</div>;
 
   return (
     <Router>
@@ -191,18 +173,18 @@ function App() {
           />
         )}
       </Modal>
-      <Modal open={modalIsOpen} onClose={handleStopRemoveNumber}>
-        {modalType === "single" && (
+      <Modal open={modalConfig.isOpen} onClose={handleStopRemoveNumber}>
+        {modalConfig.type === "single" && (
           <PopUpAlert
             type="DeletionConfirm"
             title="Sei sicuro?"
-            text={`Vuoi davvero eliminare il numero ${selectedNumber}?`}
+            text={`Vuoi davvero eliminare il numero ${modalConfig.number}?`}
             onCancel={handleStopRemoveNumber}
             onConfirm={handleDeleteNumber}
           />
         )}
 
-        {modalType === "all" && (
+        {modalConfig.type === "all" && (
           <PopUpAlert
             type="ResetConfirm"
             title="Conferma di reset"
@@ -213,30 +195,37 @@ function App() {
         )}
       </Modal>
 
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        user={user}
-        onLogout={handleLogout}
-      />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <Header onMenuClick={() => setIsSidebarOpen(true)} />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route
-            path="/login"
-            element={<LoginPage onLoginSuccess={handleLoginSuccess} />}
+            path="/"
+            element={
+              <>
+                <Home user={user} />
+                <EnvelopesContainer onSaveSuccess={loadNumbers} />
+              </>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route
+            path="/user/dashboard"
+            element={
+              <PrivateRoute user={user}>
+                <DashboardPage
+                  numbers={numbers}
+                  isLoading={isFetching}
+                  onDeleteNumber={handleStartRemoveNumber}
+                  onResetHistory={handleStartResetHistory}
+                  onSaveSuccess={loadNumbers} // Serve per ricaricare dopo una nuova busta
+                />
+              </PrivateRoute>
+            }
           />
         </Routes>
-        <EnvelopesContainer onSaveSuccess={loadNumbers} />
-        {/* Passiamo lo stato di caricamento alla storia */}
-        <EnvelopesHistory
-          numbers={numbers}
-          isLoading={isFetching}
-          onDeleteNumber={handleStartRemoveNumber}
-          onResetHistory={handleStartResetHistory}
-        />
       </main>
     </Router>
   );

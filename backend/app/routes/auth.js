@@ -7,6 +7,12 @@ const passport = require("../config/passport-config");
 router.post("/register-admin", async (req, res) => {
   const { username, password } = req.body;
 
+  if (!username || !password || password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Dati non validi o password troppo corta." });
+  }
+
   try {
     const existingUser = await DbConnection.userCollection.findOne({
       username,
@@ -26,7 +32,7 @@ router.post("/register-admin", async (req, res) => {
     await DbConnection.userCollection.insertOne(newUser);
     res.status(201).json({ message: "Admin creato con successo!" });
   } catch (error) {
-    res.status(500).json({ error: "Errore durante la registrazione." });
+    res.status(500).json({ message: "Errore durante la registrazione." });
   }
 });
 
@@ -82,11 +88,11 @@ router.get(
 router.post("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
-      return res.status(500).json({ message: "Errore nel logout."});
+      return res.status(500).json({ message: "Errore nel logout." });
 
       req.session.destroy();
-      res.clearCookie("connect.sid"); 
-      res.json({ message: "Logout effettuato"});
+      res.clearCookie("connect.sid");
+      res.json({ message: "Logout effettuato" });
     }
     res.redirect("/login");
   });

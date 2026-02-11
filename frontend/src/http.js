@@ -6,7 +6,8 @@ export async function fetchAvailableNumbers() {
   const resData = await response.json();
 
   if (!response.ok) {
-    throw new Error("Failed to fetch numbers");
+    console.log("Failed to fetch numbers, list is empty");
+    return [];
   }
   // LOG DI CONTROLLO: Così vedi esattamente cosa arriva ogni volta
   console.log("Dati caricati dal DB:", resData);
