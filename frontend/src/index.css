@@ -158,10 +158,6 @@ section {
   -webkit-appearance: none;
 }
 
-#envelopes-container input[type="number"] {
-  -moz-appearance: textfield;
-}
-
 .button {
   cursor: pointer;
   display: inline-flex;
@@ -184,6 +180,8 @@ section {
 
 .button:disabled {
   background-color: #9c9c9c;
+  border-color: #9c9c9c;
+  color: #ffffffa9;
 }
 
 .button-icon {
@@ -499,6 +497,10 @@ fieldset {
   color: #d9e2f1;
 }
 
+.control input:focus-visible {
+  outline: none;
+}
+
 .control-error {
   color: #f85050;
   font-size: 0.8rem;
@@ -522,4 +524,9 @@ fieldset {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+}
+
+.warning-text {
+  color: #d32f2f;
+  height: 25px;
 }

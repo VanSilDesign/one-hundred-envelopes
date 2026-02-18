@@ -35,7 +35,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/user/settings" onClick={onClose}>
+                  <Link to="/settings" onClick={onClose}>
                     Settings
                   </Link>
                 </li>

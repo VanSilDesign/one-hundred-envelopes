@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage";
@@ -11,6 +11,7 @@ import PopUpAlert from "./components/PopUpAlert.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import DashboardPage from "./components/DashboardPage.jsx";
+import Settings from "./components/Settings.jsx";
 import { useAuth } from "./components/context/AuthContext.jsx";
 
 // Un componente Home veloce per il test
@@ -224,6 +225,10 @@ function App() {
                 />
               </PrivateRoute>
             }
+          />
+          <Route
+            path="/settings"
+            element={user ? <Settings user={user} /> : <Navigate to="/login" />}
           />
         </Routes>
       </main>
