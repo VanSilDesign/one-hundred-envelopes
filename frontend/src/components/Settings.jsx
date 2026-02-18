@@ -19,8 +19,6 @@ export default function Settings() {
   // Caricamento dati se già modificati
   useEffect(() => {
     const loadSettings = async () => {
-      console.log("loadSettings");
-
       try {
         const response = await fetch("/api/settings/get", {
           //ricordati che ora hai il proxy a il http://localhost:5000!!!
@@ -33,7 +31,6 @@ export default function Settings() {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
 
           if (data && Object.keys(data).length > 0) {
             // Se abbiamo dati, aggiorniamo lo stato
@@ -55,8 +52,6 @@ export default function Settings() {
       settingValues.step,
       settingValues.numberOfEnvelopes,
     );
-
-    console.log("Risultato calcolo:", result);
 
     // Passiamo tutto l'oggetto result allo stato summary
     setSummary(result);
@@ -103,9 +98,6 @@ export default function Settings() {
         body: JSON.stringify(settingValues),
         credentials: "include",
       });
-
-      // const text = await response.text();
-      // console.log("Risposta grezza del server:", text);
       const data = await response.json();
 
       if (response.ok) {

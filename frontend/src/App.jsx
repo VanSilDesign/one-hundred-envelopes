@@ -123,7 +123,6 @@ function App() {
             (n) => (typeof n === "object" ? n.value : n) !== modalConfig.number,
           ),
         );
-        console.log("Il numero è ora invisibile nel frontend");
       } else {
         alert("Errore nella risposta del server");
       }

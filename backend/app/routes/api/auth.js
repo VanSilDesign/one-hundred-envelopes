@@ -70,8 +70,7 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local-login", (err, user, info) => {
     // 1. Errore tecnico del server
     if (err) return next(err);
-    console.log(err);
-
+    
     // 2. Credenziali sbagliate (user non trovato o password errata)
     if (!user) {
       return res.status(401).json({

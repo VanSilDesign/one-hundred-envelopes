@@ -18,8 +18,6 @@ function EnvelopesContainer({ onSaveSuccess }) {
       const step = settingValues.step;
       const numEnvelopes = Math.floor(maxVal / step);
 
-      console.log("numEnvelopes", numEnvelopes);
-
       if (chosenEnvelopes.size >= numEnvelopes) {
         alert("Hai estratto tutte le buste");
         return;
@@ -29,9 +27,7 @@ function EnvelopesContainer({ onSaveSuccess }) {
       do {
         randomIndex = Math.floor(Math.random() * numEnvelopes) + 1;
       } while (chosenEnvelopes.has(randomIndex));
-
-      console.log(randomIndex);
-
+      
       const sortedValue = randomIndex * step;
 
       setCount(sortedValue);

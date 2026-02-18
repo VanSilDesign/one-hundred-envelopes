@@ -4,10 +4,7 @@ const { ObjectId } = require("mongodb");
 const DbConnection = require("../../config/db-connection");
 
 router.get("/get", async (req, res) => {
-  console.log("Siamo in settings/get");
-
   const userId = req.user?._id || req.session?.passport?.user;
-  console.log(userId);
 
   if (!userId) {
     return res.status(401).json({ message: "Utente non autorizzato" });
@@ -17,12 +14,10 @@ router.get("/get", async (req, res) => {
       _id: new ObjectId(userId),
     });
 
-    console.log("Settings User caricato dal DB:", user.settings);
+    // console.log("Settings User caricato dal DB:", user.settings);
 
     return res.status(200).json(user.settings || {});
   } catch (error) {
-    console.error(error);
-
     return res.status(500).json({
       success: false,
       message: "Errore interno al server",

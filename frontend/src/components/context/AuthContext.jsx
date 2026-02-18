@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         }
 
         const data = await response.json();
-        console.log("Stato autenticazione:", data);
+        // console.log("Stato autenticazione:", data);
         if (data.isAuthenticated) {
           setUser(data.user);
         }

@@ -9,8 +9,6 @@ export async function fetchAvailableNumbers() {
     console.log("Failed to fetch numbers, list is empty");
     return [];
   }
-  // LOG DI CONTROLLO: Così vedi esattamente cosa arriva ogni volta
-  console.log("Dati caricati dal DB:", resData);
 
   return resData;
 }
@@ -30,6 +28,5 @@ export async function saveSelectedNumber(number) {
   if(!response.ok) {
     throw new Error(resData.message || "Failed to save number");
   }
-  console.log("Dati salvati: " + resData);
   return resData;
 }
