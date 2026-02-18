@@ -106,9 +106,9 @@ function App() {
     }
     try {
       const response = await fetch(
-        `http://localhost:3000/numbers/soft-delete-number/${modalConfig.number}`,
+        `/api/numbers/soft-delete-number/${modalConfig.number}`,
         {
-          method: "PATCH",
+          method: "PATCH",  
           headers: {
             "Content-Type": "application/json",
           },
@@ -135,7 +135,7 @@ function App() {
 
   const handleResetHistory = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3000/numbers/reset-all", {
+      const response = await fetch("/api/numbers/reset-all", {
         method: "PATCH", // Usiamo PATCH perché stiamo modificando i dati, non eliminandoli
         headers: { "Content-Type": "application/json" },
         credentials: "include",

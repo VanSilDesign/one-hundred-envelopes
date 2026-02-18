@@ -43,7 +43,7 @@ export default function RegisterPage() {
 
     try {
       const response = await fetch(
-        "http://localhost:3000/auth/register-admin",
+        "/api/auth/register-admin",
         {
           method: "POST",
           headers: { "Content-type": "application/json" },

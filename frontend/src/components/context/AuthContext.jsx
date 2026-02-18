@@ -10,12 +10,18 @@ export const AuthProvider = ({ children }) => {
     async function checkAuthStatus() {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:3000/auth/status", {
+        const response = await fetch("/api/auth/status", {
           credentials: "include", // FONDAMENTALE per inviare i cookie di sessione
         });
 
-        const data = await response.json();
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Il server ha risposto con un errore:", errorText);
+          return;
+        }
 
+        const data = await response.json();
+        console.log("Stato autenticazione:", data);
         if (data.isAuthenticated) {
           setUser(data.user);
         }
@@ -35,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch("http://localhost:3000/auth/logout", {
+      await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });

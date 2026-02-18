@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const DbConnection = require("../config/db-connection");
-const passport = require("../config/passport-config");
+const DbConnection = require("../../config/db-connection");
+const passport = require("../../config/passport-config");
 
 router.post("/register-admin", async (req, res) => {
   const { username, password } = req.body;
@@ -27,6 +27,13 @@ router.post("/register-admin", async (req, res) => {
       password: hashedPassword,
       role: "admin",
       createdAt: new Date(),
+      settings: {
+        numberOfEnvelopes: 100,
+        maxEnvelopeValue: 100,
+        step: 1,
+        currency: "€",
+        updatedAt: new Date(),
+      },
     };
 
     await DbConnection.userCollection.insertOne(newUser);
@@ -37,10 +44,25 @@ router.post("/register-admin", async (req, res) => {
 });
 
 router.get("/status", (req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ isAuthenticated: true, user: req.user });
-  } else {
-    res.json({ isAuthenticated: false });
+  try {
+    // Verifichiamo se Passport ha autenticato la sessione
+    if (req.isAuthenticated && req.isAuthenticated()) {
+      return res.status(200).json({
+        isAuthenticated: true,
+        user: req.user,
+      });
+    } else {
+      return res.status(200).json({
+        isAuthenticated: false,
+        message: "Nessuna sessione attiva",
+      });
+    }
+  } catch (error) {
+    console.error("Errore nel server sulla rotta /status:", error);
+    return res.status(500).json({
+      error: "Errore interno del server",
+      details: error.message,
+    });
   }
 });
 
@@ -48,6 +70,7 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local-login", (err, user, info) => {
     // 1. Errore tecnico del server
     if (err) return next(err);
+    console.log(err);
 
     // 2. Credenziali sbagliate (user non trovato o password errata)
     if (!user) {

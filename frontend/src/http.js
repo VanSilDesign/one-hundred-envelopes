@@ -1,5 +1,5 @@
 export async function fetchAvailableNumbers() {
-  const response = await fetch("http://localhost:3000/numbers/get-numbers?t=" + Date.now(), {
+  const response = await fetch("/api/numbers/get-numbers?t=" + Date.now(), {
     credentials: "include",
   });
 
@@ -16,7 +16,7 @@ export async function fetchAvailableNumbers() {
 }
 
 export async function saveSelectedNumber(number) {
-  const response = await fetch("http://localhost:3000/numbers/save-number", {
+  const response = await fetch("/api/numbers/save-number", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
