@@ -30,6 +30,11 @@ export default function Sidebar({ isOpen, onClose }) {
               </p>
               <ul>
                 <li>
+                  <Link to="/" onClick={onClose}>
+                    Home
+                  </Link>
+                </li>
+                <li>
                   <Link to="/user/dashboard" onClick={onClose}>
                     Dashboard
                   </Link>
