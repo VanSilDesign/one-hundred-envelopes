@@ -1,5 +1,5 @@
 export async function fetchAvailableNumbers() {
-  const response = await fetch("http://localhost:3000/numbers/get-numbers?t=" + Date.now(), {
+  const response = await fetch("/api/numbers/get-numbers?t=" + Date.now(), {
     credentials: "include",
   });
 
@@ -9,14 +9,12 @@ export async function fetchAvailableNumbers() {
     console.log("Failed to fetch numbers, list is empty");
     return [];
   }
-  // LOG DI CONTROLLO: Così vedi esattamente cosa arriva ogni volta
-  console.log("Dati caricati dal DB:", resData);
 
   return resData;
 }
 
 export async function saveSelectedNumber(number) {
-  const response = await fetch("http://localhost:3000/numbers/save-number", {
+  const response = await fetch("/api/numbers/save-number", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,6 +28,5 @@ export async function saveSelectedNumber(number) {
   if(!response.ok) {
     throw new Error(resData.message || "Failed to save number");
   }
-  console.log("Dati salvati: " + resData);
   return resData;
 }

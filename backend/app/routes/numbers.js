@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 
 router.get("/get-numbers", async (req, res) => {
   const userId = req.user?._id || req.session?.passport?.user;
-  console.log("userId", userId);
+  
   try {
     // Se non c'è utente, restituiamo un array vuoto invece di un errore 401
     if (!userId) {
@@ -24,7 +24,7 @@ router.get("/get-numbers", async (req, res) => {
 });
 
 router.post("/save-number", async (req, res) => {
-  console.log("Sessione attuale:", req.session);
+  
   const userId = req.user?._id || req.session?.passport?.user;
 
   // 2. Controllo di sicurezza: req.session.user esiste?
@@ -34,11 +34,6 @@ router.post("/save-number", async (req, res) => {
     });
   }
   const { number } = req.body;
-  console.log("Body ricevuto:", req.body);
-
-  // if (!req.isAuthenticated()) {
-  //   return res.status(401).json({ message: "Devi essere loggato!" });
-  // }
 
   if (number === undefined) {
     return res.status(400).json({ message: "Numero mancante!" });

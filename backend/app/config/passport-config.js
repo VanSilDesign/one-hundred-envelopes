@@ -64,11 +64,7 @@ passport.use(
         }
 
         // CONFRONTO SICURO CON BCRYPT
-        console.log("Password inserita nel form:", password);
-        console.log("Password hashata nel DB:", user.password);
-
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("Il match è:", isMatch);
 
         if (!isMatch) {
           return done(null, false, { message: "Password errata." });

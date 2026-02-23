@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
 import Header from "./components/Header.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage";
@@ -11,6 +11,7 @@ import PopUpAlert from "./components/PopUpAlert.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import DashboardPage from "./components/DashboardPage.jsx";
+import Settings from "./components/Settings.jsx";
 import { useAuth } from "./components/context/AuthContext.jsx";
 
 // Un componente Home veloce per il test
@@ -105,9 +106,9 @@ function App() {
     }
     try {
       const response = await fetch(
-        `http://localhost:3000/numbers/soft-delete-number/${modalConfig.number}`,
+        `/api/numbers/soft-delete-number/${modalConfig.number}`,
         {
-          method: "PATCH",
+          method: "PATCH",  
           headers: {
             "Content-Type": "application/json",
           },
@@ -122,7 +123,6 @@ function App() {
             (n) => (typeof n === "object" ? n.value : n) !== modalConfig.number,
           ),
         );
-        console.log("Il numero è ora invisibile nel frontend");
       } else {
         alert("Errore nella risposta del server");
       }
@@ -134,7 +134,7 @@ function App() {
 
   const handleResetHistory = useCallback(async () => {
     try {
-      const response = await fetch("http://localhost:3000/numbers/reset-all", {
+      const response = await fetch("/api/numbers/reset-all", {
         method: "PATCH", // Usiamo PATCH perché stiamo modificando i dati, non eliminandoli
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -224,6 +224,10 @@ function App() {
                 />
               </PrivateRoute>
             }
+          />
+          <Route
+            path="/settings"
+            element={user ? <Settings user={user} /> : <Navigate to="/login" />}
           />
         </Routes>
       </main>
