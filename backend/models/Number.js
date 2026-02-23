@@ -3,21 +3,18 @@ const mongoose = require("mongoose");
 const NumberSchema = new mongoose.Schema(
   {
     // Colleghiamo la busta all'utente (relazione 1-a-molti)
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
+      required: true,
       ref: "users", // Deve corrispondere al modello utenti in Mongo
     },
     value: {
       type: Number,
       required: true,
     },
-    isActive: {
+    active: {
       type: Boolean,
       default: true,
-    },
-    isChecked: {
-      type: Boolean,
-      default: false,
     },
   },
   { timestamps: true },

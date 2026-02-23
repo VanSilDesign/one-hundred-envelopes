@@ -45,12 +45,14 @@ const authRouter = require("./app/routes/api/auth");
 const userRouter = require("./app/routes/user");
 const numberRouter = require("./app/routes/numbers");
 const settingsRouter = require("./app/routes/api/settings");
+const statsRouter = require("./app/routes/api/stats");
 
 // --- ROTTE ---
 app.use("/api/auth", authRouter);
 app.use("/api/user", isLoggedIn, userRouter);
 app.use("/api/numbers", numberRouter);
 app.use("/api/settings", settingsRouter);
+app.use("/api/stats", statsRouter);
 
 // --- VISTE E CONNESSIONE ---
 // app.set("views", "app/views");
