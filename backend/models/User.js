@@ -26,4 +26,5 @@ const UserSchema = mongoose.Schema(
   { timestamp: true },
 );
 
-module.exports = mongoose.model("user", UserSchema);
+// Il terzo parametro 'users' obbliga Mongoose a usare quel nome esatto nel DB
+module.exports = mongoose.model("user", UserSchema, 'users');
