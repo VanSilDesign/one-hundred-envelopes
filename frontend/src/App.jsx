@@ -13,6 +13,7 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import DashboardPage from "./components/DashboardPage.jsx";
 import Settings from "./components/Settings.jsx";
 import { useAuth } from "./components/context/AuthContext.jsx";
+import StatsLayout from "./components/stats/StatsLayout.jsx";
 
 // Un componente Home veloce per il test
 const Home = ({ user }) => (
@@ -225,6 +226,11 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/api/stats/dashboard" element={
+            <PrivateRoute user={user}>
+              <StatsLayout />
+            </PrivateRoute>
+          } />
           <Route
             path="/settings"
             element={user ? <Settings user={user} /> : <Navigate to="/login" />}

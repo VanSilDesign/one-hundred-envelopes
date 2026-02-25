@@ -16,13 +16,13 @@ body {
 
 /* Stile base dell'header */
 .main-header {
-	transition: all 0.3s ease;
-	padding: 0 0 1rem;
-	display: block;
-	margin: 1rem auto;
-	font-family: "Lato", sans-serif;
-	color: #5d5755;
-	border-bottom: 1px solid #ddd;
+  transition: all 0.3s ease;
+  padding: 0 0 1rem;
+  display: block;
+  margin: 1rem auto;
+  font-family: "Lato", sans-serif;
+  color: #5d5755;
+  border-bottom: 1px solid #ddd;
 }
 
 .main-header a {
@@ -77,9 +77,9 @@ body {
 }
 
 .compact-variant span {
-	font-size: 1.5rem;
-	height: 46px;
-	line-height: 46px;
+  font-size: 1.5rem;
+  height: 46px;
+  line-height: 46px;
 }
 
 .header-content {
@@ -107,7 +107,6 @@ body {
 .menu-toggle svg path {
   stroke: #5d5755; /* Colore che riprende il tuo stile */
 }
-
 
 main {
   width: 90%;
@@ -198,7 +197,6 @@ section {
   border-color: transparent;
   color: #625856;
 }
-
 
 .envelopes-button {
   display: flex;
@@ -423,7 +421,6 @@ section {
   }
 }
 
-
 .form-modal {
   width: 90%;
   max-width: 25rem;
@@ -477,16 +474,16 @@ fieldset {
   color: #383533;
 }
 
-.control:has(input[type='checkbox']) {
+.control:has(input[type="checkbox"]) {
   display: flex;
   align-items: center;
 }
 
-.control:has(input[type='checkbox']) label {
+.control:has(input[type="checkbox"]) label {
   margin: 0;
 }
 
-.control input[type='checkbox'] {
+.control input[type="checkbox"] {
   display: inline-block;
   width: auto;
   max-width: none;
@@ -529,4 +526,92 @@ fieldset {
 .warning-text {
   color: #d32f2f;
   height: 25px;
+}
+/* Nel tuo file .css */
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Una colonna sola su mobile */
+  gap: 20px;
+  padding: 15px;
+}
+
+@media (min-width: 768px) {
+  .stats-container {
+    grid-template-columns: repeat(3, 1fr); /* Tre colonne su desktop */
+  }
+}
+
+.chart-wrapper {
+  width: 100%;
+  height: 300px; /* Altezza fissa per il grafico */
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats-grid {
+  display: grid;
+  /* Crea 3 colonne uguali */
+  grid-template-columns: repeat(3, 1fr); 
+  /* Spazio tra le card */
+  gap: 20px; 
+  margin-bottom: 30px;
+}
+
+/* Fondamentale per il Mobile! */
+@media (max-width: 768px) {
+  .stats-grid {
+    /* Su schermi piccoli, le mette una sotto l'altra */
+    grid-template-columns: 1fr; 
+  }
+}
+
+.stats-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-title {
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.stat-value strong {
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.chart-container {
+  max-width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 1.2rem;
+}
+.charts-main-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* 2 parti alla linea, 1 parte alla torta */
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .charts-main-grid {
+    grid-template-columns: 1fr; /* Una sopra l'altra su tablet/mobile */
+  }
+}
+
+.pie-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
