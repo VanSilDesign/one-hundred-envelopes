@@ -12,6 +12,10 @@ const NumberSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    isOpened: {
+      type: Boolean,
+      default: false,
+    },
     active: {
       type: Boolean,
       default: true,

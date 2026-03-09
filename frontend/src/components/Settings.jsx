@@ -20,7 +20,7 @@ export default function Settings() {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        const response = await fetch("/api/settings/get", {
+        const response = await fetch("/api/challenge-settings/get-current", {
           //ricordati che ora hai il proxy a il http://localhost:5000!!!
           method: "GET",
           headers: {
@@ -88,9 +88,10 @@ export default function Settings() {
     e.preventDefault(); // Impedisce il ricaricamento della pagina
 
     if (!summary.isValidSetting) return; // Doppia sicurezza
+    console.log("summary", summary);
 
     try {
-      const response = await fetch("/api/settings/save", {
+      const response = await fetch("/api/challenge-settings/initialize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

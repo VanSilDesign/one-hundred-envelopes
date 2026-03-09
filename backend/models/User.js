@@ -15,6 +15,10 @@ const UserSchema = mongoose.Schema(
       type: String,
       default: "admin",
     },
+    active: {
+      type: Boolean,
+      required: true
+    },
     settings: {
       numberOfEnvelopes: { type: Number, default: 100 },
       maxEnvelopeValue: { type: Number, default: 100 },
@@ -27,4 +31,4 @@ const UserSchema = mongoose.Schema(
 );
 
 // Il terzo parametro 'users' obbliga Mongoose a usare quel nome esatto nel DB
-module.exports = mongoose.model("user", UserSchema, 'users');
+module.exports = mongoose.model("User", UserSchema, 'users');
