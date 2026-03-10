@@ -1,4 +1,42 @@
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&family=Lato:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Lato:wght@400;700&display=swap");
+
+:root {
+  /* --- Palette Colori Primari --- */
+  --default-color: #f7ce94; /* default: Un giallo pesca sabbioso */
+  --primary-color: #f4c49f; /* primary: Un albicocca tenue e vellutato */
+  --secondary-color: #ffdab9; /* secondary: Un rosa pesca molto chiaro */
+  --primary-light: #e8a593; /* hover/accenti */
+  --primary-dark: #8f3a2b; /* testi importanti o grafici */
+  --disabled-color: #8d837d; /* componenti disabilitati */
+  --extra-color: #f8af84;
+
+  /* --- Sfondi e Neutri (Il "Nude" look) --- */
+  --bg-main: #fff8f0; /* crema chiarissimo delle pagine */
+  --bg-card: #ffffff; /* bianco puro per i quadratini */
+  --bg-secondary: #f8e8e1; /* seconda tonalità sfondo per gradazioni e cards */
+  --extra-bg: #faf9f8;
+
+  /* --- Colori di Stato --- */
+  --text-main: #4a4a4a; /* tortora per i testi */
+  --text-title: #5d5755; /* Titoli e hover link */
+  --text-link: #433e3b; /* scuro per i links */
+  --text-muted: #9e8e81; /* Colore "sabbia" per placeholder o testi piccoli */
+  --text-light: #fff8f2; /* Colore per placeholder o testi con sfondi colorati o scuri */
+  --success: #6b8e23; /* Un verde oliva (sta bene col terracotta) per i successi */
+  --error: #bc4b51; /* Rosso spento per gli errori */
+
+  /* --- Spaziature e Bordi (Per coerenza grafica) --- */
+  --radius-lg: 30px; /* Per i contenitori grandi (come la griglia) */
+  --radius-md: 12px; /* Per i quadratini delle buste e i tasti */
+  --shadow-soft: 0 4px 15px rgba(2, 2, 4, 0.25); /* L'ombra leggera */
+
+  /* --- Tipografia --- */
+  --font-main: "Lato", system-ui, -apple-system, sans-serif;
+  --font-secondary: "Raleway", system-ui, -apple-system, sans-serif;
+
+  /* --- Box Shadow --- */
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
 
 * {
   box-sizing: border-box;
@@ -6,29 +44,31 @@
 
 body {
   margin: 0;
-  font-family: "Lato", serif;
+  font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(#faf9f8, #f8e8e1);
-  color: #383533;
+  /* background: linear-gradient(#faf9f8, #f8e8e1); */
+  background: linear-gradient(var(--bg-main), var(--bg-secondary));
+  color: var(--text-main);
   min-height: 100vh;
 }
 
 /* Stile base dell'header */
-.main-header {
+#main-header {
+  position: relative;
   transition: all 0.3s ease;
   padding: 0 0 1rem;
   display: block;
   margin: 1rem auto;
-  font-family: "Lato", sans-serif;
-  color: #5d5755;
-  border-bottom: 1px solid #ddd;
+  font-family: var(--font-main);
+  color: var(--text-main);
+  border-bottom: 1px solid var(--disabled-color);
 }
 
-.main-header a {
+#main-header a {
   text-decoration: none;
   color: inherit;
-  font-family: inherit;
+  font-family: var(--font-main);
 }
 
 /* Variante HOME: Grande e centrato */
@@ -45,10 +85,9 @@ body {
   height: 8rem;
   padding: 1rem;
   margin: 0 auto 1rem auto;
-  filter: drop-shadow(0 0 6px rgba(98, 88, 86, 0.4));
-  border: 2px solid #cd8660;
+  border: 2px solid #e8a593;
   border-radius: 50%;
-  background: #f8e8e1;
+  background: var(--bg-secondary);
 }
 
 .home-variant h1 {
@@ -90,6 +129,8 @@ body {
 
 .menu-toggle {
   position: absolute;
+  right: 15px;
+  left: auto;
   background: none;
   border: none;
   cursor: pointer;
@@ -105,7 +146,7 @@ body {
 }
 
 .menu-toggle svg path {
-  stroke: #5d5755; /* Colore che riprende il tuo stile */
+  stroke: var(--text-title); /* Colore che riprende il tuo stile */
 }
 
 main {
@@ -136,20 +177,20 @@ section {
   margin: 0.5rem;
   font-size: 1.25rem;
   font-weight: bold;
-  color: #f8af84;
+  color: var(--text-main);
   text-transform: uppercase;
 }
 
 #envelopes-container #envelope-counter {
-  width: 4rem;
+  min-width: 5rem;
   text-align: center;
   margin: 0.5rem;
-  padding: 0 0.25rem;
-  border: 1px solid #f8af84;
+  border: 1px solid var(--extra-color);
   border-radius: 4px;
-  background-color: #faf9f8;
-  color: #f8af84;
-  font-size: 1.5rem;
+  background-color: var(--extra-bg);
+  color: var(--primary-light);
+  font-size: 2rem;
+  box-shadow: var(--box-shadow);
 }
 
 #envelopes-container input::-webkit-outer-spin-button,
@@ -164,38 +205,42 @@ section {
   font-size: 1.25rem;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: #f7ce94;
-  color: #625856;
-  border: 1px solid #f7ce94;
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   text-decoration: none;
   text-align: center;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .button:hover {
-  background-color: #fbbc86;
+  background-color: var(--primary-light);
+  color: var(--text-light);
+  transition: all 0.3s ease;
 }
 
 .button:disabled {
-  background-color: #9c9c9c;
-  border-color: #9c9c9c;
-  color: #ffffffa9;
+  background-color: var(--disabled-color);
+  border-color: var(--disabled-color);
+  color: var(--text-light);
+  opacity: 0.7;
+  cursor: auto;
 }
 
 .button-icon {
-  color: #625856;
+  color: var(--disabled-color);
   height: 1.25rem;
 }
 
 .button:hover .button-icon {
-  color: #625856;
+  color: var(--disabled-color);
 }
 
 .button-flat {
   background-color: transparent;
   border-color: transparent;
-  color: #625856;
+  color: var(--disabled-color);
 }
 
 .envelopes-button {
@@ -205,7 +250,7 @@ section {
 
 .envelopes {
   padding: 2rem;
-  border: 1px solid #f8af84;
+  border: 1px solid var(--extra-color);
   border-radius: 6px;
 }
 
@@ -220,8 +265,8 @@ section {
 
 .envelopes .history-header .button-reset {
   font-size: 1rem;
-  color: #fff;
-  background-color: #625856;
+  color: var(--text-light);
+  background-color: var(--disabled-color);
 }
 
 .envelopes .history-header .button-reset:hover {
@@ -234,14 +279,14 @@ section {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  color: #5d5755;
+  color: var(--text-title);
   font-size: 1rem;
 }
 
 .envelopes .envelopes-info {
   display: block;
   font-size: 0.8rem;
-  color: #5d5755;
+  color: var(--text-title);
   text-align: center;
 }
 
@@ -268,7 +313,7 @@ section {
 .envelopes li {
   min-width: 2rem;
   margin-right: 0.5rem;
-  color: #5d5755;
+  color: var(--text-title);
   padding: 0.2rem 0;
 }
 
@@ -285,14 +330,14 @@ section {
 
 .number-item .number-wrapper {
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--font-main);
   /* Usa Quicksand invece di cercare Raleway se non caricata */
   font-size: 1rem;
   padding: 0.5rem 1.5rem;
   border: none;
   border-radius: 4px;
-  background-color: #f7ce94;
-  color: #625856;
+  background-color: #ffdab9;
+  color: var(--text-main);
   transition: all 0.2s;
 }
 
@@ -305,7 +350,7 @@ section {
   background: transparent;
   border: none;
   padding: 0;
-  font-family: "Raleway", sans-serif;
+  font-family: var(--font-secondary);
   font-size: 1rem;
   color: #5d0909;
 }
@@ -315,9 +360,9 @@ section {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #625856;
-  color: white;
-  border: 1px solid white;
+  background: var(--disabled-color);
+  color: var(--text-light);
+  border: 1px solid var(--text-light);
   border-radius: 50%;
   width: 22px;
   height: 22px;
@@ -363,7 +408,7 @@ section {
   background: #d5c7bc;
   border-radius: 8px;
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: var(--box-shadow);
   animation: slide-down-fade-in 0.3s ease-out forwards;
 }
 
@@ -375,9 +420,9 @@ section {
   max-width: 40rem;
   margin: 1rem auto;
   padding: 1rem;
-  background-color: #f4c7c7;
+  background-color: var(--error);
   /*color: #3e0505;*/
-  color: #f85050;
+  color: var(--error);
 }
 
 .modal .error {
@@ -426,9 +471,9 @@ section {
   max-width: 25rem;
   margin: 3rem auto;
   padding: 2rem;
-  background: linear-gradient(180deg, #f8af84, #f8e8e1);
+  background: linear-gradient(180deg, var(--extra-color), var(--bg-secondary));
   border-radius: 8px;
-  box-shadow: 0 0 16px 1px rgba(76, 76, 76, 0.5);
+  box-shadow: var(--box-shadow);
 }
 
 .control,
@@ -445,7 +490,7 @@ fieldset {
   display: block;
   font-size: 0.8rem;
   margin-bottom: 0.2rem;
-  color: #625856;
+  color: var(--text-main);
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -457,9 +502,9 @@ fieldset {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid #f8af84;
+  border: 1px solid var(--extra-color);
   background-color: #faf9f8;
-  color: #383533;
+  color: var(--text-link);
 }
 
 .control select {
@@ -471,7 +516,7 @@ fieldset {
   border-radius: 4px;
   border: 1px solid #f8af84;
   background-color: #faf9f8;
-  color: #383533;
+  color: var(--text-link);
 }
 
 .control:has(input[type="checkbox"]) {
@@ -491,7 +536,7 @@ fieldset {
   border-radius: 0;
   border: none;
   background-color: transparent;
-  color: #d9e2f1;
+  color: var(--text-light);
 }
 
 .control input:focus-visible {
@@ -499,7 +544,7 @@ fieldset {
 }
 
 .control-error {
-  color: #f85050;
+  color: var(--error);
   font-size: 0.8rem;
   height: 2rem;
   padding: 0.5rem 0;
@@ -524,7 +569,7 @@ fieldset {
 }
 
 .warning-text {
-  color: #d32f2f;
+  color: var(--error);
   height: 25px;
 }
 /* Nel tuo file .css */
@@ -544,17 +589,17 @@ fieldset {
 .chart-wrapper {
   width: 100%;
   height: 300px; /* Altezza fissa per il grafico */
-  background: white;
+  background: var(--text-light);
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 .stats-grid {
   display: grid;
   /* Crea 3 colonne uguali */
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   /* Spazio tra le card */
-  gap: 20px; 
+  gap: 20px;
   margin-bottom: 30px;
 }
 
@@ -562,15 +607,15 @@ fieldset {
 @media (max-width: 768px) {
   .stats-grid {
     /* Su schermi piccoli, le mette una sotto l'altra */
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
   }
 }
 
 .stats-card {
-  background: white;
+  background: var(--text-light);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -578,20 +623,20 @@ fieldset {
 
 .stat-title {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-title);
   text-transform: uppercase;
   margin-bottom: 8px;
 }
 
 .stat-value strong {
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-link);
 }
 
 .chart-container {
   max-width: 100%;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: var(--bg-secondary);
+  box-shadow: var(--box-shadow);
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 1.2rem;
@@ -610,8 +655,8 @@ fieldset {
 }
 
 .pie-wrapper {
-  background: white;
+  background: var(--bg-secondary);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: var(--box-shadow);
 }

@@ -1,0 +1,69 @@
+.history-grid-container {
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  border: 2px solid #f8af84;
+}
+
+.envelopes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 5 quadratini per riga */
+  gap: 4px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 250px) {
+  .envelopes-grid {
+    grid-template-columns: repeat(5, 1fr); /* Tre colonne su desktop */
+  }
+}
+
+@media screen and (min-width: 425px) {
+  .envelopes-grid {
+    grid-template-columns: repeat(7, 1fr); /* Tre colonne su desktop */
+    gap: 6px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .envelopes-grid {
+    grid-template-columns: repeat(10, 1fr); /* Tre colonne su desktop */
+    gap: 12px;
+  }
+}
+
+.envelope-box {
+  aspect-ratio: 1 / 1; /* Li rende quadrati perfetti */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+  border: 1px solid #8d837d;
+}
+
+/* Busta CHIUSA: stile neutro */
+.envelope-box.closed {
+  background-color: #fff8f2;
+  color: #8d837d; /* Colore sabbia/tan per il numero */
+}
+
+/* Busta APERTA: stile colorato (come il 12, 25, 48 della tua foto) */
+.envelope-box.opened {
+  background-color: #e8a593; /* Il colore #D2691E che hai nel JSON */
+  border-color: #e8a593;
+  color: #fff8f2;
+  box-shadow: 0 4px 10px rgba(210, 105, 30, 0.2);
+}
+
+.currency-badge {
+  font-size: 0.6rem;
+  margin-top: -2px;
+}
+
+.envelope-box:active {
+  transform: scale(0.95);
+}

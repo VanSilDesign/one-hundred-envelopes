@@ -1,18 +1,12 @@
-import { saveSelectedNumber } from "../../http.js";
-import { useState, useCallback } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useSettings } from "../context/SettingsContext.jsx";
+import { useState } from "react";
 import EnvelopeCounter from "./EnvelopeCounter.jsx";
 import IconButton from "../UI/IconButton.jsx";
 
-function EnvelopesContainer({ onSaveSuccess }) {
-  const { user } = useAuth();
-  const { settingValues, isLoading } = useSettings();
-  const [count, setCount] = useState(0);
+function EnvelopesContainer({ user, amounts, onSaveSuccess, currency }) {
   const [isSaving, setIsSaving] = useState(false);
-  const [chosenEnvelopes, setChosenEnvelopes] = useState(new Set());
+  const [selectedNumber, setSelectedNumber] = useState(0);
 
-  const handleChoose = useCallback(
+  /* const handleChoose = useCallback(
     function handleChoose() {
       const maxVal = settingValues.maxEnvelopeValue;
       const step = settingValues.step;
@@ -33,45 +27,54 @@ function EnvelopesContainer({ onSaveSuccess }) {
       setCount(sortedValue);
     },
     [chosenEnvelopes, settingValues],
-  );
+  ); */
 
-  async function handleSave(selectedNumber) {
-    if (selectedNumber === 0) return;
+  const handleChoose = () => {
+    const availableEnvelopes = amounts.filter((env) => !env.isOpened);
+    if (availableEnvelopes.length === 0) return alert("Sfida completata!");
 
+    const randomIndex = Math.floor(Math.random() * availableEnvelopes.length);
+    const selected = availableEnvelopes[randomIndex];
+
+    setSelectedNumber(selected.value); // Il numero che apparirà nel cerchio del tuo mock-up
+  };
+
+  const handleSave = async () => {
+    if (!selectedNumber) return;
+    
     setIsSaving(true);
     try {
-      await saveSelectedNumber(selectedNumber);
-      setChosenEnvelopes((prevEnv) => new Set(prevEnv).add(selectedNumber));
-      if (onSaveSuccess) onSaveSuccess();
-      alert("Numero Salvato");
-      setCount(0);
+      // Qui chiameremo la rotta PATCH che aggiorna 'isOpened' nel DB
+      const response = await fetch(`/api/challenge/open-envelope`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: selectedNumber }),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        setSelectedNumber(null); // Reset del cerchio centrale
+        onSaveSuccess(); // Notifica la Dashboard di ricaricare i dati (i quadratini cambieranno colore!)
+      }
     } catch (error) {
-      alert(error.message || "Impossibile eseguire il salvataggio.");
+      console.error("Errore nel salvataggio:", error);
     } finally {
       setIsSaving(false);
     }
-  }
-
-  if (isLoading || !settingValues) {
-    return (
-      <div id="envelopes-container" className="loading-state">
-        <h2>Loading settings...</h2>
-      </div>
-    );
-  }
+  };
 
   return (
     <div id="envelopes-container">
-      <h2>Choose your envelope ({settingValues.currency})</h2>
-      <EnvelopeCounter count={count} />
+      <h2>Scegli la tua busta ({currency})</h2>
+      <EnvelopeCounter count={selectedNumber} />
       <div className="envelopes-button">
-        <IconButton onClick={handleChoose}>Choose</IconButton>
+        <IconButton onClick={handleChoose}>Scegli</IconButton>
         <IconButton
-          onClick={() => handleSave(count)}
-          disabled={!user || count === 0 || isLoading} // IL BOTTONE SI DISABILITA SE USER È NULL
-          title={!user ? "Login to save" : ""}
+          onClick={() => handleSave(selectedNumber)}
+          disabled={!user || selectedNumber === 0 || isLoading} // IL BOTTONE SI DISABILITA SE USER È NULL
+          title={!user ? "Accedi per salvare" : ""}
         >
-          {isSaving ? "Saving..." : "Save"}
+          {isSaving ? "Salvataggio in corso..." : "Salva"}
         </IconButton>
       </div>
     </div>
