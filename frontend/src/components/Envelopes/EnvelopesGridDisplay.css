@@ -33,9 +33,9 @@
 }
 
 .envelope-box {
-  aspect-ratio: 1 / 1; /* Li rende quadrati perfetti */
+  position: relative; /* Indispensabile per posizionare la X */
+  aspect-ratio: 1 / 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: 12px;
@@ -43,6 +43,11 @@
   font-size: 1rem;
   transition: transform 0.2s ease;
   border: 1px solid #8d837d;
+}
+
+/* Mostra la X quando passi sopra alla busta APERTA */
+.envelope-box.opened:hover .delete-btn {
+  opacity: 1;
 }
 
 /* Busta CHIUSA: stile neutro */
@@ -53,17 +58,46 @@
 
 /* Busta APERTA: stile colorato (come il 12, 25, 48 della tua foto) */
 .envelope-box.opened {
+  cursor: pointer;
   background-color: #e8a593; /* Il colore #D2691E che hai nel JSON */
   border-color: #e8a593;
   color: #fff8f2;
   box-shadow: 0 4px 10px rgba(210, 105, 30, 0.2);
 }
 
-.currency-badge {
-  font-size: 0.6rem;
-  margin-top: -2px;
+.envelope-box.opened:hover {
+  background-color: #fceede;
+  border-color: #e8a593;
+  color: #e8a593;
 }
 
 .envelope-box:active {
   transform: scale(0.95);
+}
+
+.delete-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  /* Usiamo i tuoi colori o fallback se le variabili non sono caricate */
+  background: #8d837d; 
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 10;
+  opacity: 0; /* Nascosta di default */
+  transition: opacity 0.2s ease-in-out, transform 0.2s;
+}
+
+.delete-btn:hover {
+  background: #d32f2f; /* Rosso per il pericolo */
+  transform: scale(1.2);
 }

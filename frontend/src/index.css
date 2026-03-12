@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Lato:wght@400;700&display=swap");
 
 :root {
+  /* --- Tema Soft Apricot --- */
   /* --- Palette Colori Primari --- */
   --default-color: #f7ce94; /* default: Un giallo pesca sabbioso */
   --primary-color: #f4c49f; /* primary: Un albicocca tenue e vellutato */
   --secondary-color: #ffdab9; /* secondary: Un rosa pesca molto chiaro */
   --primary-light: #e8a593; /* hover/accenti */
   --primary-dark: #8f3a2b; /* testi importanti o grafici */
+  --secondary-dark: #cd8660; /* testi importanti o grafici */
   --disabled-color: #8d837d; /* componenti disabilitati */
   --extra-color: #f8af84;
 
@@ -40,6 +42,73 @@
 
 * {
   box-sizing: border-box;
+}
+
+/* BUTTONS */
+
+.button {
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-main);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  text-decoration: none;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--primary-light);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+.button:disabled {
+  background-color: var(--disabled-color);
+  border-color: var(--disabled-color);
+  color: var(--text-light);
+  opacity: 0.7;
+  cursor: auto;
+}
+
+.button-icon {
+  color: var(--disabled-color);
+  height: 1.25rem;
+}
+
+.button:hover .button-icon {
+  color: var(--disabled-color);
+}
+
+.button-flat {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--disabled-color);
+}
+
+.envelopes-button {
+  width: 100%;
+  margin: 12px;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 0.5rem;
+}
+
+.envelopes-button .button {
+  min-width: 274px;
+}
+
+@media screen and (min-width: 576px) {
+  .envelopes-button {
+    max-width: 576px;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 body {
@@ -81,21 +150,30 @@ body {
 .home-variant img {
   object-fit: contain;
   display: block;
-  width: 8rem;
-  height: 8rem;
+  width: 6rem;
+  height: 6rem;
   padding: 1rem;
   margin: 0 auto 1rem auto;
   border: 2px solid #e8a593;
   border-radius: 50%;
   background: var(--bg-secondary);
 }
-
 .home-variant h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2rem;
   letter-spacing: 0.15rem;
   text-transform: uppercase;
   text-align: center;
+}
+
+@media screen and (min-width: 576px) {
+  .home-variant img {
+    width: 8rem;
+    height: 8rem;
+  }
+  .home-variant h1 {
+    font-size: 2.5rem;
+  }
 }
 
 /* Variante COMPACT: Logo e Menu sulla stessa riga */
@@ -160,8 +238,8 @@ section {
 }
 
 #envelopes-container {
-  margin: 0 auto 2rem;
-  padding: 2rem;
+  width: 100%;
+  margin: 0 auto 24px;
   border-radius: 6px;
   text-align: center;
   display: flex;
@@ -169,8 +247,13 @@ section {
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  /* FIX: Rimosso il doppio border conflict */
-  border: 1px solid transparent;
+}
+
+@media screeen and (min-width: 576px) {
+  #envelopes-container {
+    margin-bottom: 2rem;
+    padding: 2rem;
+  }
 }
 
 #envelopes-container h2 {
@@ -196,56 +279,6 @@ section {
 #envelopes-container input::-webkit-outer-spin-button,
 #envelopes-container input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-}
-
-.button {
-  cursor: pointer;
-  display: inline-flex;
-  gap: 0.5rem;
-  font-size: 1.25rem;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background-color: var(--primary-color);
-  color: var(--text-main);
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-  text-decoration: none;
-  text-align: center;
-  transition: all 0.3s ease;
-}
-
-.button:hover {
-  background-color: var(--primary-light);
-  color: var(--text-light);
-  transition: all 0.3s ease;
-}
-
-.button:disabled {
-  background-color: var(--disabled-color);
-  border-color: var(--disabled-color);
-  color: var(--text-light);
-  opacity: 0.7;
-  cursor: auto;
-}
-
-.button-icon {
-  color: var(--disabled-color);
-  height: 1.25rem;
-}
-
-.button:hover .button-icon {
-  color: var(--disabled-color);
-}
-
-.button-flat {
-  background-color: transparent;
-  border-color: transparent;
-  color: var(--disabled-color);
-}
-
-.envelopes-button {
-  display: flex;
-  gap: 0.5rem;
 }
 
 .envelopes {
@@ -300,94 +333,11 @@ section {
   color: #f3a6a6;
 }
 
-.envelopes ul {
-  display: flex;
-  flex-wrap: wrap;
-  /* I numeri vanno a capo se finisce lo spazio */
-  gap: 1rem;
-  justify-content: center;
-  padding: 0;
-  list-style: none;
-}
-
-.envelopes li {
-  min-width: 2rem;
-  margin-right: 0.5rem;
-  color: var(--text-title);
-  padding: 0.2rem 0;
-}
-
-.envelopes li.selected button {
-  background-color: #fbbc86;
-  font-weight: bold;
-}
-
-.number-item {
-  position: relative;
-  /* FONDAMENTALE per la X posizionata absolute */
-  display: inline-block;
-}
-
-.number-item .number-wrapper {
-  cursor: pointer;
-  font-family: var(--font-main);
-  /* Usa Quicksand invece di cercare Raleway se non caricata */
-  font-size: 1rem;
-  padding: 0.5rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #ffdab9;
-  color: var(--text-main);
-  transition: all 0.2s;
-}
-
-.number-item .number-wrapper:hover,
-.number-item .number-wrapper:focus {
-  background-color: #fbbc86;
-}
-
-.number-item .number-wrapper .button-text {
-  background: transparent;
-  border: none;
-  padding: 0;
-  font-family: var(--font-secondary);
-  font-size: 1rem;
-  color: #5d0909;
-}
-
-/* Stile del bottone X */
-.delete-btn {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: var(--disabled-color);
-  color: var(--text-light);
-  border: 1px solid var(--text-light);
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: bold;
-  z-index: 10;
-  opacity: 0;
-  transition:
-    opacity 0.2s ease-in-out,
-    transform 0.2s;
-}
-
-/* Mostra la X quando passi sopra al li */
-.number-item:hover .delete-btn {
-  opacity: 1;
-}
-
-.delete-btn:hover {
-  background: #d32f2f;
-  /* Un rosso più deciso per il delete */
-  transform: scale(1.2);
+.login-section {
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 20px;
+  border: 2px solid #f8af84;
 }
 
 .modal::backdrop {
@@ -594,43 +544,110 @@ fieldset {
   box-shadow: var(--box-shadow);
 }
 
+.grid-section h3 {
+  margin-bottom: 24px;
+}
+
+.grid-container,
 .stats-grid {
   display: grid;
-  /* Crea 3 colonne uguali */
-  grid-template-columns: repeat(3, 1fr);
-  /* Spazio tra le card */
   gap: 20px;
   margin-bottom: 30px;
 }
 
-/* Fondamentale per il Mobile! */
-@media (max-width: 768px) {
-  .stats-grid {
-    /* Su schermi piccoli, le mette una sotto l'altra */
-    grid-template-columns: 1fr;
-  }
+.grid-container.three-columns,
+.stats-grid.three-columns {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-container.two-columns,
+.stats-grid.two-columns {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .stats-card {
-  background: var(--text-light);
+  position: relative;
   padding: 20px;
   border-radius: 12px;
   box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 425px) {
+  .grid-container,
+  .grid-container.two-columns,
+  .grid-container.three-columns,
+  .stats-grid,
+  .stats-grid.two-columns,
+  .stats-grid.three-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-card {
+    margin-bottom: 6px;
+  }
+}
+
+.stats-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%); /* Centra verticalmente la barra */
+  width: 4px;
+  height: 65%; /* Altezza personalizzabile tra 60% e 70% */
+  border-radius: 0 4px 4px 0; /* Arrotonda solo i bordi destri */
+}
+
+.stats-card::before {
+  background-color: #e8a593; /* Il tuo colore pesca */
+}
+
+.stats-card.stat-counter::before {
+  background-color: var(--primary-dark);
+}
+
+.stats-card.stat-mean::before {
+  background-color: var(--secondary-dark);
+}
+
+.stats-card.stat-streak::before {
+  background-color: var(--primary-light);
+}
+
+.stats-card.stat-total::before {
+  background-color: var(--extra-color);
 }
 
 .stat-title {
-  font-size: 0.9rem;
+  font-size: 1.25rem;
   color: var(--text-title);
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin: 6px 0;
 }
 
-.stat-value strong {
-  font-size: 1.8rem;
-  color: var(--text-link);
+.stat-value {
+  margin: 6px 0;
+  font-size: 1.15rem;
+}
+
+.stat-counter .stat-value {
+  color: var(--primary-dark);
+}
+
+.stat-mean .stat-value {
+  color: var(--secondary-dark);
+}
+
+.stat-streak .stat-value {
+  color: var(--primary-light);
+}
+
+.stat-total .stat-value {
+  color: var(--extra-color);
 }
 
 .chart-container {

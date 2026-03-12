@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import EnvelopesContainer from "./envelopes/EnvelopesContainer";
 import EnvelopesGridDisplay from "./envelopes/EnvelopesGridDisplay";
+import { Link } from "react-router-dom";
 
 export default function HomePage({ user }) {
   const [challenge, setChallenge] = useState(null);
@@ -9,12 +10,12 @@ export default function HomePage({ user }) {
   // Funzione per caricare la sfida dal database
   const fetchChallenge = useCallback(async () => {
     try {
-      const response = await fetch("/api/challenge-settings/get-current", {
+      const response = await fetch("/api/challenge/get-current", {
         credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();
-        setChallenge(data);
+        setChallenge({ ...data });
       }
     } catch (error) {
       console.error("Errore nel caricamento della sfida:", error);
@@ -40,31 +41,57 @@ export default function HomePage({ user }) {
 
   return (
     <div className="dashboard-container">
-      {/* 1. SEZIONE SUPERIORE: Il cerchio "Choose/Save" */}
+      {user && (
+        <div className="center">
+          <p>Bentornato! Pronto a risparmiare?</p>
+        </div>
+      )}
       <section className="top-section">
         <EnvelopesContainer
           user={user}
+          challengeTitle={challenge.challengeName}
           amounts={challenge.amounts}
           currency={challenge.currency}
           onSaveSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo il Save
         />
       </section>
-
-      {/* 2. SEZIONE INFERIORE: La Griglia (History Container del mock-up) */}
-      <section className="grid-section">
-        <div className="section-header">
-          <h3>La tua progressione</h3>
-          <span>
-            {challenge.amounts.filter((a) => a.isOpened).length} /{" "}
-            {challenge.amounts.length}
-          </span>
+      {user ? (
+        <section className="grid-section">
+          <h3 className="stat-title">La tua progressione</h3>
+          <div className="stats-grid two-columns">
+            <div className="stats-card stat-counter">
+              <p className="stat-title">Buste aperte: </p>
+              <p className="stat-value">
+                <strong>
+                  {challenge.amounts.filter((env) => env.isOpened).length} / 100
+                </strong>
+              </p>
+            </div>
+            <div className="stats-card stat-total">
+              <p className="stat-title">Totale risparmiato: </p>
+              <p className="stat-value">
+                <strong>
+                  {challenge.amounts
+                    .filter((env) => env.isOpened)
+                    .reduce((acc, env) => acc + env.value, 0)}
+                  €
+                </strong>
+              </p>
+            </div>
+          </div>
+          <EnvelopesGridDisplay
+            amounts={challenge.amounts}
+            onUpdateSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo l'Update
+          />
+        </section>
+      ) : (
+        <div className="login-section center">
+          <p>Registrati per iniziare la tua sfida.</p>
+          <Link to="/login" className="button">
+            Login
+          </Link>
         </div>
-
-        <EnvelopesGridDisplay
-          amounts={challenge.amounts}
-          currency={challenge.currency}
-        />
-      </section>
+      )}
     </div>
   );
 }
