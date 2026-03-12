@@ -6,7 +6,6 @@ const { calculateAndGenerateEnvelopes } = require("../../../utils/challengeHelpe
 // GET: Recupera la sfida attiva corrente
 router.get("/get-current", async (req, res) => {
     const userId = req.user?._id || req.session?.passport?.user;
-    if (!userId) return res.status(401).json({ message: "Non autorizzato" });
 
     try {
         // Cerchiamo l'ultima sfida disponibile
@@ -24,7 +23,6 @@ router.get("/get-current", async (req, res) => {
 // POST: Inizializza o Reset Sfida (Nuova funzione core)
 router.post("/initialize", async (req, res) => {
     const userId = req.user?._id || req.session?.passport?.user;
-    if (!userId) return res.status(401).json({ message: "Non autorizzato" });
 
     const { challengeName, maxEnvelopeValue, step, numberOfEnvelopes, currency, generationType } = req.body;
 

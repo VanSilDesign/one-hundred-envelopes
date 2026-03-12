@@ -42,18 +42,16 @@ app.use(flash());
 
 /* Routers */
 const authRouter = require("./app/routes/api/auth");
-const userRouter = require("./app/routes/user");
-const numberRouter = require("./app/routes/numbers");
-const challengeSettingsRouter = require("./app/routes/api/challenge_settings");
-const userSettingsRouter = require("./app/routes/api/user_settings");
+const userRouter = require("./app/routes/api/user");
+const numberRouter = require("./app/routes/api/numbers");
+const challengeRouter = require("./app/routes/api/challenge");
 const statsRouter = require("./app/routes/api/stats");
 
 // --- ROTTE ---
 app.use("/api/auth", authRouter);
 app.use("/api/user", isLoggedIn, userRouter);
 app.use("/api/numbers", numberRouter);
-app.use("/api/challenge-settings", challengeSettingsRouter);
-app.use("/api/user-settings", userSettingsRouter);
+app.use("/api/challenge", challengeRouter);
 app.use("/api/stats", statsRouter);
 
 // --- VISTE E CONNESSIONE ---
