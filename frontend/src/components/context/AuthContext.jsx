@@ -46,7 +46,6 @@ export const AuthProvider = ({ children }) => {
         credentials: "include",
       });
       setUser(null);
-      navigate("/login");
     } catch (error) {
       console.error("Errore durante il logout", error);
     }
