@@ -20,7 +20,7 @@ export default function Settings() {
   useEffect(() => {
     const loadSettings = async () => {
       try {
-        const response = await fetch("/api/challenge-settings/get-current", {
+        const response = await fetch("/api/challenge/get-current", {
           //ricordati che ora hai il proxy a il http://localhost:5000!!!
           method: "GET",
           headers: {
@@ -91,7 +91,7 @@ export default function Settings() {
     console.log("summary", summary);
 
     try {
-      const response = await fetch("/api/challenge-settings/initialize", {
+      const response = await fetch("/api/challenge/initialize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

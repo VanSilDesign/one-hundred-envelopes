@@ -15,7 +15,7 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("/api/challenge-settings/get-current", {
+        const response = await fetch("/api/challenge/get-current", {
           credentials: "include",
         });
         if (response.ok) {

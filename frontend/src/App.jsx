@@ -9,8 +9,8 @@ import {
 // Layout & UI
 import Header from "./components/Header.jsx";
 import Sidebar from "./components/sidebar/Sidebar.jsx";
-import Modal from "./components/Modal.jsx";
-import ErrorPage from "./components/ErrorPage";
+import Modal from "./components/modals/Modal.jsx";
+import ErrorPage from "./components/modals/ErrorPage";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
 // Pages
@@ -24,6 +24,7 @@ import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
+import EnvelopeCounter from "./components/envelopes/EnvelopeCounter.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
@@ -57,11 +58,7 @@ function App() {
           <Route
             path="/"
             element={
-              user ? (
-                <HomePage /> // Questa è la tua "nuova" Homepage con la griglia
-              ) : (
-                <Home user={user} /> // La landing page per chi non è loggato
-              )
+              <HomePage user={user} />
             }
           />
 
@@ -110,16 +107,5 @@ function App() {
     </Router>
   );
 }
-
-const Home = ({ user }) => (
-  <div className="center">
-    <h2>100 Envelopes Challenge</h2>
-    {user ? (
-      <p>Bentornato! Pronto a risparmiare?</p>
-    ) : (
-      <p>Registrati per iniziare la tua sfida.</p>
-    )}
-  </div>
-);
 
 export default App;
