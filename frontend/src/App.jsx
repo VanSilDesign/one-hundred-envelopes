@@ -12,6 +12,7 @@ import Sidebar from "./components/sidebar/Sidebar.jsx";
 import Modal from "./components/modals/Modal.jsx";
 import ErrorPage from "./components/modals/ErrorPage";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import BottomNavbar from "./components/navbar/BottomNavbar.jsx";
 
 // Pages
 import HomePage from "./components/Homepage.jsx";
@@ -24,7 +25,6 @@ import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
-import EnvelopeCounter from "./components/envelopes/EnvelopeCounter.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
@@ -103,6 +103,7 @@ function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <BottomNavbar />
       </main>
     </Router>
   );

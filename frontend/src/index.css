@@ -113,6 +113,7 @@
 
 body {
   margin: 0;
+  padding-bottom: 75px;
   font-family: var(--font-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -606,49 +607,44 @@ fieldset {
   background-color: #e8a593; /* Il tuo colore pesca */
 }
 
-.stats-card.stat-counter::before {
+.stats-card.stats-counter::before {
   background-color: var(--primary-dark);
 }
 
-.stats-card.stat-mean::before {
+.stats-card.stats-total::before,
+.stats-card.stats-mean::before {
   background-color: var(--secondary-dark);
 }
 
-.stats-card.stat-streak::before {
+.stats-card.stats-streak::before {
   background-color: var(--primary-light);
 }
 
-.stats-card.stat-total::before {
-  background-color: var(--extra-color);
-}
-
-.stat-title {
+.stats-title {
   font-size: 1.25rem;
   color: var(--text-title);
   text-transform: uppercase;
   margin: 6px 0;
 }
 
-.stat-value {
+.stats-value {
   margin: 6px 0;
   font-size: 1.15rem;
 }
 
-.stat-counter .stat-value {
+.stats-counter .stats-value {
   color: var(--primary-dark);
 }
 
-.stat-mean .stat-value {
+.stats-total .stats-value,
+.stats-mean .stats-value {
   color: var(--secondary-dark);
 }
 
-.stat-streak .stat-value {
+.stats-streak .stats-value {
   color: var(--primary-light);
 }
 
-.stat-total .stat-value {
-  color: var(--extra-color);
-}
 
 .chart-container {
   max-width: 100%;

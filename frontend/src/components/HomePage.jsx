@@ -59,17 +59,17 @@ export default function HomePage({ user }) {
         <section className="grid-section">
           <h3 className="stat-title">La tua progressione</h3>
           <div className="stats-grid two-columns">
-            <div className="stats-card stat-counter">
-              <p className="stat-title">Buste aperte: </p>
-              <p className="stat-value">
+            <div className="stats-card stats-counter">
+              <p className="stats-title">Buste aperte: </p>
+              <p className="stats-value">
                 <strong>
                   {challenge.amounts.filter((env) => env.isOpened).length} / 100
                 </strong>
               </p>
             </div>
-            <div className="stats-card stat-total">
-              <p className="stat-title">Totale risparmiato: </p>
-              <p className="stat-value">
+            <div className="stats-card stats-total">
+              <p className="stats-title">Totale risparmiato: </p>
+              <p className="stats-value">
                 <strong>
                   {challenge.amounts
                     .filter((env) => env.isOpened)

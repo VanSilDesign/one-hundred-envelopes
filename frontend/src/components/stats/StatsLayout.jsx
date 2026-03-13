@@ -42,24 +42,24 @@ function StatsLayout() {
         <p>Stai facendo un ottimo lavoro con la sfida delle buste!</p>
       </header>
 
-      <div className="stats-grid">
+      <div className="stats-grid three-columns">
         <StatCard
           title="Totale Risparmiato"
           value={userData.summary.totalSaved}
           unit={userData.currency}
-          color="#4caf50"
+          color="counter"
         />
         <StatCard
           title="Progresso Sfida"
           value={userData.summary.progressPercentage}
           unit="%"
-          color="#2196f3"
+          color="mean"
         />
         <StatCard
           title="Buste Completate"
           value={userData.summary.envelopesCompleted}
           unit={`/ ${userData.summary.totalEnvelopes}`}
-          color="#ff9800"
+          color="streak"
         />
       </div>
 
