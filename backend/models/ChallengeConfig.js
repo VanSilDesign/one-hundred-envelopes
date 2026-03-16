@@ -4,6 +4,7 @@ const AmountSchema = new mongoose.Schema({
   value: { type: Number, required: true },
   active: { type: Boolean, required: true },
   isOpened: { type: Boolean, required: false },
+  openedAt: { type: Date, default: null },
   note: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
 });

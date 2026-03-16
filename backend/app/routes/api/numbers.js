@@ -68,7 +68,7 @@ router.patch("/soft-delete-number/:value", async (req, res) => {
     const updatedChallenge = await ChallengeConfig.findOneAndUpdate(
       { userId, isAvailable: true, "amounts.value": number },
       {
-        $set: { "amounts.$.isOpened": false, "amounts.$.openedAt": new Date() },
+        $set: { "amounts.$.isOpened": false, "amounts.$.openedAt": null },
       },
       { returnDocument: "after" }, // <--- Al posto di { new: true } che sarà deprecato
     );

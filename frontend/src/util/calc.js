@@ -3,12 +3,12 @@
  * sulle impostazioni dell'utente.
  */
 export default function calculateSavings(
-  maxEnvelopeValue,
+  maxValue,
   step,
   numberOfEnvelopes,
 ) {
   // Assicuriamoci che i valori siano numeri
-  const max = Number(maxEnvelopeValue);
+  const max = Number(maxValue);
   const st = Number(step);
   const num = Number(numberOfEnvelopes);
 

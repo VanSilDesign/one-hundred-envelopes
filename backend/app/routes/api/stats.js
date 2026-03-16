@@ -1,56 +1,65 @@
 const express = require("express");
 const router = express.Router();
-const NumberModel = require("../../../models/Number.js");
-const UserModel = require("../../../models/User.js");
+const ChallengeConfigModel = require("../../../models/ChallengeConfig.js");
 const isLoggedIn = require("../../middleware/is-logged-in.js");
 
-router.get("/dashboard", isLoggedIn, async (req, res) => {
+router.get("/get-current", isLoggedIn, async (req, res) => {
+  const userId = req.user?._id; // Grazie al middleware isLoggedIn, req.user dovrebbe essere popolato
+
   try {
-    const userIdString = req.user?._id.toString() || req.session?.passport?.user.toString();
-    console.log("ID utente da cercare:", userIdString);
+    const activeChallenge = await ChallengeConfigModel.findOne({
+      userId,
+      isAvailable: true,
+    }).sort({ createdAt: -1 });
 
-    const [user, savedNumbers] = await Promise.all([
-      UserModel.findById(userIdString),
-      NumberModel.find({ userId: userIdString, active: true }).sort({ createdAt: 1 }),
-    ]);
-    console.log("Utente trovato: ", user);
+    // 1. Controllo di sicurezza: Se non c'è una sfida, non crashare
+    if (!activeChallenge) {
+      return res.status(404).json({ message: "Nessuna sfida attiva trovata." });
+    }
 
-    if (!user) return res.status(401).json({ message: "User not found." });
+    // 2. Calcoli (Identici ai tuoi, puliti!)
+    const openedEnvelopes = activeChallenge.amounts.filter(
+      (env) => env.isOpened,
+    );
+    const totalSaved = openedEnvelopes.reduce(
+      (acc, curr) => acc + curr.value,
+      0,
+    );
+    const count = openedEnvelopes.length;
+    const totalEnvelopes = activeChallenge.configParams.numberOfEnvelopes;
 
-    // Calcoli basati sui tuoi settings (CHF, 70 buste, step 3...)
-    const totalSaved = savedNumbers.reduce((acc, curr) => acc + curr.value, 0);
-    const count = savedNumbers.length;
-    const totalEnvelopes = user.settings.numberOfEnvelopes;
-
-    // Logica per calcolare il target dinamico (progressione aritmetica)
-    const first = user.settings.step;
-    const last = user.settings.maxEnvelopeValue;
+    const first = activeChallenge.configParams.step;
+    const last = activeChallenge.configParams.maxValue;
     const totalTarget = (totalEnvelopes / 2) * (first + last);
 
-    console.log(`--- STATS DEBUG ---`);
-    console.log(`Utente: ${user.username}`);
-    console.log(`Buste completate: ${count}/${totalEnvelopes}`);
-    console.log(`Target calcolato: ${totalTarget} ${user.settings.currency}`);
-    console.log(`Risparmiato: ${totalSaved}`);
-    console.log(`-------------------`);
-
-    res.json({
-      currency: user.settings.currency, // 'user' (minuscolo, l'oggetto), non 'UserModel'
+    // 3. Risposta differenziata
+    const responseData = {
+      currency: activeChallenge.currency,
       summary: {
         totalSaved,
         totalTarget,
-        progressPercentage: parseFloat(((totalSaved / totalTarget) * 100).toFixed(1)),
+        progressPercentage: parseFloat(
+          ((totalSaved / totalTarget) * 100).toFixed(1),
+        ),
         envelopesCompleted: count,
         totalEnvelopes,
       },
-      history: savedNumbers.map((n) => ({
-        value: n.value,
-        date: n.createdAt,
-      })),
-    });
+      // Restituiamo la history solo se l'utente è Premium
+      history: req.user.isPremium
+        ? activeChallenge.amounts
+            .filter((n) => n.isOpened) // Magari solo quelle aperte?
+            .sort(
+              (a, b) =>
+                new Date(a.openedAt).getTime() - new Date(b.openedAt).getTime(),
+            ) // Ordine CRONOLOGICO (dal più vecchio al più recente)
+            .map((n) => ({ value: n.value, date: n.openedAt })) // Meglio updatedAt per la data di apertura
+        : [],
+    };
+
+    res.json(responseData);
   } catch (error) {
-    console.error("Errore Stats:", error);
-    res.status(500).json({ error: "Errore nel calcolo statistiche" });
+    console.error("Errore statistiche:", error);
+    res.status(500).json({ message: "Errore nel recupero sfida" });
   }
 });
 

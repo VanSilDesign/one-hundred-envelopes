@@ -6,6 +6,7 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
@@ -13,22 +14,21 @@ const UserSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: "admin",
+      enum: ["user", "admin"], 
+      default: "user", 
     },
     active: {
       type: Boolean,
-      required: true
+      default: true,
     },
-    settings: {
-      numberOfEnvelopes: { type: Number, default: 100 },
-      maxEnvelopeValue: { type: Number, default: 100 },
-      step: { type: Number, default: 1 },
-      currency: { type: String, default: "€" },
-      updatedAt: { type: Date, default: Date.now },
+    isPremium: {
+      type: Boolean,
+      default: false,
     },
+    createdAt: { type: Date, default: Date.now },
   },
   { timestamp: true },
 );
 
 // Il terzo parametro 'users' obbliga Mongoose a usare quel nome esatto nel DB
-module.exports = mongoose.model("User", UserSchema, 'users');
+module.exports = mongoose.model("User", UserSchema, "users");

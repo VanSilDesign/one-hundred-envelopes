@@ -24,12 +24,12 @@ router.get("/get-current", async (req, res) => {
 router.post("/initialize", async (req, res) => {
     const userId = req.user?._id || req.session?.passport?.user;
 
-    const { challengeName, maxEnvelopeValue, step, numberOfEnvelopes, currency, generationType } = req.body;
+    const { challengeName, maxValue, step, numberOfEnvelopes, currency, generationType } = req.body;
 
     try {
         // 1. Usiamo l'helper (quello con la logica di Gauss e il ciclo for)
         const { envelopes } = calculateAndGenerateEnvelopes(
-            maxEnvelopeValue, 
+            maxValue, 
             step, 
             numberOfEnvelopes
         );
@@ -46,7 +46,7 @@ router.post("/initialize", async (req, res) => {
             userId,
             challengeName: challengeName || "La mia sfida",
             generationType: generationType || 'range',
-            configParams: { maxEnvelopeValue, step, numberOfEnvelopes },
+            configParams: { maxValue, step, numberOfEnvelopes },
             amounts: envelopes,
             currency: currency || "€",
             isAvailable: true,
