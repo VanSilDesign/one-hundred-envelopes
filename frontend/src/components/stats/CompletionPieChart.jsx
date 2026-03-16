@@ -10,7 +10,7 @@ import {
 const CompletionPieChart = ({ completed, total }) => {
   // Prepariamo i dati includendo già il colore (fill) per ogni fetta
   const data = [
-    { name: "Completate", value: completed, fill: "#4caf50" },
+    { name: "Completate", value: completed, fill: "#8f3a2b" },
     { name: "Rimanenti", value: total - completed, fill: "#e0e0e0" },
   ];
 

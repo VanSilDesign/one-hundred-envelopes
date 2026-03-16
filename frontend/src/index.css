@@ -523,7 +523,8 @@ fieldset {
   color: var(--error);
   height: 25px;
 }
-/* Nel tuo file .css */
+
+/* STATISTICHE */
 .stats-container {
   display: grid;
   grid-template-columns: 1fr; /* Una colonna sola su mobile */
@@ -645,10 +646,10 @@ fieldset {
   color: var(--primary-light);
 }
 
-
 .chart-container {
+  position: relative;
   max-width: 100%;
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-main);
   box-shadow: var(--box-shadow);
   padding: 20px;
   border-radius: 12px;
@@ -668,8 +669,59 @@ fieldset {
 }
 
 .pie-wrapper {
-  background: var(--bg-secondary);
+  background: var(--bg-main);
   border-radius: 12px;
   padding: 20px;
   box-shadow: var(--box-shadow);
+}
+
+/* Quando la funzione è bloccata, sfumiamo il grafico */
+.locked-feature > *:not(.premium-overlay) {
+  position: relative;
+  filter: blur(8px);
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+}
+
+.premium-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.2
+  ); /* Molto leggero per far vedere il blur sotto */
+  z-index: 5;
+  text-align: center;
+}
+
+.premium-overlay span {
+  background: #e8a593;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.upgrade-btn {
+  background: #5d5550;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 12px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
