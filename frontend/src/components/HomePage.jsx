@@ -55,7 +55,7 @@ export default function HomePage({ user }) {
           onSaveSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo il Save
         />
       </section>
-      {user ? (
+      {(user) ? (
         <section className="grid-section">
           <h3 className="stat-title">La tua progressione</h3>
           <div className="stats-grid two-columns">
@@ -63,7 +63,7 @@ export default function HomePage({ user }) {
               <p className="stats-title">Buste aperte: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge.amounts.filter((env) => env.isOpened).length} / 100
+                  {challenge?.amounts?.filter((env) => env.isOpened).length || 0} / 100
                 </strong>
               </p>
             </div>
@@ -71,16 +71,14 @@ export default function HomePage({ user }) {
               <p className="stats-title">Totale risparmiato: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge.amounts
-                    .filter((env) => env.isOpened)
-                    .reduce((acc, env) => acc + env.value, 0)}
+                  {challenge?.amounts?.filter((env) => env.isOpened).reduce((acc, env) => acc + env.value, 0) || 0}
                   €
                 </strong>
               </p>
             </div>
           </div>
           <EnvelopesGridDisplay
-            amounts={challenge.amounts}
+            amounts={challenge?.amounts || null}
             onUpdateSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo l'Update
           />
         </section>

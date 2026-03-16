@@ -83,7 +83,7 @@ function App() {
           />
 
           <Route
-            path="/api/stats/dashboard"
+            path="/stats"
             element={
               <PrivateRoute user={user}>
                 <StatsLayout />

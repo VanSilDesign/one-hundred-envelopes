@@ -4,7 +4,7 @@ import Input from "./UI/Input";
 
 export default function Settings() {
   const [settingValues, setSettingValues] = useState({
-    maxEnvelopeValue: 100,
+    maxValue: 100,
     step: 1,
     numberOfEnvelopes: 100,
     currency: "€",
@@ -48,7 +48,7 @@ export default function Settings() {
   // Modifico dati
   useEffect(() => {
     const result = calculateSavings(
-      settingValues.maxEnvelopeValue,
+      settingValues.maxValue,
       settingValues.step,
       settingValues.numberOfEnvelopes,
     );
@@ -67,7 +67,7 @@ export default function Settings() {
 
   // Se ho modificato almeno uno dei due dati calcolo il terzo
   useEffect(() => {
-    const max = Number(settingValues.maxEnvelopeValue);
+    const max = Number(settingValues.maxValue);
     const st = Number(settingValues.step);
 
     // Calcoliamo il numero di buste solo se i valori sono validi
@@ -82,7 +82,7 @@ export default function Settings() {
         }));
       }
     }
-  }, [settingValues.maxEnvelopeValue, settingValues.step]); // Si attiva quando cambiano questi due
+  }, [settingValues.maxValue, settingValues.step]); // Si attiva quando cambiano questi due
 
   const handleSave = async (e) => {
     e.preventDefault(); // Impedisce il ricaricamento della pagina
@@ -117,10 +117,10 @@ export default function Settings() {
       <h2>Game Settings</h2>
       <Input
         label="Valore Massimo Busta (€):"
-        id="maxEnvelopeValue"
+        id="maxValue"
         type="number"
-        name="maxEnvelopeValue"
-        value={settingValues.maxEnvelopeValue}
+        name="maxValue"
+        value={settingValues.maxValue}
         onChange={handleChange}
       />
       <Input

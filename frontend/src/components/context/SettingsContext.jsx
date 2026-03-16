@@ -4,7 +4,7 @@ const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
   const [settingValues, setSettingValues] = useState({
-    maxEnvelopeValue: 100,
+    maxValue: 100,
     step: 1,
     numberOfEnvelopes: 100,
     currency: "€",

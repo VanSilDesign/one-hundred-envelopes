@@ -40,7 +40,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/api/stats/dashboard" onClick={onClose}>
+                  <Link to="/stats" onClick={onClose}>
                     Stats
                   </Link>
                 </li>
