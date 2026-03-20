@@ -4,6 +4,7 @@ import StatCard from "./StatCard.jsx";
 import SavingsChart from "./SavingsChart.jsx";
 import CompletionPieChart from "./CompletionPieChart.jsx";
 import DrawHistoryChart from "./DrawHistoryChart.jsx";
+import SavingsProgressBar from "./SavingsProgressBar.jsx";
 
 function StatsLayout() {
   const { user } = useAuth();
@@ -70,12 +71,20 @@ function StatsLayout() {
         <p>Stai facendo un ottimo lavoro con la sfida delle buste!</p>
       </header>
 
+      <SavingsProgressBar
+        current={userData.summary.totalSaved}
+        total={userData.summary.totalTarget}
+        percentage={userData.summary.progressPercentage}
+        icon={userData.config?.icon}
+        color={userData.config?.color}
+      />
+
       {/* 1. CARDS (Sempre visibili a tutti) */}
       <div className="stats-grid three-columns">
         <StatCard
           title="Totale Risparmiato"
           value={userData.summary.totalSaved}
-          unit={userData.currency}
+          unit={userData.config.currency}
           color="counter"
         />
         <StatCard

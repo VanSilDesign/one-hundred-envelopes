@@ -34,7 +34,6 @@ router.get("/get-current", isLoggedIn, async (req, res) => {
 
     // 3. Risposta differenziata
     const responseData = {
-      currency: activeChallenge.currency,
       summary: {
         totalSaved,
         totalTarget,
@@ -54,6 +53,11 @@ router.get("/get-current", isLoggedIn, async (req, res) => {
             ) // Ordine CRONOLOGICO (dal più vecchio al più recente)
             .map((n) => ({ value: n.value, date: n.openedAt })) // Meglio updatedAt per la data di apertura
         : [],
+      config: {
+        currency: activeChallenge.currency,
+        icon: activeChallenge.icon,
+        color: activeChallenge.color
+      },
     };
 
     res.json(responseData);
