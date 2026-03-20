@@ -1,0 +1,262 @@
+/* PROGRESS BAR -TERMOMETRO */
+
+.thermometer-section {
+  margin: 24px 0;
+}
+
+.progress-container {
+  position: relative;
+  height: 40px;
+  margin: 10px 0;
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 100%;
+  background-color: #f8e8e1; /* Manteniamo il tuo colore di sfondo chiaro */
+  border-radius: 20px;
+  overflow: hidden; /* Fondamentale per contenere il liquido */
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.2),
+    /* 1. Ombra esterna (profondità sul foglio) */ inset 0 6px 10px
+      rgba(0, 0, 0, 0.08),
+    /* 2. Inset alto (curvatura interna scura) */ inset 0 -4px 6px
+      rgba(255, 255, 255, 0.5); /* 3. Inset basso (riflesso luce vetro) */
+}
+
+.progress-bar-bg::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 10px;
+  right: 10px;
+  height: 8px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.progress-bar-fill {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  /* background: linear-gradient(
+    90deg,
+    #d4a373 0%,
+    #e9c46a 100%
+  ); Cambia con i tuoi colori */
+  background: linear-gradient(90deg, #cd8660 0%, rgba(232, 164, 146, 0.5) 100%);
+  border-radius: 20px 60px 6px 20px; 
+  /* border-radius: 20px; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 15px;
+  transition: width 1.5s cubic-bezier(0.1, 0.5, 0.5, 1); /* "Cubic-bezier" la rende elastica e premium */
+}
+
+@keyframes shine {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+.progress-bar-fill::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Copriamo tutta la larghezza disponibile */
+  height: 100%;
+  
+  /* Creiamo il riflesso come un gradiente che si muove */
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%
+  );
+  
+  /* TRUCCO: Mascheriamo la punta affinché sfumi verso la fine del liquido */
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+
+  /* Animazione più fluida */
+  animation: shine 10s infinite;
+  transition: opacity 2s ease-out; 
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) skewX(-20deg); }
+  30%, 100% { transform: translateX(100%) skewX(-20deg); }
+}
+
+.progress-text {
+  position: absolute;
+  left: 15px;
+  font-weight: 800;
+  font-size: 0.9rem;
+  z-index: 5; /* Sopra il riempimento, sotto l'icona */
+  pointer-events: none;
+  transition: color 0.5s ease; /* Transizione morbida del cambio colore */
+}
+
+.goal-icon-container {
+    display: flex;
+    align-items: center;
+    height: inherit;
+}
+
+.goal-icon {
+  position: absolute;
+  right: 15px;
+  font-size: 20px;
+  transition: color 0.5s ease; /* Transizione morbida del cambio colore */
+}
+
+.current-saved {
+  font-size: 14px;
+  color: #8d99ae;
+}
+
+.bubbles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -10px; /* Partono dal basso del liquido */
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: bubble-rise 4s infinite ease-in;
+}
+
+/* Definizione dell'animazione: ascesa e svanimento */
+@keyframes bubble-rise {
+  0% {
+    bottom: -10%; /* Partenza leggermente sotto la base */
+    transform: translateX(0); /* Nessuna deviazione orizzontale iniziale */
+    opacity: 0; /* Invisibile */
+  }
+  20% {
+    opacity: 0.8; /* Diventa visibile mentre sale */
+  }
+  80% {
+    opacity: 0.6; /* Inizia a svanire */
+  }
+  100% {
+    bottom: 110%; /* Arriva sopra la cima della barra */
+    transform: translateX(10px); /* Piccola deviazione orizzontale alla fine */
+    opacity: 0; /* Svanisce completamente */
+  }
+}
+
+/* 2. Lo Shine (Il riflesso "vetroso" che sparisce) */
+.liquid-shine {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: shine-loop 2s infinite;
+}
+
+@keyframes shine-loop {
+  to {
+    left: 150%;
+  }
+}
+
+/* Personalizziamo dimensione, posizione e ritardo per ogni bolla per variabilità */
+.bubble:nth-child(1) {
+  width: 8px;
+  height: 8px;
+  left: 10%;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+}
+
+.bubble:nth-child(2) {
+  width: 12px;
+  height: 12px;
+  left: 30%;
+  animation-duration: 4s;
+  animation-delay: 1s;
+}
+
+.bubble:nth-child(3) {
+  width: 6px;
+  height: 6px;
+  left: 50%;
+  animation-duration: 2.5s;
+  animation-delay: 0.2s;
+}
+
+.bubble:nth-child(4) {
+  width: 10px;
+  height: 10px;
+  left: 70%;
+  animation-duration: 3.5s;
+  animation-delay: 1.5s;
+}
+
+.bubble:nth-child(5) {
+  width: 7px;
+  height: 7px;
+  left: 90%;
+  animation-duration: 2.8s;
+  animation-delay: 0.8s;
+}
+
+/* Configuriamo le bolle per non essere tutte uguali */
+.bubble:nth-child(6) {
+  left: 10%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 4s;
+  animation-delay: 0s;
+}
+.bubble:nth-child(7) {
+  left: 35%;
+  width: 10px;
+  height: 10px;
+  animation-duration: 2.8s;
+  animation-delay: 1s;
+}
+.bubble:nth-child(8) {
+  left: 60%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 2.5s;
+  animation-delay: 2s;
+}
+.bubble:nth-child(9) {
+  left: 85%;
+  width: 8px;
+  height: 8px;
+  animation-duration: 3.5s;
+  animation-delay: 0.5s;
+}

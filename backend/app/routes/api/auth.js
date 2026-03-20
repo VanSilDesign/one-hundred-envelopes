@@ -29,7 +29,7 @@ router.post("/register-admin", async (req, res) => {
       createdAt: new Date(),
       settings: {
         numberOfEnvelopes: 100,
-        maxEnvelopeValue: 100,
+        maxValue: 100,
         step: 1,
         currency: "€",
         updatedAt: new Date(),

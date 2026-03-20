@@ -1,78 +1,79 @@
-import { saveSelectedNumber } from "../../http.js";
-import { useState, useCallback } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useSettings } from "../context/SettingsContext.jsx";
+import { useState } from "react";
 import EnvelopeCounter from "./EnvelopeCounter.jsx";
 import IconButton from "../UI/IconButton.jsx";
+import SuccessModal from "../modals/SuccesModal.jsx";
 
-function EnvelopesContainer({ onSaveSuccess }) {
-  const { user } = useAuth();
-  const { settingValues, isLoading } = useSettings();
-  const [count, setCount] = useState(0);
+function EnvelopesContainer({
+  user,
+  amounts,
+  onSaveSuccess,
+  currency,
+  challengeTitle,
+}) {
+  const [showModal, setShowModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [chosenEnvelopes, setChosenEnvelopes] = useState(new Set());
+  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [lastAmount, setLastAmount] = useState(0); // <--- AGGIUNGI QUESTO
 
-  const handleChoose = useCallback(
-    function handleChoose() {
-      const maxVal = settingValues.maxEnvelopeValue;
-      const step = settingValues.step;
-      const numEnvelopes = Math.floor(maxVal / step);
+  const handleChoose = () => {
+    const availableEnvelopes = amounts.filter((env) => !env.isOpened);
+    if (availableEnvelopes.length === 0) return alert("Sfida completata!");
 
-      if (chosenEnvelopes.size >= numEnvelopes) {
-        alert("Hai estratto tutte le buste");
-        return;
-      }
+    const randomIndex = Math.floor(Math.random() * availableEnvelopes.length);
+    const selected = availableEnvelopes[randomIndex];
 
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * numEnvelopes) + 1;
-      } while (chosenEnvelopes.has(randomIndex));
-      
-      const sortedValue = randomIndex * step;
+    setSelectedNumber(selected.value); // Il numero che apparirà nel cerchio del tuo mock-up
+  };
 
-      setCount(sortedValue);
-    },
-    [chosenEnvelopes, settingValues],
-  );
-
-  async function handleSave(selectedNumber) {
-    if (selectedNumber === 0) return;
+  const handleSave = async () => {
+    if (!selectedNumber) return;
 
     setIsSaving(true);
     try {
-      await saveSelectedNumber(selectedNumber);
-      setChosenEnvelopes((prevEnv) => new Set(prevEnv).add(selectedNumber));
-      if (onSaveSuccess) onSaveSuccess();
-      alert("Numero Salvato");
-      setCount(0);
+      // Qui chiameremo la rotta PATCH che aggiorna 'isOpened' nel DB
+      const response = await fetch(`/api/numbers/save-number`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ number: selectedNumber }),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        setLastAmount(selectedNumber);
+        setShowModal(true);
+        onSaveSuccess(); // Notifica la Dashboard di ricaricare i dati (i quadratini cambieranno colore!)
+        setSelectedNumber(0); // Reset counter
+      }
     } catch (error) {
-      alert(error.message || "Impossibile eseguire il salvataggio.");
+      console.error("Errore nel salvataggio:", error);
     } finally {
       setIsSaving(false);
     }
-  }
-
-  if (isLoading || !settingValues) {
-    return (
-      <div id="envelopes-container" className="loading-state">
-        <h2>Loading settings...</h2>
-      </div>
-    );
-  }
+  };
 
   return (
     <div id="envelopes-container">
-      <h2>Choose your envelope ({settingValues.currency})</h2>
-      <EnvelopeCounter count={count} />
+      <SuccessModal
+        isOpen={showModal}
+        amount={lastAmount}
+        challengeName={challengeTitle || "la tua sfida"}
+        onClose={() => setShowModal(false)}
+      />
+      <h2>Scegli la tua busta ({currency || "€"})</h2>
+      <EnvelopeCounter count={selectedNumber} />
       <div className="envelopes-button">
-        <IconButton onClick={handleChoose}>Choose</IconButton>
-        <IconButton
-          onClick={() => handleSave(count)}
-          disabled={!user || count === 0 || isLoading} // IL BOTTONE SI DISABILITA SE USER È NULL
-          title={!user ? "Login to save" : ""}
-        >
-          {isSaving ? "Saving..." : "Save"}
+        <IconButton onClick={handleChoose} disabled={isSaving}>
+          Scegli
         </IconButton>
+        {user && (
+          <IconButton
+            onClick={() => handleSave(selectedNumber)}
+            disabled={selectedNumber === 0}
+            title={!isSaving ? "Salvataggio in corso..." : "Salva"}
+          >
+            {isSaving ? "Salvataggio in corso..." : "Salva"}
+          </IconButton>
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ const SettingsContext = createContext();
 
 export const SettingsProvider = ({ children }) => {
   const [settingValues, setSettingValues] = useState({
-    maxEnvelopeValue: 100,
+    maxValue: 100,
     step: 1,
     numberOfEnvelopes: 100,
     currency: "€",
@@ -15,7 +15,7 @@ export const SettingsProvider = ({ children }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const response = await fetch("/api/settings/get", {
+        const response = await fetch("/api/challenge/get-current", {
           credentials: "include",
         });
         if (response.ok) {
