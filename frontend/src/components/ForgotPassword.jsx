@@ -1,0 +1,95 @@
+import { useState } from "react";
+import { Mail, ArrowLeft, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import Input from "./UI/Input";
+import useInput from "../hooks/useInput";
+import { isEmail, isNotEmpty } from "../util/validation.js";
+import axios from "axios";
+
+export default function ForgotPassword() {
+  const [status, setStatus] = useState(null); //stati: loading, success, error,
+
+  const {
+    value: emailValue,
+    handleInputChange: handleEmailChange,
+    handleInputBlur: handleEmailBlur,
+    hasError: emailHasError,
+  } = useInput("", (value) => isEmail(value) && isNotEmpty(value));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (emailHasError || !emailValue) return;
+
+    setStatus("loading");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/forgot-password",
+        {
+          email: emailValue,
+        },
+      );
+
+      console.log(response.data);
+      setStatus('success');
+      
+    } catch (error) {
+      console.error("Errore invio mail:", error);
+      setStatus("error");
+      
+      // Opzionale: un alert per capire cosa è andato storto
+      alert(error.response?.data?.message || "Errore nel server");
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="form-modal">
+        <Link title="Torna al login" to="/login" className="back-link">
+          <ArrowLeft size={18} />
+        </Link>
+
+        <h2>Recupera Password</h2>
+
+        <p className="auth-subtitle">
+          Inserisci la tua email e ti invieremo le istruzioni per resettare la
+          password.
+        </p>
+        <div className="control-column">
+          {status === "success" ? (
+            <div className="success-message">
+              📧 Controlla la tua posta! Ti abbiamo inviato un link di recupero.
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              {/* <Mail className="input-icon" size={18} /> */}
+              <Input
+                label="Email"
+                id="email"
+                type="email"
+                name="email"
+                onBlur={handleEmailBlur}
+                onChange={handleEmailChange}
+                value={emailValue}
+                error={emailHasError && "Please enter a valid email!"}
+              />
+
+              <button
+                type="submit"
+                className="button"
+                disabled={status === "loading"}
+              >
+                {status === "loading" ? (
+                  <Loader2 className="spinner" />
+                ) : (
+                  "Invia Link"
+                )}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

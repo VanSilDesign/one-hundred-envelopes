@@ -49,7 +49,7 @@ export default function RegisterPage() {
           headers: { "Content-type": "application/json" },
           credentials: "include",
           body: JSON.stringify({
-            username: emailValue,
+            email: emailValue,
             password: passwordValue,
           }),
         },
@@ -106,7 +106,6 @@ export default function RegisterPage() {
         </div>
 
         <p className="form-actions">
-          <button className="button button-flat">Reset</button>
           <button className="button">Signup</button>
         </p>
       </form>

@@ -44,6 +44,15 @@
   box-sizing: border-box;
 }
 
+a {
+  color: var(--text-link);
+}
+
+a:hover {
+  color: var(--primary-dark);
+  transition: all 0.3s;
+}
+
 /* BUTTONS */
 
 .button {
@@ -94,8 +103,8 @@
 .envelopes-button {
   width: 100%;
   margin: 12px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
   grid-template-columns: repeat(1, 1fr);
   gap: 0.5rem;
 }
@@ -422,13 +431,15 @@ section {
   max-width: 25rem;
   margin: 3rem auto;
   padding: 2rem;
-  background: linear-gradient(180deg, var(--extra-color), var(--bg-secondary));
   border-radius: 8px;
-  box-shadow: var(--box-shadow);
+  text-align: center;
+  /* background: linear-gradient(180deg, var(--extra-color), var(--bg-secondary));
+  box-shadow: var(--box-shadow); */
 }
 
 .control,
 fieldset {
+  position: relative;
   margin-bottom: 1rem;
 }
 
@@ -439,11 +450,16 @@ fieldset {
 
 .control label {
   display: block;
+  position: absolute;
+  top: -8px;
+  left: 8px;
   font-size: 0.8rem;
   margin-bottom: 0.2rem;
   color: var(--text-main);
   text-transform: uppercase;
   font-weight: bold;
+  padding: 0 2px;
+  background: linear-gradient(var(--bg-main), #f7eee9ed);
 }
 
 .control input {
@@ -453,8 +469,8 @@ fieldset {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid var(--extra-color);
-  background-color: #faf9f8;
+  border: 1px solid var(--disabled-color);
+  background-color: inherit;
   color: var(--text-link);
 }
 
@@ -465,8 +481,8 @@ fieldset {
   padding: 0.5rem;
   font-size: 1rem;
   border-radius: 4px;
-  border: 1px solid #f8af84;
-  background-color: #faf9f8;
+  border: 1px solid var(--disabled-color);
+  background-color: inherit;
   color: var(--text-link);
 }
 
@@ -496,9 +512,10 @@ fieldset {
 
 .control-error {
   color: var(--error);
-  font-size: 0.8rem;
-  height: 2rem;
+  font-size: 0.7rem;
+  height: 1.5rem;
   padding: 0.5rem 0;
+  text-align: left;
 }
 
 .control-error p {
@@ -519,9 +536,40 @@ fieldset {
   gap: 1rem;
 }
 
+.form-actions .button {
+  width: 100%;
+}
+
 .warning-text {
   color: var(--error);
   height: 25px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+  color: var(--text-main);
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--text-main);
+}
+
+.separator span {
+  height: 24px;
+  line-height: 20px;
+  padding: 0 15px;
+}
+.social-button {
+  width: 100%;
+  background: #e0e0e0;
+  border: 1px solid #e0e0e0;
+  color: #555;
 }
 
 /* STATISTICHE */

@@ -4,6 +4,7 @@ import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "./UI/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext.jsx";
+import axios from "axios";
 
 export default function LoginPage() {
   const navigate = useNavigate(); // Inizializza il navigatore
@@ -37,22 +38,42 @@ export default function LoginPage() {
     }
 
     try {
-      const response = await fetch("/api/auth/login", {
+      //METODO CON IL FETCH
+      /* const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: emailValue, // o email, in base a come lo chiami sul server
+          email: emailValue, // o email, in base a come lo chiami sul server
           password: passwordValue,
         }),
         credentials: "include", // Fondamentale per ricevere il cookie di sessione!
-      });
-
+      }); 
+      
       const data = await response.json();
       
       if (response.ok) {
         alert("Login effettuato con successo!");
         // Salviamo i dati nello stato globale user in App.jsx dal Provider di AuthContext
         login(data.user);
+
+      */
+
+      //METODO CON AXIOS
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          email: emailValue, // Assicurati che il server ora legga "email" e non "username"
+          password: passwordValue,
+        },
+        { withCredentials: true }, // FONDAMENTALE per Passport e le sessioni
+      );
+      if (response.status === 200) {
+        alert("Login effettuato con successo!");
+
+        // Il backend ora restituisce l'utente (grazie a Mongoose)
+        // data.user conterrà username, email, ruolo, ecc.
+        login(response.data.user);
+
         // MAGIA: Spostiamo l'utente sulla Dashboard
         navigate("/");
       } else {
@@ -60,47 +81,67 @@ export default function LoginPage() {
         alert(data.message || "Credenziali non valide");
       }
     } catch (error) {
-      console.error("Errore di rete:", error);
-      alert("Il server non risponde. Controlla se è acceso!");
+      console.error("ERRORE LOGIN:", error.response?.data?.message);
+      alert(error.response?.data?.message || "Errore di connessione al server");
     }
   }
 
   return (
-    <div className="form-modal">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-
-        <div className="control-column">
-          <Input
-            label="Email"
-            id="email"
-            type="email"
-            name="email"
-            onBlur={handleEmailBlur}
-            onChange={handleEmailChange}
-            value={emailValue}
-            error={emailHasError && "Please enter a valid email!"}
-          />
-          <Input
-            label="Password"
-            id="password"
-            type="password"
-            name="password"
-            onBlur={handlePasswordBlur}
-            onChange={handlePasswordChange}
-            value={passwordValue}
-            error={passwordHasError && "Please enter a valid password!"}
-          />
+    <div className="form-wrapper">
+      <div className="form-modal">
+        <div className="main-logo">
+          <img src="/path/to/heart-envelope.png" alt="App Logo" />
         </div>
 
-        <p className="form-actions">
-          <button className="button button-flat">Reset</button>
-          <button className="button">Login</button>
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="control-column">
+            <Input
+              label="Email"
+              id="email"
+              type="email"
+              name="email"
+              onBlur={handleEmailBlur}
+              onChange={handleEmailChange}
+              value={emailValue}
+              error={emailHasError && "Please enter a valid email!"}
+            />
+            <Input
+              label="Password"
+              id="password"
+              type="password"
+              name="password"
+              onBlur={handlePasswordBlur}
+              onChange={handlePasswordChange}
+              value={passwordValue}
+              error={passwordHasError && "Please enter a valid password!"}
+            />
+          </div>
+
+          <p className="form-actions">
+            <button className="button">Login</button>
+          </p>
+        </form>
+        <p>
+          Non hai un account? <Link to="/register">Iscriviti</Link>
         </p>
-      </form>
-      <p>
-        Don't have an account? <Link to="/register">Signup</Link>
-      </p>
+        <p>
+          <Link to="/forgot-password">Hai dimenticato la password?</Link>
+        </p>
+        <div className="separator">
+          <span>or</span>
+        </div>
+        <div className="social-logins">
+          {/* Assicurati di avere le rotte del backend per questi */}
+          <a href="http://localhost:3000/api/auth/google" className="button social-button google">
+           Login with Google
+          </a>
+        </div>
+        <p className="footer-text">
+          By clicking login, you agree to our <Link to="/terms">Terms of Service</Link> and <Link to="/privacy">Privacy Policy</Link>
+        </p>
+        
+      </div>
     </div>
   );
 }

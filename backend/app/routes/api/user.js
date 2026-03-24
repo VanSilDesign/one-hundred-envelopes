@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
 const DbConnection = require("../../config/db-connection");
-const mongoose = require("mongoose");
 
 router.get("/get", async (req, res) => {
   const userId = req.user?._id || req.session?.passport?.user;
@@ -25,7 +24,5 @@ router.get("/get", async (req, res) => {
     });
   }
 });
-
-
 
 module.exports = router;

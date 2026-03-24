@@ -18,6 +18,7 @@ import BottomNavbar from "./components/navbar/BottomNavbar.jsx";
 import HomePage from "./components/Homepage.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage";
+import ResetPassword from "./components/ResetPassword.jsx";
 import DashboardPage from "./components/DashboardPage.jsx"; // La tua nuova Dashboard a quadratini
 import Settings from "./components/Settings.jsx";
 import StatsLayout from "./components/stats/StatsLayout.jsx";
@@ -25,6 +26,7 @@ import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
+import ForgotPassword from "./components/ForgotPassword.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
@@ -54,13 +56,10 @@ function App() {
           {/* Public Routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-          <Route
-            path="/"
-            element={
-              <HomePage user={user} />
-            }
-          />
+          <Route path="/" element={<HomePage user={user} />} />
 
           {/* Private Routes - Challenge & Stats */}
           <Route
