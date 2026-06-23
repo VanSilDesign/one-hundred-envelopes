@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Mail, ArrowLeft, Loader2, CircleDivideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import Input from "./UI/Input";
-import useInput from "../hooks/useInput";
+import Input from "../components/UI/Input.jsx";
+import useInput from "../hooks/useInput.jsx";
 import { isEmail, isNotEmpty } from "../util/validation.js";
 import apiAxios from "../api/axiosConfig.js";
 
@@ -24,12 +24,9 @@ export default function ForgotPassword() {
     setStatus("loading");
 
     try {
-      const response = await apiAxios.post(
-        "/api/auth/forgot-password",
-        {
-          email: emailValue,
-        },
-      );
+      const response = await apiAxios.post("/api/auth/forgot-password", {
+        email: emailValue,
+      });
 
       console.log(response.data);
       setStatus("success");

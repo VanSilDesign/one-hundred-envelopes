@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useInput from "../hooks/useInput.jsx";
-import { isEmail, isNotEmpty, hasMinLength } from "../util/validation";
-import Input from "./UI/Input";
+import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
+import Input from "../components/UI/Input.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import apiAxios from "../api/axiosConfig.js";
 
@@ -129,19 +129,19 @@ export default function RegisterPage() {
         Hai già un account? <Link to="/login">Accedi</Link>
       </p>
       <div className="separator">
-          <span>o</span>
-        </div>
-        <div className="social-logins">
-          {/* Assicurati di avere le rotte del backend per questi */}
-          <a href="/api/auth/google" className="button social-button google">
-            Register with Google
-          </a>
-        </div>
-        <p className="footer-text">
-          By clicking login, you agree to our{" "}
-          <Link to="/terms">Terms of Service</Link> and{" "}
-          <Link to="/privacy">Privacy Policy</Link>
-        </p>
+        <span>o</span>
+      </div>
+      <div className="social-logins">
+        {/* Assicurati di avere le rotte del backend per questi */}
+        <a href="/api/auth/google" className="button social-button google">
+          Register with Google
+        </a>
+      </div>
+      <p className="footer-text">
+        By clicking login, you agree to our{" "}
+        <Link to="/terms">Terms of Service</Link> and{" "}
+        <Link to="/privacy">Privacy Policy</Link>
+      </p>
     </div>
   );
 }

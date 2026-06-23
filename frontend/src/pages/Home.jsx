@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
-import EnvelopesContainer from "./envelopes/EnvelopesContainer";
-import EnvelopesGridDisplay from "./envelopes/EnvelopesGridDisplay";
+import EnvelopesContainer from "../components/envelopes/EnvelopesContainer";
+import EnvelopesGridDisplay from "../components/envelopes/EnvelopesGridDisplay";
 import { Link } from "react-router-dom";
 
 export default function HomePage({ user }) {
@@ -28,7 +28,12 @@ export default function HomePage({ user }) {
     fetchChallenge();
   }, [fetchChallenge]);
 
-  if (loading) return <div><p>Caricamento...</p></div>;
+  if (loading)
+    return (
+      <div>
+        <p>Caricamento...</p>
+      </div>
+    );
 
   // Se l'utente non ha ancora creato una sfida (es. primo accesso)
   if (!challenge) {
@@ -55,7 +60,7 @@ export default function HomePage({ user }) {
           onSaveSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo il Save
         />
       </section>
-      {(user) ? (
+      {user ? (
         <section className="grid-section">
           <h3 className="stat-title">La tua progressione</h3>
           <div className="stats-grid two-columns">
@@ -63,7 +68,9 @@ export default function HomePage({ user }) {
               <p className="stats-title">Buste aperte: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge?.amounts?.filter((env) => env.isOpened).length || 0} / 100
+                  {challenge?.amounts?.filter((env) => env.isOpened).length ||
+                    0}{" "}
+                  / 100
                 </strong>
               </p>
             </div>
@@ -71,7 +78,9 @@ export default function HomePage({ user }) {
               <p className="stats-title">Totale risparmiato: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge?.amounts?.filter((env) => env.isOpened).reduce((acc, env) => acc + env.value, 0) || 0}
+                  {challenge?.amounts
+                    ?.filter((env) => env.isOpened)
+                    .reduce((acc, env) => acc + env.value, 0) || 0}
                   €
                 </strong>
               </p>

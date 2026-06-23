@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import useInput from "../hooks/useInput.jsx";
 import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
-import Input from "./UI/Input";
+import Input from "../components/UI/Input.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./context/AuthContext.jsx";
+import { useAuth } from "../components/context/AuthContext.jsx";
 import apiAxios from "../api/axiosConfig.js";
 
 export default function LoginPage() {

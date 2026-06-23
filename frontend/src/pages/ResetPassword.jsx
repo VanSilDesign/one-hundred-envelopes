@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import apiAxios from "../api/axiosConfig.js";
 import { useState } from "react";
-import Input from "./UI/Input";
-import useInput from "../hooks/useInput";
+import Input from "../components/UI/Input.jsx";
+import useInput from "../hooks/useInput.jsx";
 import { isNotEmpty, hasMinLength } from "../util/validation.js";
 
 const ResetPassword = () => {
