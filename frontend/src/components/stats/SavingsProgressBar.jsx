@@ -43,7 +43,7 @@ const SavingsProgressBar = ({
       <div className="thermometer-header">
         <h3>Progress Soda</h3>
         <span>
-          {current === total ? "Sfida Completata! 🎉" : "Stato della ricarica"}
+          {current === total ? "Sfida Completata! 🎉" : ""}
         </span>
       </div>
 
@@ -76,7 +76,9 @@ const SavingsProgressBar = ({
             <span
               className="progress-text"
               style={{
-                color: displayPercentage > 2 ? "#ffffff" : challengeColor, // Esempio: diventa bianco dopo metà barra
+                color: displayPercentage > 20 ? "#ffffff" : "#433e3b"//challegeColor, // Esempio: diventa bianco dopo metà barra
+                //color: `linear-gradient(90deg, ${challengeColor}CC 0%, ffffff 100%)`, 
+                //textShadow: "2px 2px 2px rgba(0, 0, 0, 0.4)",
               }}
             >
               {displayPercentage}%
@@ -84,6 +86,7 @@ const SavingsProgressBar = ({
             <ChallengeIcon
               iconName={challengeIcon} // Questa arriva dal DB (es: "umbrella", "car", "piggy-bank")
               color={displayPercentage > 99.5 ? "#ffffff" : challengeColor} // Il colore dinamico della sfida
+              //filter="drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.4))"
               size={28}
               className="goal-icon"
             />
@@ -91,12 +94,12 @@ const SavingsProgressBar = ({
         </div>
       </div>
 
-      <div className="progress-labels">
+      {/* <div className="progress-labels">
         <span className="current-saved">
           {current.toLocaleString("it-IT")} € / {total.toLocaleString("it-IT")}{" "}
           € risparmiati
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };

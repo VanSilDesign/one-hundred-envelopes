@@ -17,7 +17,6 @@ class DbConnection extends EventEmitter {
 
       DbConnection.db = db;
       DbConnection.userCollection = db.collection("users");
-      DbConnection.numbersCollection = db.collection("numbers");
 
       console.log("Tutti i sistemi di database sono connessi! ✅");
       this.emit("dbConnection", { db });

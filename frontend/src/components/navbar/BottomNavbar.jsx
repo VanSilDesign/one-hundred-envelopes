@@ -11,6 +11,7 @@ export default function BottomNavbar() {
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
+          end
         >
           <Home size={24} />
           <span>Home</span>

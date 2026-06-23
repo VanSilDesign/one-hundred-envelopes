@@ -17,10 +17,11 @@ router.get("/get-current", isLoggedIn, async (req, res) => {
       return res.status(404).json({ message: "Nessuna sfida attiva trovata." });
     }
 
-    // 2. Calcoli (Identici ai tuoi, puliti!)
+    // 2. Calcoli
     const openedEnvelopes = activeChallenge.amounts.filter(
       (env) => env.isOpened,
     );
+    
     const totalSaved = openedEnvelopes.reduce(
       (acc, curr) => acc + curr.value,
       0,
@@ -43,16 +44,16 @@ router.get("/get-current", isLoggedIn, async (req, res) => {
         envelopesCompleted: count,
         totalEnvelopes,
       },
-      // Restituiamo la history solo se l'utente è Premium
-      history: req.user.isPremium
-        ? activeChallenge.amounts
+      // Questo è l'array delle buste aperte e non è Premium, quello Premium è l'ARCHIVIO DELLE SFIDE e va da un'altra parte
+      history: // req.user.isPremium ? 
+      activeChallenge.amounts
             .filter((n) => n.isOpened) // Magari solo quelle aperte?
             .sort(
               (a, b) =>
                 new Date(a.openedAt).getTime() - new Date(b.openedAt).getTime(),
             ) // Ordine CRONOLOGICO (dal più vecchio al più recente)
-            .map((n) => ({ value: n.value, date: n.openedAt })) // Meglio updatedAt per la data di apertura
-        : [],
+            .map((n) => ({ value: n.value, date: n.openedAt })), // Meglio updatedAt per la data di apertura
+        //: [],
       config: {
         currency: activeChallenge.currency,
         icon: activeChallenge.icon,

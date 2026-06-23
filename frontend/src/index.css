@@ -44,6 +44,11 @@
   box-sizing: border-box;
 }
 
+html {
+  /* Imposta la base a 10px (62.5% di 16px) */
+  font-size: 62.5%;
+}
+
 a {
   color: var(--text-link);
 }
@@ -53,15 +58,34 @@ a:hover {
   transition: all 0.3s;
 }
 
+p {
+  font-size: 1.6rem;
+}
+
+h1 {
+  font-size: 3.2rem;
+}
+
+h2 {
+  font-size: 2.4rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.6rem;
+}
 /* BUTTONS */
 
 .button {
   cursor: pointer;
   display: inline-flex;
-  gap: 0.5rem;
-  font-size: 1.25rem;
+  gap: 0.8rem;
+  font-size: 2.4rem;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.6rem;
   background-color: var(--primary-color);
   color: var(--text-main);
   border: 1px solid var(--primary-color);
@@ -105,8 +129,8 @@ a:hover {
   margin: 12px;
   display: flex;
   justify-content: center;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 0.5rem;
+  flex-flow: column;
+  gap: 0.8rem;
 }
 
 .envelopes-button .button {
@@ -116,7 +140,7 @@ a:hover {
 @media screen and (min-width: 576px) {
   .envelopes-button {
     max-width: 576px;
-    grid-template-columns: repeat(2, 1fr);
+    flex-flow: row;
   }
 }
 
@@ -136,7 +160,7 @@ body {
 #main-header {
   position: relative;
   transition: all 0.3s ease;
-  padding: 0 0 1rem;
+  padding: 0 0 1.6rem;
   display: block;
   margin: 1rem auto;
   font-family: var(--font-main);
@@ -160,8 +184,8 @@ body {
 .home-variant img {
   object-fit: contain;
   display: block;
-  width: 6rem;
-  height: 6rem;
+  width: 9.6rem;
+  height: 9.6rem;
   padding: 1rem;
   margin: 0 auto 1rem auto;
   border: 2px solid #e8a593;
@@ -170,7 +194,7 @@ body {
 }
 .home-variant h1 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 3.2rem;
   letter-spacing: 0.15rem;
   text-transform: uppercase;
   text-align: center;
@@ -178,11 +202,11 @@ body {
 
 @media screen and (min-width: 576px) {
   .home-variant img {
-    width: 8rem;
-    height: 8rem;
+    width: 12.8rem;
+    height: 12.8rem;
   }
   .home-variant h1 {
-    font-size: 2.5rem;
+    font-size: 4rem;
   }
 }
 
@@ -193,8 +217,21 @@ body {
   justify-content: flex-start;
   align-items: center;
   height: 46px;
-  padding: 0 2.5rem;
   margin: 0;
+}
+
+.main-header-container {
+  width: 90%;
+  max-width: 50rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .main-header-container {
+    width: 100%;
+    max-width: 800px;
+  }
 }
 
 /* Nascondi o rimpicciolisci il logo nella versione compatta */
@@ -204,7 +241,7 @@ body {
 }
 
 .compact-variant span {
-  font-size: 1.5rem;
+  font-size: 2.4rem;
   height: 46px;
   line-height: 46px;
 }
@@ -212,7 +249,7 @@ body {
 .header-content {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.6rem;
 }
 
 .menu-toggle {
@@ -222,7 +259,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -239,12 +276,19 @@ body {
 
 main {
   width: 90%;
-  max-width: 50rem;
-  margin: 2rem auto;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 768px) {
+  main {
+    margin: 3.2rem auto;
+    padding: 0 6px;
+  }
 }
 
 section {
-  margin: 2rem 0;
+  margin: 3.2rem 0;
 }
 
 #envelopes-container {
@@ -254,7 +298,7 @@ section {
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.8rem;
   align-items: center;
   justify-content: center;
 }
@@ -268,22 +312,25 @@ section {
 
 #envelopes-container h2 {
   margin: 0.5rem;
-  font-size: 1.25rem;
+  font-size: 2rem;
   font-weight: bold;
   color: var(--text-main);
   text-transform: uppercase;
 }
 
 #envelopes-container #envelope-counter {
-  min-width: 5rem;
+  min-width: 8rem;
   text-align: center;
-  margin: 0.5rem;
+  margin: 0.8rem;
   border: 1px solid var(--extra-color);
   border-radius: 4px;
   background-color: var(--extra-bg);
   color: var(--primary-light);
-  font-size: 2rem;
   box-shadow: var(--box-shadow);
+}
+
+#envelopes-container #envelope-counter p {
+  font-size: 3.6rem;
 }
 
 #envelopes-container input::-webkit-outer-spin-button,
@@ -292,7 +339,7 @@ section {
 }
 
 .envelopes {
-  padding: 2rem;
+  padding: 3.2rem;
   border: 1px solid var(--extra-color);
   border-radius: 6px;
 }
@@ -303,11 +350,11 @@ section {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 1.6rem;
 }
 
 .envelopes .history-header .button-reset {
-  font-size: 1rem;
+  font-size: 1.6rem;
   color: var(--text-light);
   background-color: var(--disabled-color);
 }
@@ -318,23 +365,23 @@ section {
 
 .envelopes p {
   display: flex;
-  gap: 2rem;
+  gap: 3.2rem;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
   color: var(--text-title);
-  font-size: 1rem;
+  font-size: 1.6rem;
 }
 
 .envelopes .envelopes-info {
   display: block;
-  font-size: 0.8rem;
+  font-size: 1.4rem;
   color: var(--text-title);
   text-align: center;
 }
 
 .envelopes-output {
-  font-size: 3rem;
+  font-size: 4.8rem;
   font-weight: bold;
   color: #b5dad7;
 }
@@ -395,11 +442,11 @@ section {
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 }
 
 .button-wrapper .button {
-  font-size: 1rem;
+  font-size: 1.6rem;
 }
 
 @keyframes slide-down-fade-in {
@@ -425,10 +472,58 @@ section {
     transform: translateY(0);
   }
 }
+/* Il contenitore deve adattarsi all'immagine */
+.badge-img {
+  position: relative;
+  display: inline-block; 
+  overflow: hidden;      
+  border-radius: 16px;
+  padding: 12px;         
+}
+
+.badge-unlocked-anim {
+  width: 150px;
+  display: block;        
+  filter: drop-shadow(0 0 4px rgba(255, 127, 80, 0.6));
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.shiny-effect {
+  position: absolute;
+  top: 0;
+  left: -150%;           
+  width: 25%;            
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.4) 0%,   /* Un tocco più morbido */
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  animation: shine 10s infinite; /* Un po' più veloce per dare dinamismo */
+  pointer-events: none;  /* Evita che il riflesso blocchi i click */
+}
+
+/* L'animazione deve far attraversare tutto il contenitore */
+@keyframes shine {
+  0% {
+    left: -150%;
+  }
+  20%, 100% {
+    left: 250%; /* Esce completamente a destra */
+  }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
 
 .form-modal {
   width: 90%;
-  max-width: 25rem;
+  max-width: 400px;
   margin: 3rem auto;
   padding: 2rem;
   border-radius: 8px;
@@ -450,28 +545,53 @@ fieldset {
 
 .control label {
   display: block;
+  visibility: visible;
   position: absolute;
   top: -8px;
   left: 8px;
-  font-size: 0.8rem;
+  font-size: 1.4rem;
   margin-bottom: 0.2rem;
   color: var(--text-main);
   text-transform: uppercase;
   font-weight: bold;
   padding: 0 2px;
-  background: linear-gradient(var(--bg-main), #f7eee9ed);
+  background: #fcf1e9;
+  z-index: 3;
 }
 
 .control input {
   display: block;
   width: 100%;
-  max-width: 22rem;
+  max-width: 400px;
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.6rem;
   border-radius: 4px;
   border: 1px solid var(--disabled-color);
   background-color: inherit;
   color: var(--text-link);
+}
+
+.control .input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.control .password-toggle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: 8px;
+  cursor: pointer;
+  background-color: inherit;
+  outline: none;
+  border: none;
+  color: var(--text-link);
+}
+
+.control .password-toggle:hover {
+  color: var(--primary-dark);
 }
 
 .control select {
@@ -479,7 +599,7 @@ fieldset {
   width: 100%;
   max-width: 22rem;
   padding: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.6rem;
   border-radius: 4px;
   border: 1px solid var(--disabled-color);
   background-color: inherit;
@@ -512,28 +632,39 @@ fieldset {
 
 .control-error {
   color: var(--error);
-  font-size: 0.7rem;
+  font-size: 1.2rem;
   height: 1.5rem;
   padding: 0.5rem 0;
   text-align: left;
 }
 
 .control-error p {
+  width: 100%;
   margin: 0;
+  text-align: left;
 }
 
 .control-column,
 .control-row {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 1rem;
+  gap: 1.6rem;
+}
+
+.forms-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form-actions {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 1.6rem;
 }
 
 .form-actions .button {
@@ -576,7 +707,7 @@ fieldset {
 .stats-container {
   display: grid;
   grid-template-columns: 1fr; /* Una colonna sola su mobile */
-  gap: 20px;
+  gap: 2rem;
   padding: 15px;
 }
 
@@ -584,6 +715,10 @@ fieldset {
   .stats-container {
     grid-template-columns: repeat(3, 1fr); /* Tre colonne su desktop */
   }
+}
+
+.stats-header h2 {
+  text-transform: uppercase;
 }
 
 .chart-wrapper {
@@ -601,7 +736,7 @@ fieldset {
 .grid-container,
 .stats-grid {
   display: grid;
-  gap: 20px;
+  gap: 2rem;
   margin-bottom: 30px;
 }
 
@@ -670,7 +805,7 @@ fieldset {
 }
 
 .stats-title {
-  font-size: 1.25rem;
+  font-size: 1.9rem;
   color: var(--text-title);
   text-transform: uppercase;
   margin: 6px 0;
@@ -678,7 +813,7 @@ fieldset {
 
 .stats-value {
   margin: 6px 0;
-  font-size: 1.15rem;
+  font-size: 1.8rem;
 }
 
 .stats-counter .stats-value {
@@ -705,15 +840,27 @@ fieldset {
 }
 .charts-main-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* 2 parti alla linea, 1 parte alla torta */
-  gap: 20px;
+  gap: 2rem;
   align-items: start;
 }
 
-@media (max-width: 1024px) {
-  .charts-main-grid {
+.charts-main-grid.two-on-one {
+  grid-template-columns: 2fr 1fr; /* 2 parti alla linea, 1 parte alla torta */
+}
+
+.charts-main-grid.one-on-two {
+  grid-template-columns: 1fr 2fr;
+}
+
+@media (max-width: 992px) {
+  .charts-main-grid.two-on-one,
+  .charts-main-grid.one-on-two {
     grid-template-columns: 1fr; /* Una sopra l'altra su tablet/mobile */
   }
+}
+
+.pie-chart-section {
+  position: relative;
 }
 
 .pie-wrapper {
@@ -757,7 +904,7 @@ fieldset {
   color: white;
   padding: 5px 15px;
   border-radius: 50px;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 10px;
 }

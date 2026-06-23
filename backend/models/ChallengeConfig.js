@@ -39,8 +39,8 @@ const ChallengeConfigSchema = new mongoose.Schema(
     amounts: [AmountSchema],
 
     // LO STATO DELLA CHALLENGE
-    isAvailable: { type: Boolean, require: true },
-    isCompleted: { type: Boolean, require: false },
+    isAvailable: { type: Boolean, default: true },
+    isCompleted: { type: Boolean, default: false },
 
     //LO STILE DELLA CHALLENGE
     color: { type: String, default: "#D2691E" }, // Il colore della sfida per i grafici

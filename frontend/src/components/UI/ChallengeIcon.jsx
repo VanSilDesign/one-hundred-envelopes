@@ -3,7 +3,7 @@ import EnvelopeCustomIcon from "./EnvelopeCustomIcon";
 
 const iconMap = {
   // Mappa le tue icone personalizzate con nomi a tua scelta
-  "envelope": EnvelopeCustomIcon,
+  envelope: EnvelopeCustomIcon,
   "logo-app": EnvelopeCustomIcon,
   // Puoi aggiungere quante icone vuoi
 };
@@ -11,6 +11,7 @@ const iconMap = {
 export default function ChallengeIcon({
   iconName,
   color,
+  filter = "none",
   size = 24,
   className,
 }) {
@@ -34,6 +35,7 @@ export default function ChallengeIcon({
   return (
     <IconComponent
       color={color}
+      filter={filter}
       size={size}
       className={className}
       strokeWidth={1.5}

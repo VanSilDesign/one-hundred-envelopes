@@ -17,7 +17,7 @@ export default function SuccessModal({
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ["#8F3A2B", "#E8A593", "#F8AF84", "#FFF8F2"],
+          colors: ["#8f3a2b", "#e8a593", "#f8af84", "#fff8f2"],
         });
       }, 100);
       return () => clearTimeout(timer);

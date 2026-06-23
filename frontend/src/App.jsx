@@ -15,25 +15,36 @@ import PrivateRoute from "./components/PrivateRoute.jsx";
 import BottomNavbar from "./components/navbar/BottomNavbar.jsx";
 
 // Pages
-import HomePage from "./components/Homepage.jsx";
+import HomePage from "./components/HomePage.jsx";
 import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage";
 import ResetPassword from "./components/ResetPassword.jsx";
+import ForgotPassword from "./components/ForgotPassword.jsx";
 import DashboardPage from "./components/DashboardPage.jsx"; // La tua nuova Dashboard a quadratini
-import Settings from "./components/Settings.jsx";
 import StatsLayout from "./components/stats/StatsLayout.jsx";
 import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
+// User Pages
+import UserSettings from "./components/user/UserSettings.jsx";
+import Settings from "./components/Settings.jsx";
+import BadgesPage from "./components/user/BadgesPage.jsx";
+import VerifyEmail from "./components/user/VerifyEmail.jsx";
+
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
-import ForgotPassword from "./components/ForgotPassword.jsx";
 
 function App() {
+
   const { user, isLoading } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [error, setError] = useState(null);
 
-  if (isLoading) return <div className="loader">Caricamento...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <p>Caricamento...</p>
+      </div>
+    );
 
   return (
     <Router>
@@ -90,11 +101,33 @@ function App() {
             }
           />
 
+          {/* User Setting */}
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute user={user}>
+                <UserSettings />
+              </PrivateRoute>
+            }
+          />
+
+          <Route path="/verify-email/:token" element={<VerifyEmail />} />
+
           <Route
             path="/settings"
             element={
               <PrivateRoute user={user}>
                 <Settings />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/badges"
+            element={
+              <PrivateRoute user={user}>
+                <BadgesPage />
               </PrivateRoute>
             }
           />

@@ -40,7 +40,7 @@
   background: none;
   border: none;
   color: #fff8f2;
-  font-size: 2rem;
+  font-size: 3.2rem;
   cursor: pointer;
 }
 
@@ -56,7 +56,7 @@
 .sidebar-nav a {
   color: #5d5755;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1.8rem;
 }
 
 .logout-btn {
