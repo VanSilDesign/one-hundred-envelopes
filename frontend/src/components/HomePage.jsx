@@ -28,7 +28,7 @@ export default function HomePage({ user }) {
     fetchChallenge();
   }, [fetchChallenge]);
 
-  if (loading) return <div className="loader">Caricamento...</div>;
+  if (loading) return <div><p>Caricamento...</p></div>;
 
   // Se l'utente non ha ancora creato una sfida (es. primo accesso)
   if (!challenge) {

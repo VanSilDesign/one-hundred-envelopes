@@ -1,9 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import apiAxios from "../api/axiosConfig.js";
 import { useState } from "react";
 import Input from "./UI/Input";
 import useInput from "../hooks/useInput";
-import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
+import { isNotEmpty, hasMinLength } from "../util/validation.js";
 
 const ResetPassword = () => {
   const { token } = useParams(); // Prende il codice segreto dall'URL
@@ -32,14 +32,14 @@ const ResetPassword = () => {
 
     try {
       // Mandiamo la nuova password alla rotta del backend che abbiamo scritto prima
-      const response = await axios.post(
-        `http://localhost:3000/api/auth/reset-password/${token}`,
+      const response = await apiAxios.post(
+        `/api/auth/reset-password/${token}`,
         {
           password: password,
         },
       );
 
-      console.log("response", response);
+      //console.log("response", response);
 
       alert("Password aggiornata! Ora puoi fare il login.");
       navigate("/login");
@@ -55,7 +55,7 @@ const ResetPassword = () => {
       <form onSubmit={handleSubmit}>
         <div className="control-column">
           <Input
-            label="Password"
+            label="Password*"
             id="confirm-password"
             type="password"
             name="confirmPassword"
@@ -65,7 +65,7 @@ const ResetPassword = () => {
             error={passwordHasError && "Please enter a valid password!"}
           />
           <Input
-            label="Conferma Password"
+            label="Conferma Password*"
             id="password"
             type="password"
             name="password"
@@ -74,10 +74,10 @@ const ResetPassword = () => {
             value={confirmPassword}
             error={confirmPasswordHasError && "Please enter a valid password!"}
           />
-          <p className="form-actions">
+          <div className="form-actions">
             <button className="button button-flat">Annulla</button>
             <button className="button">Salva</button>
-          </p>
+          </div>
         </div>
       </form>
       {message && <p>{message}</p>}

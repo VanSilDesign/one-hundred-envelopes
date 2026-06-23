@@ -49,7 +49,7 @@ const statsRouter = require("./app/routes/api/stats");
 
 // --- ROTTE ---
 app.use("/api/auth", authRouter);
-app.use("/api/user", isLoggedIn, userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/numbers", numberRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/stats", statsRouter);

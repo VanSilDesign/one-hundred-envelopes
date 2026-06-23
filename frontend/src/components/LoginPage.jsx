@@ -4,7 +4,7 @@ import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "./UI/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext.jsx";
-import axios from "axios";
+import apiAxios from "../api/axiosConfig.js";
 
 export default function LoginPage() {
   const navigate = useNavigate(); // Inizializza il navigatore
@@ -59,8 +59,8 @@ export default function LoginPage() {
       */
 
       //METODO CON AXIOS
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
+      const response = await apiAxios.post(
+        "/api/auth/login",
         {
           email: emailValue, // Assicurati che il server ora legga "email" e non "username"
           password: passwordValue,
@@ -89,15 +89,12 @@ export default function LoginPage() {
   return (
     <div className="form-wrapper">
       <div className="form-modal">
-        <div className="main-logo">
-          <img src="/path/to/heart-envelope.png" alt="App Logo" />
-        </div>
-
         <h2>Login</h2>
+        <p>Accedi per vedere i tuoi progressi</p>
         <form onSubmit={handleSubmit}>
           <div className="control-column">
             <Input
-              label="Email"
+              label="Email*"
               id="email"
               type="email"
               name="email"
@@ -107,7 +104,7 @@ export default function LoginPage() {
               error={emailHasError && "Please enter a valid email!"}
             />
             <Input
-              label="Password"
+              label="Password*"
               id="password"
               type="password"
               name="password"
@@ -129,18 +126,19 @@ export default function LoginPage() {
           <Link to="/forgot-password">Hai dimenticato la password?</Link>
         </p>
         <div className="separator">
-          <span>or</span>
+          <span>o</span>
         </div>
         <div className="social-logins">
           {/* Assicurati di avere le rotte del backend per questi */}
-          <a href="http://localhost:3000/api/auth/google" className="button social-button google">
-           Login with Google
+          <a href="/api/auth/google" className="button social-button google">
+            Login with Google
           </a>
         </div>
         <p className="footer-text">
-          By clicking login, you agree to our <Link to="/terms">Terms of Service</Link> and <Link to="/privacy">Privacy Policy</Link>
+          By clicking login, you agree to our{" "}
+          <Link to="/terms">Terms of Service</Link> and{" "}
+          <Link to="/privacy">Privacy Policy</Link>
         </p>
-        
       </div>
     </div>
   );

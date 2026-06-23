@@ -1,0 +1,240 @@
+.settings-container {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.settings-header,
+.settings-menu {
+  width: 100%;
+  max-width: 100%;
+}
+
+.settings-header h2 {
+    margin-top: 0;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-placeholder {
+  width: 54px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8e8e1;
+  border-radius: 50%;
+  border: 1px solid #e8a593;
+  margin-right: 12px;
+}
+
+.avatar-placeholder svg {
+  width: 24px;
+  height: 24px;
+  max-width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .settings-container {
+    max-width: 100%;
+  }
+
+  .avatar-placeholder {
+    width: 78px;
+    height: 64px;
+  }
+
+  .avatar-placeholder svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.profile-info {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.profile-info h3 {
+  position: relative;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-top: 6px;
+}
+
+.profile-info h3 span.badge-user {
+  /* position: absolute;
+  top: -6px; */
+  font-size: 1.2rem;
+  text-transform: capitalize;
+  border-radius: 16px;
+  padding: 4px;
+  background-color: rgba(143, 58, 43, 0.3);
+  border: 1px solid rgba(205, 134, 96, 0.4);
+}
+
+.quick-actions {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-end;
+}
+
+.quick-actions svg {
+  margin-right: 6px;
+}
+
+.quick-actions .logout-icon {
+  color: #8f3a2b;
+}
+
+.settings-menu {
+  margin: 24px 0 0;
+}
+
+.menu-item {
+  cursor: pointer;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  padding: 4px;
+  text-decoration: none;
+}
+
+.menu-item button {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  background: transparent;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: baseline;
+  padding: 0;
+  font-family: "Lato", system-ui, -apple-system, sans-serif;;
+}
+
+.menu-item button.menu-text h4 {
+  font-weight: 700;
+  color: #4a4a4a;
+}
+
+.menu-item:hover button.menu-text h4 {
+  color: #8f3a2b;
+}
+
+.menu-item:hover {
+  background: rgb(141, 131, 125, 0.2);
+  text-decoration: none;
+}
+
+.menu-item.verified {
+  cursor: auto;
+}
+
+.menu-item.verified:hover {
+  background: transparent;
+}
+
+.menu-item svg {
+  color: rgba(141, 131, 125, 0.4);
+}
+
+.menu-text h4 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 4px 0;
+  color: inherit;
+}
+
+.menu-item p {
+  font-size: 1.2rem;
+  color: #8d837d;
+  margin: 6px 0;
+}
+
+@media screen and (min-width: 768px) {
+  .menu-item {
+    height: auto;
+    padding: 8px;
+  }
+  .menu-text h4 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 4px 0;
+  }
+  .menu-item p {
+    font-size: 1.4rem;
+    color: #8d837d;
+    margin: 6px 0;
+  }
+}
+
+.details-section {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.details-section h3 {
+  font-size: 1.4rem;
+  margin: 4px 0;
+}
+
+.detail-field {
+  width: 100%;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(141, 131, 125, 0.2);
+  border-radius: 4px;
+  margin-bottom: 12px;
+  padding: 6px 4px;
+}
+
+.detail-field label {
+  font-size: 1.4rem;
+  color: #8d837d;
+}
+
+.detail-field input {
+  font-size: 1.2rem;
+  color: #8d837d;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+@media screen and (min-width: 768px) {
+.details-section h3 {
+  font-size: 1.6rem;
+}
+  .detail-field {
+    width: 100%;
+    height: auto;
+    padding: 8px;
+  }
+
+  .detail-field label {
+    font-size: 1.6rem;
+  }
+
+  .detail-field input {
+    font-size: 1.2rem;
+  }
+}

@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const DbConnection = require("../../config/db-connection");
 const passport = require("../../config/passport-config");
 const authController = require("../../controllers/authController.js"); //così richiamo il modulo
+const isLoggedIn = require("../../middleware/is-logged-in.js");
 //const { forgotPassword } = require("../../controllers/authController.js"); //così richiamo la funzione, in questo caso sotto "authController."" non ci va
 
 router.post("/register-admin", async (req, res) => {
@@ -96,6 +97,10 @@ router.post("/login", (req, res, next) => {
 
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/reset-password/:token", authController.resetPassword);
+
+router.post("/register", authController.register);
+router.get("/verify-email/:token", authController.verifyEmail);
+router.post("/send-verification", authController.sendVerificationEmail);
 
 // Rotta che fa partire il login con Google
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));

@@ -1,16 +1,13 @@
 import { useState } from "react";
 import useInput from "../hooks/useInput.jsx";
-import {
-  isEmail,
-  isNotEmpty,
-  hasMinLength,
-  isEqualsToOtherValue,
-} from "../util/validation";
+import { isEmail, isNotEmpty, hasMinLength } from "../util/validation";
 import Input from "./UI/Input";
 import { Link, useNavigate } from "react-router-dom";
+import apiAxios from "../api/axiosConfig.js";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const {
@@ -28,36 +25,52 @@ export default function RegisterPage() {
   } = useInput("", (value) => hasMinLength(value, 8) && isNotEmpty(value));
 
   const {
-    value: confirmPasswordValue,
-    handleInputChange: handleconfirmPasswordChange,
-    handleInputBlur: handleconfirmPasswordBlur,
-    hasError: confirmPasswordHasError,
-  } = useInput(
-    "",
-    (value) =>
-      hasMinLength(value, 8) && isNotEmpty(value) && value === passwordValue,
-  );
+    value: usernameValue,
+    handleInputChange: handleUsernameChange,
+    handleInputBlur: handleUsernameBlur,
+    hasError: usernameHasError,
+  } = useInput("", (value) => isNotEmpty(value));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Validazione pre-invio
+    if (
+      emailHasError ||
+      passwordHasError ||
+      usernameHasError ||
+      !usernameValue
+    ) {
+      alert("Controlla i dati inseriti!");
+      return;
+    }
+    setLoading(true);
+
     try {
-      const response = await fetch(
-        "/api/auth/register-admin",
-        {
-          method: "POST",
-          headers: { "Content-type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            email: emailValue,
-            password: passwordValue,
-          }),
-        },
-      );
+      /* const response = await fetch("/api/auth/register-admin", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email: emailValue,
+          password: passwordValue,
+        }),
+      });
 
-      const data = await response.json();
+      const data = await response.json(); */
 
-      if (response.ok) {
+      const formData = {
+        username: usernameValue,
+        email: emailValue,
+        password: passwordValue,
+      };
+
+      const response = await apiAxios.post("/api/auth/register", formData);
+
+      if (response.status === 201) {
+        alert(
+          "Account creato! 🐷 Abbiamo preparato la tua prima sfida. Controlla la mail per sbloccare il tuo badge!",
+        );
         navigate("/login");
       } else {
         setError(data.message || "Registrazione fallita");
@@ -70,11 +83,22 @@ export default function RegisterPage() {
   return (
     <div className="form-modal">
       <form onSubmit={handleSubmit}>
-        <h2>Register your account</h2>
+        <h2>Registra il tuo account</h2>
+        <p>Tutti i campi con * sono obbligatori</p>
 
         <div className="control-row">
           <Input
-            label="Email"
+            label="Username*"
+            id="username"
+            type="text"
+            name="username"
+            onBlur={handleUsernameBlur}
+            onChange={handleUsernameChange}
+            value={usernameValue}
+            error={usernameHasError && "Lo username non può essere vuoto!"}
+          />
+          <Input
+            label="Email*"
             id="email"
             type="email"
             name="email"
@@ -84,7 +108,7 @@ export default function RegisterPage() {
             error={emailHasError && "Please enter a valid email!"}
           />
           <Input
-            label="Password"
+            label="Password*"
             id="password"
             type="password"
             name="password"
@@ -93,25 +117,31 @@ export default function RegisterPage() {
             value={passwordValue}
             error={passwordHasError && "Please enter a valid password!"}
           />
-          <Input
-            label="Confirm Password"
-            id="confirm-password"
-            type="password"
-            name="confirm-password"
-            onBlur={handleconfirmPasswordBlur}
-            onChange={handleconfirmPasswordChange}
-            value={confirmPasswordValue}
-            error={confirmPasswordHasError && "Please enter a valid password!"}
-          />
         </div>
 
         <p className="form-actions">
-          <button className="button">Signup</button>
+          <button className="button" disabled={loading}>
+            {loading ? "Caricamento..." : "Registrati"}
+          </button>
         </p>
       </form>
       <p>
-        Already have an account? <Link to="/login">Signin</Link>
+        Hai già un account? <Link to="/login">Accedi</Link>
       </p>
+      <div className="separator">
+          <span>o</span>
+        </div>
+        <div className="social-logins">
+          {/* Assicurati di avere le rotte del backend per questi */}
+          <a href="/api/auth/google" className="button social-button google">
+            Register with Google
+          </a>
+        </div>
+        <p className="footer-text">
+          By clicking login, you agree to our{" "}
+          <Link to="/terms">Terms of Service</Link> and{" "}
+          <Link to="/privacy">Privacy Policy</Link>
+        </p>
     </div>
   );
 }
