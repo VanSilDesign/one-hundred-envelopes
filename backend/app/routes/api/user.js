@@ -1,28 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const { ObjectId } = require("mongodb");
-const DbConnection = require("../../config/db-connection");
+const isLoggedIn = require('../../middleware/is-logged-in.js');
+const userController = require('../../controllers/userController.js');
 
-router.get("/get", async (req, res) => {
-  const userId = req.user?._id || req.session?.passport?.user;
+// 1. Rotte PUBBLICHE (se ne avrai) vanno qui sopra
+// router.get('/leaderboard', userController.getPublicStats);
 
-  if (!userId) {
-    return res.status(401).json({ message: "Utente non autorizzato" });
-  }
-  try {
-    const user = await DbConnection.userCollection.findOne({
-      _id: new ObjectId(userId),
-    });
+// 2. Applichi il middleware a TUTTO quello che segue
+router.use(isLoggedIn);
 
-    // console.log("Settings User caricato dal DB:", user.settings);
+// 3. Da qui in poi, tutte le rotte sono automaticamente protette
+router.get('/me', userController.getMe);
 
-    return res.status(200).json(user.settings || {});
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Errore interno al server",
-    });
-  }
-});
+// 4. Carica autonomamente la lista dei badges
+router.get('/my-badges', userController.getMyBadges);
 
 module.exports = router;

@@ -1,0 +1,54 @@
+/* BadgesPage.css */
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.2rem;
+}
+
+.badge-card .badge-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 170px;
+}
+
+/* .badge-card.locked .badge-icon {
+  filter: grayscale(1) opacity(0.4);
+}
+
+.badge-card.unlocked .badge-icon {
+  filter: grayscale(0) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+}
+
+.badge-card.unlocked:hover {
+  filter: drop-shadow(0 6px 12px var(--peach-color));
+} */
+
+/* Badge non sbloccato: Grigio e piatto */
+.badge-card.locked .badge-icon {
+  filter: grayscale(1) contrast(0.8) opacity(0.5);
+  transition: filter 0.5s ease;
+}
+
+/* Badge sbloccato: Colore pieno e profondità */
+.badge-card.unlocked .badge-icon {
+  filter: grayscale(0) drop-shadow(0 5px 15px rgba(255, 127, 80, 0.4)); /* Ombra color pesca/corallo */
+  /* animation: unlockAnimation 0.6s ease-out; */
+}
+
+@keyframes unlockAnimation {
+  0% {
+    transform: scale(0.8);
+    brightness: 2;
+  }
+  100% {
+    transform: scale(1);
+    brightness: 1;
+  }
+}
+
+.badge-name {
+  text-align: center;
+}
