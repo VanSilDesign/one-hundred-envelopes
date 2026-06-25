@@ -35,7 +35,7 @@ const ResetPassword = () => {
       const response = await apiAxios.post(
         `/api/auth/reset-password/${token}`,
         {
-          password: password,
+          password,
         },
       );
 
@@ -56,9 +56,9 @@ const ResetPassword = () => {
         <div className="control-column">
           <Input
             label="Password*"
-            id="confirm-password"
+            id="password"
             type="password"
-            name="confirmPassword"
+            name="password"
             onBlur={handlePasswordBlur}
             onChange={handlePasswordChange}
             value={password}
@@ -68,7 +68,7 @@ const ResetPassword = () => {
             label="Conferma Password*"
             id="password"
             type="password"
-            name="password"
+            name="confirmPassword"
             onBlur={handleConfirmPasswordBlur}
             onChange={handleConfirmPasswordChange}
             value={confirmPassword}

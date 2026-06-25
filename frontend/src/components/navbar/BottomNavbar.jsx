@@ -18,7 +18,7 @@ export default function BottomNavbar() {
         </NavLink>
 
         <NavLink
-          to="/stats"
+          to="/user/stats"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -28,7 +28,7 @@ export default function BottomNavbar() {
         </NavLink>
 
         <NavLink
-          to="/challenges"
+          to="/user/challenges"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -38,7 +38,7 @@ export default function BottomNavbar() {
         </NavLink>
 
         <NavLink
-          to="/profile"
+          to="/user/profile"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }

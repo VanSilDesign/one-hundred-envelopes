@@ -47,11 +47,15 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        // Mongoose findOne
-        const user = await User.findOne({ email: email });
+        // Mongoose findOne e chiediamo esplicitamente a Mongoose di includere la password nel risultato
+        const user = await User.findOne({ email: email }).select("+password");
         
         if (!user) {
           return done(null, false, { message: "Utente non trovato." });
+        }
+
+        if (!user.password) {
+          return done(null, false, { message: "Questo account utilizza l'autenticazione Google." });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -75,7 +79,7 @@ passport.serializeUser((user, done) => {
 // 4. Deserializzazione (Recupera l'utente dall'ID nella sessione)
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id); // Molto più semplice con Mongoose!
+    const user = await User.findById(id); 
     done(null, user);
   } catch (err) {
     done(err);

@@ -2,19 +2,17 @@ import { useState, useEffect } from "react";
 import apiAxios from "../../api/axiosConfig.js";
 import "./BadgesPage.css";
 
-export default function BadgesPage() {
+function BadgesPage() {
   const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchBadges = async () => {
       try {
         const response = await apiAxios.get("/api/user/my-badges");
         console.log(response.data);
-        
+
         setBadges(response.data);
-        
       } catch (err) {
         console.error("Errore fetch badges", err);
       } finally {
@@ -25,7 +23,12 @@ export default function BadgesPage() {
     fetchBadges();
   }, []);
 
-  if (loading) return <div><p>Sto lucidando le medaglie...</p></div>;
+  if (loading)
+    return (
+      <div>
+        <p>Sto lucidando le medaglie...</p>
+      </div>
+    );
 
   return (
     <div className="badges-container">
@@ -50,4 +53,26 @@ export default function BadgesPage() {
       </div>
     </div>
   );
+}
+
+export default BadgesPage;
+
+
+export async function loader() {
+  try {
+    const response = await apiAxios.get("/user/badges");
+    return response.data;
+  } catch (error) {
+    // 🧠 AGGIRIAMO L'INTERCETTORE:
+    // Avendo messo il try/catch qui, l'errore lanciato da Axios viene "catturato" qui dentro
+    // prima che possa raggiungere il raggio d'azione globale di React Router.
+
+    console.log("Gestisco l'errore localmente per i badge...");
+
+    // Invece di fare il throw, ritorniamo un valore di fallback sicuro!
+    return {
+      badges: [],
+      errorNotice: "Impossibile caricare i badge al momento.",
+    };
+  }
 }

@@ -168,9 +168,12 @@ exports.resetPassword = async (req, res) => {
       return res.status(400).json({ message: "Token non valido o scaduto" });
     }
 
-    // 2. Usiamo BCRYPT per la nuova password scelta dall'utente
+    // ATTENZIONE!!!! Avendo inserito nello Schema di User.js il userSchema.pre('save') non ho più bisogno di criptare la password qui,
+    // ma lo faccio direttamente pre-salvataggio
+
+    /* // 2. Usiamo BCRYPT per la nuova password scelta dall'utente
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(req.body.password, salt);
+    user.password = await bcrypt.hash(req.body.password, salt); */
 
     // 3. Puliamo i campi del token così non può più essere riutilizzato
     user.resetPasswordToken = undefined;
@@ -200,8 +203,12 @@ exports.register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Email o Username esistenti." });
     }
+
+    // ATTENZIONE!!!! Avendo inserito nello Schema di User.js il userSchema.pre('save') non ho più bisogno di criptare la password qui,
+    // ma lo faccio direttamente pre-salvataggio
+
     // 2. Hash Password e creazione Token di verifica
-    const hashedPassword = await bcrypt.hash(password, 12);
+    //const hashedPassword = await bcrypt.hash(password, 12);
     const vToken = crypto.randomBytes(32).toString("hex");
 
     // 3. Crea la serie di badges da completare
@@ -239,7 +246,7 @@ exports.register = async (req, res) => {
     const newUser = new User({
       username,
       email,
-      password: hashedPassword,
+      password,
       verificationToken: vToken,
       isVerified: false,
       badges: defaultBadges,

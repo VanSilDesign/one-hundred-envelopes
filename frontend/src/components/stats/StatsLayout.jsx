@@ -63,8 +63,7 @@ function StatsLayout() {
   }, []);
 
   if (loading) return <div><p>Caricamento statistiche...</p></div>;
-  if (!userData) return <div><p>Impossibile caricare le statistiche.</p></div>;
-
+  
   return (
     <div className="stats-layout">
       <header className="stats-header">

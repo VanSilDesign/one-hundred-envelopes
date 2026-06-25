@@ -24,10 +24,9 @@ export default function UserSettings() {
 
   const handleRequestVerification = async () => {
     try {
-    
       const response = await apiAxios.post("/api/auth/send-verification");
       console.log(response);
-      
+
       alert("Controlla la tua posta! Ti abbiamo inviato il link.");
     } catch (err) {
       console.error("handleRequestVerification Errore nell'invio:", err);
@@ -57,8 +56,9 @@ export default function UserSettings() {
       </header>
 
       <section className="settings-menu">
-
-        <div className={`menu-item ${user.isVerified ? "verified" : "unverified"}`}>
+        <div
+          className={`menu-item ${user.isVerified ? "verified" : "unverified"}`}
+        >
           <button onClick={handleRequestVerification} className="menu-text">
             <h4>
               {user.isVerified ? "Account Verified" : "Verify your account"}
@@ -84,15 +84,15 @@ export default function UserSettings() {
           <ChevronRight size={20} />
         </div>
 
-        <div className="menu-item">
-          <div className="menu-text">
-            <h4>Change Password</h4>
-            <p>Change your password</p>
-          </div>
-          <ChevronRight size={20} />
-        </div>
+        <Link to="/user/profile/change-password" className="menu-item">
+            <div className="menu-text">
+              <h4>Change Password</h4>
+              <p>Change your password</p>
+            </div>
+            <ChevronRight size={20} />
+        </Link>
 
-        <Link to="/badges" className="menu-item">
+        <Link to="/user/profile/badges" className="menu-item">
           <div className="menu-text">
             <h4>Your badges</h4>
             <p>{user.badges.length} badges earned</p>
@@ -100,7 +100,7 @@ export default function UserSettings() {
           <ChevronRight size={20} />
         </Link>
 
-        <Link to="/settings" className="menu-item">
+        <Link to="/user/profile/settings" className="menu-item">
           <div className="menu-text">
             <h4>Change Settings</h4>
             <p>Choose different settings for your challenges</p>

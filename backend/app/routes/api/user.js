@@ -15,4 +15,6 @@ router.get('/me', userController.getMe);
 // 4. Carica autonomamente la lista dei badges
 router.get('/my-badges', userController.getMyBadges);
 
+router.put("/update-password", userController.updatePassword);
+
 module.exports = router;

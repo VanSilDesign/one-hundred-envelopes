@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const AmountSchema = new mongoose.Schema({
+const amountSchema = new mongoose.Schema({
   value: { type: Number, required: true },
   active: { type: Boolean, required: true },
   isOpened: { type: Boolean, required: false },
@@ -9,7 +9,7 @@ const AmountSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const ChallengeConfigSchema = new mongoose.Schema(
+const challengeConfigSchema = new mongoose.Schema(
   {
     // IDENTITA' DELLA CHALLENGE
     userId: {
@@ -36,7 +36,7 @@ const ChallengeConfigSchema = new mongoose.Schema(
     },
 
     // IL RISULTATO FINALE
-    amounts: [AmountSchema],
+    amounts: [amountSchema],
 
     // LO STATO DELLA CHALLENGE
     isAvailable: { type: Boolean, default: true },
@@ -50,4 +50,4 @@ const ChallengeConfigSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("ChallengeConfig", ChallengeConfigSchema);
+module.exports = mongoose.model("ChallengeConfig", challengeConfigSchema);

@@ -21,6 +21,7 @@ import UserSettings from "./components/user/UserSettings.jsx";
 import Settings from "./components/Settings.jsx";
 import BadgesPage from "./components/user/BadgesPage.jsx";
 import VerifyEmail from "./components/user/VerifyEmail.jsx";
+import ChangePassword from "./components/user/ChangePassword.jsx";
 
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
@@ -46,13 +47,18 @@ function App() {
           children: [
             { path: "dashboard", element: <DashboardPage /> },
             { path: "history", element: <EnvelopesHistory /> },
-            { path: "profile", element: <UserSettings /> },
-            { path: "badges", element: <BadgesPage /> },
+            {
+              path: "profile",
+              children: [
+                { index: true, element: <UserSettings /> },
+                { path: "badges", element: <BadgesPage /> },
+                { path: "setting", element: <Settings /> },
+                { path: "change-password", element: <ChangePassword /> },
+              ],
+            },
+            { path: "stats", element: <StatsLayout /> },
           ],
         },
-        { path: "setting", element: <Settings /> },
-        { path: "stats", element: <StatsLayout /> },
-        { path: "setting", element: <Settings /> },
       ],
     },
   ]);
