@@ -8,6 +8,7 @@ const badgesSchema = new mongoose.Schema({
   isUnlocked: { type: Boolean, required: false },
   unlockedAt: { type: Date, default: null },
   path: { type: String, default: "" },
+  alt: {type: String, default: ""},
   createdAt: { type: Date, default: Date.now },
 });
 

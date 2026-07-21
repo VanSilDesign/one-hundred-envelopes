@@ -11,6 +11,7 @@ const MASTER_BADGES = [
     isUnlocked: false,
     unlockedAt: null,
     path: "/public/badges/verified-account.svg",
+    alt: "Badges per aver verificato l'account",
     createdAt: new Date(),
   },
   {
@@ -20,6 +21,7 @@ const MASTER_BADGES = [
     isUnlocked: false,
     unlockedAt: null,
     path: "/public/badges/first-number.svg",
+    alt: "Badge per il primo numero estratto",
     createdAt: new Date(),
   },
   {
@@ -29,6 +31,7 @@ const MASTER_BADGES = [
     isUnlocked: false,
     unlockedAt: null,
     path: "/public/badges/pro-saver.svg",
+    alt: "Badge per aver completato una sfida",
     createdAt: new Date(),
   },
 ];
