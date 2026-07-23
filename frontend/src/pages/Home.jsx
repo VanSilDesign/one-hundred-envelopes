@@ -46,6 +46,7 @@ export default function HomePage({ user }) {
 
   return (
     <div className="dashboard-container">
+      {!user && <div className="center"></div>}
       {user && (
         <div className="center">
           <p>Bentornato! Pronto a risparmiare?</p>
@@ -93,10 +94,18 @@ export default function HomePage({ user }) {
         </section>
       ) : (
         <div className="login-section center">
-          <p>Registrati per iniziare la tua sfida.</p>
-          <Link to="/login" className="button">
-            Login
-          </Link>
+          <p>
+            Se vuoi salvare le buste già aperte, sbloccare fantastici badge e
+            completare la tua sfida personale, effettua il login o registrati!
+          </p>
+          <div className="button-box">
+            <Link to="/login" className="button">
+              Login
+            </Link>
+            <Link to="/register" className="button">
+              Registrati
+            </Link>
+          </div>
         </div>
       )}
     </div>
