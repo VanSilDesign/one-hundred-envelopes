@@ -103,27 +103,39 @@ router.get("/verify-email/:token", authController.verifyEmail);
 router.post("/send-verification", authController.sendVerificationEmail);
 
 // Rotta che fa partire il login con Google
-router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] }),
+);
 
 // Rotta di callback dopo che Google ha autenticato l'utente
-router.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login?error=true' }),
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:5173/login?error=true",
+  }),
   (req, res) => {
     // Login riuscito, reindirizziamo al frontend (magari con un token o semplicemente alla home)
-    res.redirect('http://localhost:5173/'); 
-  }
+    res.redirect("http://localhost:5173/");
+  },
 );
 
 router.post("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) {
       return res.status(500).json({ message: "Errore nel logout." });
-
-      req.session.destroy();
-      res.clearCookie("connect.sid");
-      res.json({ message: "Logout effettuato" });
     }
-    res.redirect("/login");
+
+    req.session.destroy((err) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ message: "Errore nella distruzione della sessione." });
+      }
+    });
+
+    res.clearCookie("connect.sid");
+    res.status(200).json({ message: "Logout effettuato con successo." });
   });
 });
 

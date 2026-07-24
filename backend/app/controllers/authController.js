@@ -23,6 +23,7 @@ exports.sendVerificationEmail = async (req, res) => {
     // Generiamo il token qui, al momento del click
     const token = crypto.randomBytes(20).toString("hex");
 
+
     // Salviamo il token nell'utente
     user.verificationToken = token;
     await user.save();
@@ -179,6 +180,7 @@ exports.resetPassword = async (req, res) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpire = undefined;
 
+    user.password = req.body.password;
     await user.save();
 
     res.status(200).json({ message: "Password aggiornata con successo." });

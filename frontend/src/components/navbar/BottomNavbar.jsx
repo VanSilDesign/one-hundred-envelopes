@@ -1,8 +1,13 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { Home, ChartSpline, FolderOpen, User } from "lucide-react"; // Usiamo Lucide per icone moderne
 import "./BottomNavbar.css";
 
 export default function BottomNavbar() {
+  const {user} = useAuth();
+
+  if (!user) return null;
+
   return (
     <div className="bottom-nav">
       <div className="bottom-nav-container">

@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../components/context/AuthContext.jsx";
 
 // Layout & UI
 import Modal from "../components/modals/Modal.jsx";
@@ -10,6 +11,7 @@ import BottomNavbar from "../components/navbar/BottomNavbar.jsx";
 function RootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [error, setError] = useState(null);
+  //const { user } = useAuth();
 
   return (
     <>

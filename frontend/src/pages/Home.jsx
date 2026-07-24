@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
+import { useAuth } from "../components/context/AuthContext";
 import EnvelopesContainer from "../components/envelopes/EnvelopesContainer";
 import EnvelopesGridDisplay from "../components/envelopes/EnvelopesGridDisplay";
 import { Link } from "react-router-dom";
 
-export default function HomePage({ user }) {
+export default function HomePage() {
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
   // Funzione per caricare la sfida dal database
   const fetchChallenge = useCallback(async () => {

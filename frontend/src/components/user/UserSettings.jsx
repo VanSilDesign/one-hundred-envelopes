@@ -1,4 +1,4 @@
-import useAuth from "../../hooks/useAuth";
+import { useAuth } from "../context/AuthContext.jsx";
 import {
   User,
   Bell,
@@ -8,13 +8,20 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import "./UserSettings.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import apiAxios from "../../api/axiosConfig.js";
 
 export default function UserSettings() {
-  const { user, loading } = useAuth();
+  const { user, logout, isLoading } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-  if (loading)
+
+  if (isLoading)
     return (
       <div>
         <p>Caricamento...</p>
@@ -49,7 +56,9 @@ export default function UserSettings() {
             <div className="quick-actions">
               <Bell size={18} />
               <Globe size={18} />
-              <LogOut size={18} className="logout-icon" />
+              <button onClick={handleLogout}>
+                <LogOut size={18} className="logout-icon" />
+              </button>
             </div>
           </div>
         </div>
@@ -85,17 +94,17 @@ export default function UserSettings() {
         </div>
 
         <Link to="/user/profile/change-password" className="menu-item">
-            <div className="menu-text">
-              <h4>Change Password</h4>
-              <p>Change your password</p>
-            </div>
-            <ChevronRight size={20} />
+          <div className="menu-text">
+            <h4>Change Password</h4>
+            <p>Change your password</p>
+          </div>
+          <ChevronRight size={20} />
         </Link>
 
         <Link to="/user/profile/badges" className="menu-item">
           <div className="menu-text">
             <h4>Your badges</h4>
-            <p>{user.badges.length} badges earned</p>
+            <p>{user.badges?.length || 0} badges earned</p>
           </div>
           <ChevronRight size={20} />
         </Link>
