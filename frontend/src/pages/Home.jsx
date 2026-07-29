@@ -33,7 +33,7 @@ export default function HomePage() {
   if (loading)
     return (
       <div>
-        <p>Caricamento...</p>
+        <h2>Caricamento...</h2>
       </div>
     );
 

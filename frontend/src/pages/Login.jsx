@@ -1,9 +1,9 @@
 import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/context/AuthContext.jsx";
 import useInput from "../hooks/useInput.jsx";
 import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "../components/UI/Input.jsx";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/context/AuthContext.jsx";
 import apiAxios from "../api/axiosConfig.js";
 
 export default function LoginPage() {
@@ -98,6 +98,7 @@ export default function LoginPage() {
               id="email"
               type="email"
               name="email"
+              autoComplete="email"
               onBlur={handleEmailBlur}
               onChange={handleEmailChange}
               value={emailValue}
@@ -108,6 +109,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               name="password"
+              autoComplete="new-password"
               onBlur={handlePasswordBlur}
               onChange={handlePasswordChange}
               value={passwordValue}

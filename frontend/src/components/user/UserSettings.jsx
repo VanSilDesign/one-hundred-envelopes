@@ -14,12 +14,11 @@ import apiAxios from "../../api/axiosConfig.js";
 export default function UserSettings() {
   const { user, logout, isLoading } = useAuth();
   const navigate = useNavigate();
-  
+
   const handleLogout = () => {
     logout();
     navigate("/");
   };
-
 
   if (isLoading)
     return (
@@ -31,6 +30,7 @@ export default function UserSettings() {
 
   const handleRequestVerification = async () => {
     try {
+      console.log("handleRequestVerification");
       const response = await apiAxios.post("/api/auth/send-verification");
       console.log(response);
 

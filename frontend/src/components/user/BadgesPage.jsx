@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import apiAxios from "../../api/axiosConfig.js";
 import "./BadgesPage.css";
+import ImageWithSkeleton from "../UI/ImageWithSkeleton.jsx";
 
 function BadgesPage() {
   const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchBadges = async () => {
       try {
@@ -22,6 +22,12 @@ function BadgesPage() {
 
     fetchBadges();
   }, []);
+
+  /*  const { loading, badges, errror, data } = useQuery({
+    queryKey: ["badges"],
+    queryFn: () => apiAxios.then((res) => res.data),
+  });
+ */
 
   if (loading)
     return (
@@ -40,7 +46,7 @@ function BadgesPage() {
             className={`badge-card ${badge.isUnlocked ? "unlocked" : "locked"}`}
           >
             <div className="badge-icon-wrapper">
-              <img src={badge.path} alt={badge.name} className="badge-icon" />
+              <ImageWithSkeleton src={badge.path} alt={badge.name} className="badge-icon" />
             </div>
             <p className="badge-name">{badge.name}</p>
             {badge.unlockedAt && (

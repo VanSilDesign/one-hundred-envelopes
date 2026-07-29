@@ -1,18 +1,16 @@
-import { Outlet } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../../components/context/AuthContext";
 
 function UserLayout() {
-  const { user, loading } = useAuth();
+  const { user, isLoading } = useAuth();
+  console.log("UserLayout component", user);
 
-  if (loading) {
-    return <div>Caricamento layout...</div>;
+  if (isLoading) {
+    return <div>Verifica sessione in corso...</div>;
   }
 
   if (!user) {
-    throw new Response(
-      JSON.stringify({ message: "Effettua il login per vedere questa pagina." }), 
-      { status: 401 }
-    );
+    return <Navigate to="/login" replace/>
   }
 
   return (

@@ -23,6 +23,9 @@ exports.getMe = async (req, res) => {
 exports.getMyBadges = async (req, res) => {
   const userId = req.user?._id || req.session?.passport?.user;
 
+  console.log("My Badges userId", userId);
+  
+
   if (!userId) {
     return res.status(401).json({ message: "Sessione non valida o scaduta." });
   }

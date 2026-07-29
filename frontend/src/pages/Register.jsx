@@ -92,6 +92,7 @@ export default function RegisterPage() {
             id="username"
             type="text"
             name="username"
+            autoComplete="username"
             onBlur={handleUsernameBlur}
             onChange={handleUsernameChange}
             value={usernameValue}
@@ -102,6 +103,7 @@ export default function RegisterPage() {
             id="email"
             type="email"
             name="email"
+            autoComplete="email"
             onBlur={handleEmailBlur}
             onChange={handleEmailChange}
             value={emailValue}
@@ -112,6 +114,7 @@ export default function RegisterPage() {
             id="password"
             type="password"
             name="password"
+            autoComplete="new-password"
             onBlur={handlePasswordBlur}
             onChange={handlePasswordChange}
             value={passwordValue}

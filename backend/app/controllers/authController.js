@@ -4,6 +4,31 @@ const ChallengeConfig = require("../../models/ChallengeConfig.js");
 const transporter = require("../config/mailer.js");
 const bcrypt = require("bcryptjs");
 const { unlockBadge } = require("../../utils/badgeManager.js");
+const { log } = require("console");
+
+//Funzione di cancellazione token appena usato
+exports.clearVerificationToken = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const cleanToken = token ? token.trim() : "";
+    console.log("token da clearVerificationToken:", cleanToken);
+
+    if (cleanToken) {
+      await User.findOneAndUpdate(
+        { verificationToken: cleanToken },
+        { $unset: { verificationToken: "" } },
+      );
+      console.log("Token eliminato");
+    }
+
+    return res.status(200).json({ message: "Token eliminato con successo." });
+  } catch (error) {
+    console.log("Non è stato possibile rimuovere il token");
+    return res
+      .status(200)
+      .json({ message: "Token non rimosso ma procedi pure" });
+  }
+};
 
 // Funzione di invio verifica email
 exports.sendVerificationEmail = async (req, res) => {
@@ -13,22 +38,30 @@ exports.sendVerificationEmail = async (req, res) => {
       req.user?.id || req.session?.passport?.user,
     );
 
-    // ESTRAI QUI I DATI CHE TI SERVONO PER LA MAIL
+    if (!user) {
+      return res.status(404).json({ message: "Utente non trovato." });
+    }
+
     const { email, username } = user;
 
     if (user.isVerified) {
       return res.status(400).json({ message: "Sei già verificato!" });
     }
 
-    // Generiamo il token qui, al momento del click
-    const token = crypto.randomBytes(20).toString("hex");
+    // Salviamo il token nell'utente (se il token esiste riutilizziamo quello)
+    let token = user.verificationToken;
+    console.log(token);
 
-
-    // Salviamo il token nell'utente
-    user.verificationToken = token;
-    await user.save();
+    if (!token) {
+      token = crypto.randomBytes(32).toString("hex");
+      user.verificationToken = token;
+      await user.save();
+    }
 
     const verificationUrl = `http://localhost:5173/verify-email/${token}`;
+
+    console.log("user mail", email);
+    
 
     await transporter.sendMail({
       from: '"Saving App 🐷" <noreply@savingapp.com>',
@@ -50,7 +83,7 @@ exports.sendVerificationEmail = async (req, res) => {
   } catch (error) {
     console.log("sendVerificationEmail error", error);
     res.status(500).json({
-      message: "sendVerificationEmail Errore durante l'invio dell'email.",
+      message: "Errore durante l'invio dell'email.",
     });
   }
 };
@@ -59,36 +92,68 @@ exports.sendVerificationEmail = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
   try {
     const { token } = req.params;
-    console.log("verify email token", token);
+    const cleanToken = token ? token.trim() : "";
 
     // 1. Cerca l'utente con il token
-    const user = await User.findOne({ verificationToken: token });
-    console.log("User preso da token", user);
+    let user = await User.findOne({ verificationToken: cleanToken });
+
+    // 2. SE NON TROVA L'UTENTE:
     if (!user) {
-      return res.status(400).json({ message: "Token non valido o scaduto" });
+      console.log("Nessun utente trovato con un verificationToken nel DB!");
+      const userId = req.user?.id || req.session?.passport?.user;
+      if (userId) {
+        const existingUser = await User.findById(userId);
+        if (existingUser && existingUser.isVerified) {
+          return res.status(200).json({
+            message: "Email già verificata con successo!",
+            user: existingUser,
+          });
+        }
+      }
+
+      return res
+        .status(400)
+        .json({ message: "Token non valido o già utilizzato." });
     }
 
-    // 2. Aggiorna lo stato di verifica
+    // 3. Aggiorna il badge in modo Mongoose-safe
+    if (user.badges && user.badges.length > 0) {
+      const badge = user.badges.find((b) => b.id === 1);
+      if (badge && !badge.isUnlocked) {
+        badge.isUnlocked = true;
+        badge.unlockedAt = new Date();
+      }
+    }
+
     user.isVerified = true;
-    user.verificationToken = undefined;
-
-    // 3. Sblocca il badge direttamente nell'oggetto in memoria
-    // Cerchiamo il badge con ID 1 nell'array dell'utente
-    const badgeIndex = user.badges.findIndex((b) => b.id === 1);
-
-    if (badgeIndex !== -1 && !user.badges[badgeIndex].isUnlocked) {
-      user.badges[badgeIndex].isUnlocked = true;
-      user.badges[badgeIndex].unlockedAt = new Date();
-      // Comunichiamo a Mongoose che l'array è cambiato
-      user.markModified("badges");
-    }
+    // user.verificationToken = undefined; // Lo tolgo da qui perché altrimenti NON VA
 
     // 4. Salva tutto in un colpo solo (Verifica + Badge)
     await user.save();
 
-    res.status(200).json({
-      message: "Email verificata! Badge 'Account Verificato' sbloccato! 🏆",
-      user: user,
+    req.login(user, (err) => {
+      if (err) {
+        console.error("Errore nell'auto-login:", err);
+        return res
+          .status(500)
+          .json({ message: "Errore durante l'accesso automatico." });
+      }
+
+      // Salvataggio esplicito per evitare race condition prima della risposta
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error("Errore salvataggio sessione:", saveErr);
+          return res
+            .status(500)
+            .json({ message: "Errore nel salvataggio della sessione." });
+        }
+
+        console.log("Loggato con successo");
+        res.status(200).json({
+          message: "Email verificata! Badge 'Account Verificato' sbloccato! 🏆",
+          user: user,
+        });
+      });
     });
   } catch (error) {
     console.error("Errore verifica email:", error);
@@ -178,7 +243,7 @@ exports.resetPassword = async (req, res) => {
 
     // 3. Puliamo i campi del token così non può più essere riutilizzato
     user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    user.resetPasswordExpires = undefined;
 
     user.password = req.body.password;
     await user.save();
@@ -200,7 +265,7 @@ exports.register = async (req, res) => {
     const existingUser = await User.findOne({
       $or: [{ email }, { username }],
     });
-    //console.log(existingUser);
+    console.log(existingUser);
 
     if (existingUser) {
       return res.status(400).json({ message: "Email o Username esistenti." });
@@ -212,6 +277,7 @@ exports.register = async (req, res) => {
     // 2. Hash Password e creazione Token di verifica
     //const hashedPassword = await bcrypt.hash(password, 12);
     const vToken = crypto.randomBytes(32).toString("hex");
+    console.log("vToken", vToken);
 
     // 3. Crea la serie di badges da completare
     const defaultBadges = [
