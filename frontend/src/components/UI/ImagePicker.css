@@ -1,0 +1,52 @@
+
+
+#image-picker {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.select-image {
+  cursor: pointer;
+  background-color: #fff;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  outline: none;
+  border: none;
+}
+
+.select-image:hover {
+  color: #8f3a2b;
+}
+
+.image-picker-placeholder {
+  position: relative;
+  display: flex;
+  width: 12rem;
+  height: 12rem;
+  background-color: #f8e8e1;
+  border-radius: 50%;
+  border: 1px solid #e8a593;
+}
+
+@media screen and (min-width: 576px) {
+  .image-picker-placeholder {
+    width: 16rem;
+    height: 16rem;
+  }
+
+  .select-image {
+    width: 4rem;
+    height: 4rem;
+  }
+}

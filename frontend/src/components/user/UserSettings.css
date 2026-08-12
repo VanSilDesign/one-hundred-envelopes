@@ -14,10 +14,12 @@
 }
 
 .settings-header h2 {
-    margin-top: 0;
+    margin: 0;
+    text-transform: uppercase;
 }
 
 .profile-section {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -25,21 +27,18 @@
 }
 
 .avatar-placeholder {
-  width: 54px;
-  height: 48px;
+  width: 12rem;
+  height: 12rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8e8e1;
-  border-radius: 50%;
-  border: 1px solid #e8a593;
   margin-right: 12px;
 }
 
-.avatar-placeholder svg {
-  width: 24px;
-  height: 24px;
+.avatar-placeholder img {
   max-width: 100%;
+  border-radius: 50%;
+  border: 2px solid #e8a593;
 }
 
 @media screen and (min-width: 768px) {
@@ -48,14 +47,10 @@
   }
 
   .avatar-placeholder {
-    width: 78px;
-    height: 64px;
+    width: 16rem;
+    height: 16rem;
   }
 
-  .avatar-placeholder svg {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 .profile-info {

@@ -89,8 +89,9 @@ h4 {
 .button {
   cursor: pointer;
   display: inline-flex;
+  max-width: 100%;
   gap: 0.8rem;
-  font-size: 2.4rem;
+  font-size: 2rem;
   align-items: center;
   padding: 0.8rem 1.6rem;
   background-color: var(--primary-color);
@@ -126,6 +127,25 @@ h4 {
 }
 
 .button-flat {
+  background-color: var(--extra-bg);
+  border-color: var(--extra-bg);
+  color: var(--disabled-color);
+}
+
+.button-flat:hover {
+  background-color: var(--disabled-color);
+  border-color: var(--disabled-color);
+  color: var(--extra-bg);
+}
+
+.button-exit {
+  background-color: transparent;
+  border-color: transparent;
+  color: var(--disabled-color);
+  padding: 0;
+}
+
+.button-exit:hover {
   background-color: transparent;
   border-color: transparent;
   color: var(--disabled-color);
@@ -148,6 +168,10 @@ h4 {
   .envelopes-button {
     max-width: 576px;
     flex-flow: row;
+  }
+
+  .button {
+    font-size: 2.4rem;
   }
 }
 
@@ -482,15 +506,15 @@ section {
 /* Il contenitore deve adattarsi all'immagine */
 .badge-img {
   position: relative;
-  display: inline-block; 
-  overflow: hidden;      
+  display: inline-block;
+  overflow: hidden;
   border-radius: 16px;
-  padding: 12px;         
+  padding: 12px;
 }
 
 .badge-unlocked-anim {
   width: 150px;
-  display: block;        
+  display: block;
   filter: drop-shadow(0 0 4px rgba(255, 127, 80, 0.6));
   animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -498,19 +522,19 @@ section {
 .shiny-effect {
   position: absolute;
   top: 0;
-  left: -150%;           
-  width: 25%;            
+  left: -150%;
+  width: 25%;
   height: 100%;
   background: linear-gradient(
     to right,
     transparent,
-    rgba(255, 255, 255, 0.4) 0%,   /* Un tocco più morbido */
-    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.4) 0%,
+    /* Un tocco più morbido */ rgba(255, 255, 255, 0.9) 50%,
     transparent 100%
   );
   transform: skewX(-25deg);
   animation: shine 10s infinite; /* Un po' più veloce per dare dinamismo */
-  pointer-events: none;  /* Evita che il riflesso blocchi i click */
+  pointer-events: none; /* Evita che il riflesso blocchi i click */
 }
 
 /* L'animazione deve far attraversare tutto il contenitore */
@@ -518,17 +542,24 @@ section {
   0% {
     left: -150%;
   }
-  20%, 100% {
+  20%,
+  100% {
     left: 250%; /* Esce completamente a destra */
   }
 }
 
 @keyframes popIn {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.form-modal {
+.form-container, .form-modal {
   width: 90%;
   max-width: 400px;
   margin: 3rem auto;
@@ -537,6 +568,11 @@ section {
   text-align: center;
   /* background: linear-gradient(180deg, var(--extra-color), var(--bg-secondary));
   box-shadow: var(--box-shadow); */
+}
+
+.form-header {
+  text-transform: uppercase;
+  padding-bottom: 1.2rem;
 }
 
 .control,
@@ -570,7 +606,7 @@ fieldset {
   display: block;
   width: 100%;
   height: 42px;
-  max-width: 400px;
+  max-width: 100%;
   padding: 0.5rem;
   font-size: 1.6rem;
   border-radius: 4px;
@@ -659,6 +695,13 @@ fieldset {
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 1.6rem;
+}
+
+@media screen and (min-width: 768px) {
+  .control-column,
+  .control-row {
+    max-width: 780px;
+  }
 }
 
 .forms-header {

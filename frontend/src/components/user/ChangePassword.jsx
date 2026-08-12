@@ -55,8 +55,11 @@ function ChangePassword() {
     }
   };
   return (
-    <div className="form-modal">
-      <h2>Imposta Nuova Password</h2>
+    <div className="form-container">
+      <header className="form-header">
+        <h2>Imposta Nuova Password</h2>
+      </header>
+      
       <form onSubmit={handleSubmit}>
         <div className="control-column">
           <Input

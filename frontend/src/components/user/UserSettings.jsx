@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import {
   User,
@@ -10,10 +11,25 @@ import {
 import "./UserSettings.css";
 import { Link, useNavigate } from "react-router-dom";
 import apiAxios from "../../api/axiosConfig.js";
+const BACKEND_URL = "http://localhost:3000"; // Porta del server Express
+import defaultAvatar from "../../assets/default-avatar.png";
+import { getCleanFileName } from "../../util/helper.js";
 
 export default function UserSettings() {
   const { user, logout, isLoading } = useAuth();
+  console.log(user.image);
+
+  const [previewUrl, setPreviewUrl] = useState(defaultAvatar);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user?.image) {
+      setPreviewUrl(`${BACKEND_URL}${user.image}?t=${Date.now()}`);
+    } else {
+      setPreviewUrl(defaultAvatar);
+    }
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -40,13 +56,16 @@ export default function UserSettings() {
     }
   };
 
+  const stringImage = getCleanFileName(user.image);
+
   return (
     <div className="settings-container">
       <header className="settings-header">
-        <h2>USER SETTINGS</h2>
+        <h2>User settings</h2>
+        </header>
         <div className="profile-section">
           <div className="avatar-placeholder">
-            <User size={40} />
+            <img src={previewUrl} alt="Avatar Image" />
           </div>
           <div className="profile-info">
             {/* Usiamo lo username dal JSON */}
@@ -56,13 +75,12 @@ export default function UserSettings() {
             <div className="quick-actions">
               <Bell size={18} />
               <Globe size={18} />
-              <button onClick={handleLogout}>
+              <button className="button button-exit" onClick={handleLogout}>
                 <LogOut size={18} className="logout-icon" />
               </button>
             </div>
           </div>
         </div>
-      </header>
 
       <section className="settings-menu">
         <div
@@ -74,7 +92,7 @@ export default function UserSettings() {
             </h4>
             <p>
               {user.isVerified
-                ? "You earned the Pioneer Badge!"
+                ? "You earned the Verify Account Badge!"
                 : "Send a verifying email and earn a badge!"}
             </p>
           </button>
@@ -85,13 +103,13 @@ export default function UserSettings() {
           )}
         </div>
 
-        <div className="menu-item">
+        <Link to="/user/profile/edit" className="menu-item">
           <div className="menu-text">
             <h4>Edit Profile</h4>
             <p>Edit avatar image and username</p>
           </div>
           <ChevronRight size={20} />
-        </div>
+        </Link>
 
         <Link to="/user/profile/change-password" className="menu-item">
           <div className="menu-text">
@@ -126,7 +144,7 @@ export default function UserSettings() {
         </div>
         <div className="detail-field">
           <label>Avatar Image</label>
-          <input type="text" value={user.email} readOnly />
+          <input type="text" value={stringImage} readOnly />
         </div>
       </section>
     </div>

@@ -6,6 +6,7 @@ const DbConnection = require("./app/config/db-connection");
 const isLoggedIn = require("./app/middleware/is-logged-in");
 const flash = require("connect-flash");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -66,3 +67,6 @@ conn.on("dbConnection", (conn) => {
   });
 });
 conn.getConnection();
+
+// --- UPLOAD FILES ---
+app.use(express.static(path.join(__dirname, "public")));

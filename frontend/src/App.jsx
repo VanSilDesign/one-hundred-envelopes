@@ -25,6 +25,7 @@ import ChangePassword from "./components/user/ChangePassword.jsx";
 
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
+import EditProfile from "./components/user/EditProfile.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
@@ -51,6 +52,7 @@ function App() {
               path: "profile",
               children: [
                 { index: true, element: <UserSettings /> },
+                { path: "edit", element: <EditProfile /> },
                 { path: "badges", element: <BadgesPage /> },
                 { path: "setting", element: <Settings /> },
                 { path: "change-password", element: <ChangePassword /> },

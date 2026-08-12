@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const isLoggedIn = require('../../middleware/is-logged-in.js');
 const userController = require('../../controllers/userController.js');
+const upload = require("../../middleware/upload.js");
 
 // 1. Rotte PUBBLICHE (se ne avrai) vanno qui sopra
 // router.get('/leaderboard', userController.getPublicStats);
@@ -16,5 +17,8 @@ router.get('/me', userController.getMe);
 router.get('/my-badges', userController.getMyBadges);
 
 router.put("/update-password", userController.updatePassword);
+
+router.get("/get-image", userController.getProfileImage);
+router.put("/save-image",upload.single("avatar"), userController.putProfileImage);
 
 module.exports = router;

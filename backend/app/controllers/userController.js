@@ -24,7 +24,6 @@ exports.getMyBadges = async (req, res) => {
   const userId = req.user?._id || req.session?.passport?.user;
 
   console.log("My Badges userId", userId);
-  
 
   if (!userId) {
     return res.status(401).json({ message: "Sessione non valida o scaduta." });
@@ -78,5 +77,60 @@ exports.updatePassword = async (req, res) => {
     res
       .status(500)
       .json({ message: "Errore nel cambio password.", error: error });
+  }
+};
+
+exports.getProfileImage = async (req, res) => {
+  const userId = req.user?._id || req.session?.passport?.user;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Sessione non valida o scaduta." });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(201).json({ message: "Utente non trovato." });
+    }
+    res.status(200).json(user.image);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Errore nel recupero immagine.", error: error });
+  }
+};
+
+exports.putProfileImage = async (req, res) => {
+  const userId = req.user?._id || req.session?.passport?.user;
+
+  if (!userId) {
+    return res.status(401).json({ message: "Sessione non valida o scaduta." });
+  }
+
+  if (!req.file) {
+    return res.status(400).json({ message: "Nessun file caricato." });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(201).json({ message: "Utente non trovato." });
+    }
+    // Costruiamo il percorso relativo salvato nel DB
+    const imagePath = `/uploads/avatars/${req.file.filename}`;
+    console.log("imagePath", imagePath);
+    
+    user.image = imagePath; // Salviamo la stringa dell'URL relativo
+    
+    await user.save();
+
+    return res.status(200).json({ 
+      message: "Immagine salvata con successo!", 
+      image: imagePath 
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Errore nel salvataggio immagine.", error: error });
   }
 };
