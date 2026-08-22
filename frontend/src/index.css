@@ -126,29 +126,28 @@ h4 {
   color: var(--disabled-color);
 }
 
-.button-flat {
+.button-back {
   background-color: var(--extra-bg);
   border-color: var(--extra-bg);
   color: var(--disabled-color);
 }
 
-.button-flat:hover {
+.button-back:hover {
   background-color: var(--disabled-color);
   border-color: var(--disabled-color);
   color: var(--extra-bg);
 }
 
-.button-exit {
+.button-flat {
   background-color: transparent;
   border-color: transparent;
-  color: var(--disabled-color);
   padding: 0;
 }
 
-.button-exit:hover {
+.button-flat:hover {
   background-color: transparent;
   border-color: transparent;
-  color: var(--disabled-color);
+  color: var(--disabled-color); 
 }
 
 .envelopes-button {

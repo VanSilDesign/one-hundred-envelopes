@@ -116,7 +116,7 @@ export default function EditProfile() {
             <div className="profile-buttons">
               <button
                 type="button"
-                className="button button-flat"
+                className="button button-back"
                 onClick={() => navigate("/user/profile")}
               >
                 Annulla

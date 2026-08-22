@@ -95,7 +95,7 @@ function ChangePassword() {
             }
           />
           <div className="form-actions">
-            <button className="button button-flat" onClick={() => navigate("/user/profile")}>Annulla</button>
+            <button className="button button-back" onClick={() => navigate("/user/profile")}>Annulla</button>
             <button className="button">Salva</button>
           </div>
         </div>
