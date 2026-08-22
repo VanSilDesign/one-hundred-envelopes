@@ -72,11 +72,10 @@ router.get("/status", (req, res) => {
 
 router.post("/login", (req, res, next) => {
   console.log("Sono passata dal login");
-  
 
   const token = req.params;
   console.log("Token preso da verifyEmail", token);
-  
+
   passport.authenticate("local-login", (err, user, info) => {
     // 1. Errore tecnico del server
     if (err) return next(err);
@@ -93,9 +92,12 @@ router.post("/login", (req, res, next) => {
       if (err) return next(err);
 
       // Risposta JSON per React
+      const fullUser = user.toObject ? user.toObject() : { ...user };
+      delete fullUser.password;
+
       return res.json({
         message: "Login effettuato con successo!",
-        user: { email: user.email, role: user.role },
+        user: fullUser, // 👈 Ora contiene _id, image, isVerified, badges, email, role!
       });
     });
   })(req, res, next);
@@ -107,7 +109,10 @@ router.post("/reset-password/:token", authController.resetPassword);
 router.post("/register", authController.register);
 router.get("/verify-email/:token", authController.verifyEmail);
 router.post("/send-verification", authController.sendVerificationEmail);
-router.post("/clear-verification-token/:token", authController.clearVerificationToken);
+router.post(
+  "/clear-verification-token/:token",
+  authController.clearVerificationToken,
+);
 
 // Rotta che fa partire il login con Google
 router.get(
