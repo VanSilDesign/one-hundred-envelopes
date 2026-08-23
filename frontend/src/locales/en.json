@@ -1,0 +1,43 @@
+{
+  "settings": {
+    "title": "User settings",
+    "account_verified": "Verify your account",
+    "verify_account": "Send a verifying email and earn a badge!",
+    "verify_email": "Send a verify email and gain a badge!",
+    "badges_earned": "You earned the Verify Account Badge!",
+    "edit_profile": "Edit Profile",
+    "edit_profile_desc": "Edit avatar image and username",
+    "change_password": "Change Password",
+    "change_password_desc": "Change your old password",
+    "badges": {
+      "title": "Your badges",
+      "count_one": "You have {{count}} active badge",
+      "count_other": "You have {{count}} active badges"
+    },
+    "change_settings": "Change Settings",
+    "change_settings_desc": "Choose different settings for your challenges",
+    "details": "Details",
+    "user_id": "User ID",
+    "avatar_image": "Avatar Image"
+  },
+   "menu": {
+    "home": "Home",
+    "stats:": "Stats",
+    "challenges": "Challenges",
+    "user": "User"
+  },
+  "homepage": {},
+  "stats": {},
+  "challenges": {},
+  "common": {
+    "lang": {
+      "italian": "Italian",
+      "english": "English"
+    },
+    "loading": "Loading...",
+    "no_login": "Login to see this page.",
+    "alerts": {
+      "link_to_mail": "Check your email! We've send you the link."
+    }
+  }
+}
