@@ -51,7 +51,7 @@ export default function LanguagePicker() {
 
   const handleSelectLanguage = (lang) => {
     i18n.changeLanguage(lang);
-    setiIsOpen(false);
+    setIsOpen(false);
   };
 
   return (

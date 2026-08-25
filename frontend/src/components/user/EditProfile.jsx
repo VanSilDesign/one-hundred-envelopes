@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
+import apiAxios from "../../api/axiosConfig.js";
+
+import { ImagePicker } from "../UI/ImagePicker";
 import Input from "../UI/Input";
 import "./EditProfile.css";
-import { ImagePicker } from "../UI/ImagePicker";
 
-import apiAxios from "../../api/axiosConfig.js";
-import { useNavigate } from "react-router-dom";
 const BACKEND_URL = "http://localhost:3000"; // Porta del server Express
 import defaultAvatar from "../../assets/default-avatar.png";
 
@@ -13,7 +15,8 @@ export default function EditProfile() {
   const { user, setUser, isLoading } = useAuth();
   const [username, setUsername] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const { t } = useTranslation();
+  
   // Se l'utente ha già una foto salvata usa quella, altrimenti usiamo l'anteprima locale
   const [previewUrl, setPreviewUrl] = useState(
     user?.image ? `${BACKEND_URL}${user.image}` : defaultAvatar,
@@ -89,15 +92,15 @@ export default function EditProfile() {
   if (isLoading)
     return (
       <div>
-        <p>Caricamento...</p>
+        <p>{t("common.loading")}</p>
       </div>
     );
-  if (!user) return <div>Effettua il login per vedere questa pagina.</div>;
+  if (!user) return <div>{t("settings.no_login")}</div>;
 
   return (
     <div className="form-container">
       <header className="form-header">
-        <h2>Edit profile</h2>
+        <h2>{t("settings.edit_profile")}</h2>
       </header>
       <div className="profile-section">
         <form onSubmit={handleSubmit}>
@@ -119,10 +122,10 @@ export default function EditProfile() {
                 className="button button-back"
                 onClick={() => navigate("/user/profile")}
               >
-                Annulla
+                {t("common.cancel")}
               </button>
               <button type="submit" className="button" disabled={isSubmitting}>
-                {isSubmitting ? "Salvataggio..." : "Salva Modifiche"}
+                {isSubmitting ? `${t("common.save_in_progress")}` : `${t("common.save")}`}
               </button>
             </div>
           </div>

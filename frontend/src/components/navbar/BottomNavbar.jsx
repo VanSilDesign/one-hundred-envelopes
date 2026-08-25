@@ -1,10 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Home, ChartSpline, FolderOpen, User } from "lucide-react"; // Usiamo Lucide per icone moderne
+import { useTranslation } from "react-i18next";
 import "./BottomNavbar.css";
 
 export default function BottomNavbar() {
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const { t } = useTranslation();
 
   if (!user) return null;
 
@@ -19,7 +21,7 @@ export default function BottomNavbar() {
           end
         >
           <Home size={24} />
-          <span>Home</span>
+          <span>{t("menu.home")}</span>
         </NavLink>
 
         <NavLink
@@ -29,7 +31,7 @@ export default function BottomNavbar() {
           }
         >
           <ChartSpline size={24} />
-          <span>Stats</span>
+          <span>{t("menu.stats")}</span>
         </NavLink>
 
         <NavLink
@@ -39,7 +41,7 @@ export default function BottomNavbar() {
           }
         >
           <FolderOpen size={24} />
-          <span>Sfide</span>
+          <span>{t("menu.challenges")}</span>
         </NavLink>
 
         <NavLink
@@ -49,7 +51,7 @@ export default function BottomNavbar() {
           }
         >
           <User size={24} />
-          <span>Profilo</span>
+          <span>{t("menu.user")}</span>
         </NavLink>
       </div>
     </div>

@@ -22,7 +22,6 @@ const BACKEND_URL = "http://localhost:3000"; // Porta del server Express
 export default function UserSettings() {
   const { user, logout, isLoading } = useAuth();
   const { t } = useTranslation();
-  console.log(user.image);
 
   const [previewUrl, setPreviewUrl] = useState(defaultAvatar);
 
@@ -44,7 +43,7 @@ export default function UserSettings() {
   if (isLoading)
     return (
       <div>
-        <p>{t("settings.loading")}</p>
+        <p>{t("common.loading")}</p>
       </div>
     );
   if (!user) return <div>{t("settings.no_login")}</div>;

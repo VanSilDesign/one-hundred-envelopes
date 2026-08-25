@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import EnvelopeCounter from "./EnvelopeCounter.jsx";
 import IconButton from "../UI/IconButton.jsx";
 import SuccessModal from "../modals/SuccesModal.jsx";
@@ -13,7 +14,8 @@ function EnvelopesContainer({
   const [showModal, setShowModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [selectedNumber, setSelectedNumber] = useState(0);
-  const [lastAmount, setLastAmount] = useState(0); // <--- AGGIUNGI QUESTO
+  const [lastAmount, setLastAmount] = useState(0);
+  const { t } = useTranslation();
 
   const handleChoose = () => {
     let availableEnvelopes = [];
@@ -23,7 +25,7 @@ function EnvelopesContainer({
       }));
     } else {
       availableEnvelopes = amounts.filter((env) => !env.isOpened);
-      if (availableEnvelopes.length === 0) return alert("Sfida completata!");
+      if (availableEnvelopes.length === 0) return alert(`${t("common.alerts.complete_challenge")}`);
     }
 
     const randomIndex = Math.floor(Math.random() * availableEnvelopes.length);
@@ -52,7 +54,7 @@ function EnvelopesContainer({
         setSelectedNumber(0); // Reset counter
       }
     } catch (error) {
-      console.error("Errore nel salvataggio:", error);
+      console.error(`${t("errors.save_error")}`, error);
     } finally {
       setIsSaving(false);
     }
@@ -68,23 +70,23 @@ function EnvelopesContainer({
       />
       {!user && (
         <div>
-          <h2>Pesca un numero da 1 a 100</h2>
-          <p>Puoi estrarre un numero casuale da 1 a 100 fin da subito.</p>
+          <h2>{t("homepage.no_user_title")}</h2>
+          <p>{t("homepage.no_user_desc")}</p>
         </div>
       )}
-      {user && <h2>Scegli la tua busta ({currency || "€"})</h2>}
+      {user && <h2>{t("homepage.user.title", { currency: currency || "€" })}</h2>}
       <EnvelopeCounter count={selectedNumber} />
       <div className="envelopes-button">
         <IconButton onClick={handleChoose} disabled={isSaving}>
-          Pesca
+          {t("common.sort")}
         </IconButton>
         {user && (
           <IconButton
             onClick={() => handleSave(selectedNumber)}
             disabled={selectedNumber === 0}
-            title={!isSaving ? "Salvataggio in corso..." : "Salva"}
+            title={!isSaving ? `${t("common.save_in_progress")}` : `${t("common.save")}`}
           >
-            {isSaving ? "Salvataggio in corso..." : "Salva"}
+            {isSaving ? `${t("common.save_in_progress")}` : `${t("common.save")}`}
           </IconButton>
         )}
       </div>

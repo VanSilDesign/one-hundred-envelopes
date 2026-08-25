@@ -1,32 +1,84 @@
 {
   "settings": {
     "title": "User settings",
-    "account_verified": "Verify your account",
-    "verify_account": "Send a verifying email and earn a badge!",
-    "verify_email": "Send a verify email and gain a badge!",
+    "account_verified": "Account verified",
+    "verify_account": "Send a verification email and earn a badge!",
+    "verify_email": "Send a verification email and earn a badge!",
     "badges_earned": "You earned the Verify Account Badge!",
     "edit_profile": "Edit Profile",
-    "edit_profile_desc": "Edit avatar image and username",
+    "edit_profile_desc": "Change avatar image and username",
     "change_password": "Change Password",
     "change_password_desc": "Change your old password",
     "badges": {
       "title": "Your badges",
       "count_one": "You have {{count}} active badge",
-      "count_other": "You have {{count}} active badges"
+      "count_other": "You have {{count}} active badges",
+      "loading": "I'm polishing the medals..."
     },
     "change_settings": "Change Settings",
     "change_settings_desc": "Choose different settings for your challenges",
     "details": "Details",
     "user_id": "User ID",
-    "avatar_image": "Avatar Image"
+    "avatar_image": "Avatar Image",
+    "password": {
+      "input_password": "Set New Password",
+      "password_success": "Password updated successfully!",
+      "current_password": "Old Password*",
+      "new_password": "New Password*",
+      "confirm_new_password": "Confirm New Password*",
+      "valid_password": "Please enter a valid password!",
+      "no_valid_credentials": "Invalid credentials",
+      "updated_password": "Password updated! You can now log in."
+    },
+    "login": {
+      "login_to_progress": "Log in to check your progress",
+      "valid_email": "Please enter a valid email!",
+      "no_account": "Don't have an account? ",
+      "no_password": "Forgot your password?",
+      "login_with_google": "Sign in with Google",
+      "agree_with": "By clicking, you agree to our",
+      "login_success": "Logged in successfully!"
+    },
+    "register": {
+      "failed_signup": "Registration failed",
+      "title": "Register your account",
+      "desc": "Fields marked with * are required",
+      "valid_username": "Username cannot be empty!",
+      "action_btn": "Register",
+      "loading": "Registering...",
+      "already_logged": "Already have an account?",
+      "register_with_google": "Sign up with Google"
+    },
+    "forgot_password": {
+      "title": "Recover Password",
+      "desc": "Enter your email and we'll send you instructions to reset your password.",
+      "success": "📧 Check your inbox! We've sent you a recovery link.",
+      "send_link": "Send Link"
+    }
   },
-   "menu": {
+  "menu": {
+    "menu": "Menu",
     "home": "Home",
-    "stats:": "Stats",
+    "stats": "Stats",
     "challenges": "Challenges",
-    "user": "User"
+    "user": "Profile",
+    "settings": "Settings",
+    "welcome": "Welcome back, "
   },
-  "homepage": {},
+  "homepage": {
+    "no_challenges": "No active challenges",
+    "welcome": "Welcome back! Ready to save up?",
+    "progression": "Your progress",
+    "delete_number": "Delete number",
+    "opened_envelopes": "Opened envelopes: ",
+    "total_saved": "Total saved: ",
+    "if_login": "If you want to save your progress, unlock fantastic badges and complete your personal challenge, log in or register!",
+    "no_user_title": "Draw a number from 1 to 100",
+    "no_user_desc": "You can draw a number from 1 to 100.",
+    "user": {
+      "title": "Choose your envelope ({{currency}})"
+    }
+  },
   "stats": {},
   "challenges": {},
   "common": {
@@ -35,9 +87,34 @@
       "english": "English"
     },
     "loading": "Loading...",
-    "no_login": "Login to see this page.",
+    "no_login": "Log in to see this page.",
+    "or": "or",
+    "and": "and",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
     "alerts": {
-      "link_to_mail": "Check your email! We've send you the link."
-    }
+      "link_to_mail": "Check your email! We've sent you the link.",
+      "complete_challenge": "Challenge completed!",
+      "check_data": "Please check the entered data!",
+      "empty_fields": "Fields cannot be empty!",
+      "created_account": "Your account has been created! We've prepared your first challenge. Check your email to unlock your badge!"
+    },
+    "sort": "Draw",
+    "save": "Save",
+    "save_in_progress": "Save in progress...",
+    "delete": "Delete",
+    "back": "Back",
+    "cancel": "Cancel",
+    "intro": "Log in to save your history, check your progress and set a different score.",
+    "login": "Log in",
+    "signup": "Register",
+    "logout": "Log out"
+  },
+  "errors": {
+    "error_generic": "An error occurred. Please try again.",
+    "error_password": "Passwords do not match!",
+    "server_error": "Error connecting to the server",
+    "save_error": "Error saving:",
+    "link_error": "The link has expired or is invalid."
   }
 }

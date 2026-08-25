@@ -1,14 +1,16 @@
-import { useParams, useNavigate } from "react-router-dom";
-import apiAxios from "../api/axiosConfig.js";
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import apiAxios from "../api/axiosConfig.js";
+import { isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "../components/UI/Input.jsx";
 import useInput from "../hooks/useInput.jsx";
-import { isNotEmpty, hasMinLength } from "../util/validation.js";
 
 const ResetPassword = () => {
   const { token } = useParams(); // Prende il codice segreto dall'URL
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     value: password,
@@ -27,7 +29,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      return alert("Le password non coincidono!");
+      return alert(`${t("errors.error_password")}`);
     }
 
     try {
@@ -41,11 +43,11 @@ const ResetPassword = () => {
 
       //console.log("response", response);
 
-      alert("Password aggiornata! Ora puoi fare il login.");
+      alert(`${t("settings.password.updated_password")}`);
       navigate("/login");
     } catch (err) {
       console.log(err);
-      setMessage("Il link è scaduto o non è valido.");
+      setMessage(`${t("errors.link_error")}`);
     }
   };
 
@@ -55,28 +57,28 @@ const ResetPassword = () => {
       <form onSubmit={handleSubmit}>
         <div className="control-column">
           <Input
-            label="Password*"
+            label={t("settings.password.new_password")}
             id="password"
             type="password"
             name="password"
             onBlur={handlePasswordBlur}
             onChange={handlePasswordChange}
             value={password}
-            error={passwordHasError && "Please enter a valid password!"}
+            error={passwordHasError && `${t("settings.password.valid_password")}`}
           />
           <Input
-            label="Conferma Password*"
+            label={t("settings.password.confirm_new_password")}
             id="password"
             type="password"
             name="confirmPassword"
             onBlur={handleConfirmPasswordBlur}
             onChange={handleConfirmPasswordChange}
             value={confirmPassword}
-            error={confirmPasswordHasError && "Please enter a valid password!"}
+            error={confirmPasswordHasError && `${t("settings.password.valid_password")}`}
           />
           <div className="form-actions">
-            <button className="button button-flat">Annulla</button>
-            <button className="button">Salva</button>
+            <button className="button button-flat" onClick={() => navigate("/login")}>{t("common.cancel")}</button>
+            <button className="button">{t("common.save")}</button>
           </div>
         </div>
       </form>

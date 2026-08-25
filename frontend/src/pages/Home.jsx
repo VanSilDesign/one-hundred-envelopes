@@ -1,13 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../components/context/AuthContext";
 import EnvelopesContainer from "../components/envelopes/EnvelopesContainer";
 import EnvelopesGridDisplay from "../components/envelopes/EnvelopesGridDisplay";
-import { Link } from "react-router-dom";
 
 export default function HomePage() {
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
-  const {user} = useAuth();
+  const { user } = useAuth();
+  const { t } = useTranslation();
 
   // Funzione per caricare la sfida dal database
   const fetchChallenge = useCallback(async () => {
@@ -33,7 +35,7 @@ export default function HomePage() {
   if (loading)
     return (
       <div>
-        <h2>Caricamento...</h2>
+        <h2>{t("common.loading")}</h2>
       </div>
     );
 
@@ -41,7 +43,7 @@ export default function HomePage() {
   if (!challenge) {
     return (
       <div className="center">
-        <p>Non hai ancora una sfida attiva.</p>
+        <p>{t("homepage.no_challenges")}</p>
       </div>
     );
   }
@@ -51,7 +53,7 @@ export default function HomePage() {
       {!user && <div className="center"></div>}
       {user && (
         <div className="center">
-          <p>Bentornato! Pronto a risparmiare?</p>
+          <p>{t("homepage.welcome")}</p>
         </div>
       )}
       <section className="top-section">
@@ -65,10 +67,10 @@ export default function HomePage() {
       </section>
       {user ? (
         <section className="grid-section">
-          <h3 className="stat-title">La tua progressione</h3>
+          <h3 className="stat-title">{t("homepage.progression")}</h3>
           <div className="stats-grid two-columns">
             <div className="stats-card stats-counter">
-              <p className="stats-title">Buste aperte: </p>
+              <p className="stats-title">{t("homepage.opened_envelopes")}</p>
               <p className="stats-value">
                 <strong>
                   {challenge?.amounts?.filter((env) => env.isOpened).length ||
@@ -78,7 +80,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="stats-card stats-total">
-              <p className="stats-title">Totale risparmiato: </p>
+              <p className="stats-title">{t("homepage.total_saved")}</p>
               <p className="stats-value">
                 <strong>
                   {challenge?.amounts
@@ -96,16 +98,13 @@ export default function HomePage() {
         </section>
       ) : (
         <div className="login-section center">
-          <p>
-            Se vuoi salvare le buste già aperte, sbloccare fantastici badge e
-            completare la tua sfida personale, effettua il login o registrati!
-          </p>
+          <p>{t("homepage.if_login")}</p>
           <div className="button-box">
             <Link to="/login" className="button">
-              Login
+              {t("common.login")}
             </Link>
             <Link to="/register" className="button">
-              Registrati
+              {t("common.signup")}
             </Link>
           </div>
         </div>

@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import apiAxios from "../../api/axiosConfig.js";
-import "./BadgesPage.css";
 import ImageWithSkeleton from "../UI/ImageWithSkeleton.jsx";
+import "./BadgesPage.css";
 
 function BadgesPage() {
   const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
+
   useEffect(() => {
     const fetchBadges = async () => {
       try {
@@ -32,13 +35,13 @@ function BadgesPage() {
   if (loading)
     return (
       <div>
-        <p>Sto lucidando le medaglie...</p>
+        <p>{t("settings.badges.loading")}</p>
       </div>
     );
 
   return (
     <div className="badges-container">
-      <h2>I TUOI BADGE</h2>
+      <h2>{t("settings.badges.title")}</h2>
       <div className="badges-grid">
         {badges.map((badge) => (
           <div
@@ -63,7 +66,7 @@ function BadgesPage() {
 
 export default BadgesPage;
 
-
+/* 
 export async function loader() {
   try {
     const response = await apiAxios.get("/user/badges");
@@ -82,3 +85,4 @@ export async function loader() {
     };
   }
 }
+ */

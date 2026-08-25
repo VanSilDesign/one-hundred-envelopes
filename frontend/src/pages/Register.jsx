@@ -1,14 +1,16 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import apiAxios from "../api/axiosConfig.js";
 import useInput from "../hooks/useInput.jsx";
 import { isEmail, isNotEmpty, hasMinLength } from "../util/validation.js";
 import Input from "../components/UI/Input.jsx";
-import { Link, useNavigate } from "react-router-dom";
-import apiAxios from "../api/axiosConfig.js";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
   const {
     value: emailValue,
@@ -41,24 +43,12 @@ export default function RegisterPage() {
       usernameHasError ||
       !usernameValue
     ) {
-      alert("Controlla i dati inseriti!");
+      alert(`${t("common.alerts.check_data")}`);
       return;
     }
     setLoading(true);
 
     try {
-      /* const response = await fetch("/api/auth/register-admin", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email: emailValue,
-          password: passwordValue,
-        }),
-      });
-
-      const data = await response.json(); */
-
       const formData = {
         username: usernameValue,
         email: emailValue,
@@ -68,12 +58,10 @@ export default function RegisterPage() {
       const response = await apiAxios.post("/api/auth/register", formData);
 
       if (response.status === 201) {
-        alert(
-          "Account creato! 🐷 Abbiamo preparato la tua prima sfida. Controlla la mail per sbloccare il tuo badge!",
-        );
+        alert(`${t("common.alerts.created_account")}`);
         navigate("/login");
       } else {
-        setError(data.message || "Registrazione fallita");
+        setError(data.message || `${t("settings.register.failed_signup")}`);
       }
     } catch (error) {
       setError("Errore di connesione: ", error);
@@ -83,8 +71,8 @@ export default function RegisterPage() {
   return (
     <div className="form-modal">
       <form onSubmit={handleSubmit}>
-        <h2>Registra il tuo account</h2>
-        <p>Tutti i campi con * sono obbligatori</p>
+        <h2>{t("settings.register.title")}</h2>
+        <p>{t("settings.register.desc")}</p>
 
         <div className="control-row">
           <Input
@@ -96,7 +84,9 @@ export default function RegisterPage() {
             onBlur={handleUsernameBlur}
             onChange={handleUsernameChange}
             value={usernameValue}
-            error={usernameHasError && "Lo username non può essere vuoto!"}
+            error={
+              usernameHasError && `${t("settings.register.valid_username")}`
+            }
           />
           <Input
             label="Email*"
@@ -107,7 +97,7 @@ export default function RegisterPage() {
             onBlur={handleEmailBlur}
             onChange={handleEmailChange}
             value={emailValue}
-            error={emailHasError && "Please enter a valid email!"}
+            error={emailHasError && `${t("settings.login.valid_email")}`}
           />
           <Input
             label="Password*"
@@ -118,32 +108,37 @@ export default function RegisterPage() {
             onBlur={handlePasswordBlur}
             onChange={handlePasswordChange}
             value={passwordValue}
-            error={passwordHasError && "Please enter a valid password!"}
+            error={
+              passwordHasError && `${t("settings.password.valid_password")}`
+            }
           />
         </div>
 
         <p className="form-actions">
           <button className="button" disabled={loading}>
-            {loading ? "Caricamento..." : "Registrati"}
+            {loading
+              ? `${t("settings.register.loading")}`
+              : `${t("settings.register.action_btn")}`}
           </button>
         </p>
       </form>
       <p>
-        Hai già un account? <Link to="/login">Accedi</Link>
+        {t("settings.register.already_logged")}{" "}
+        <Link to="/login">{t("common.login")}</Link>
       </p>
       <div className="separator">
-        <span>o</span>
+        <span>{t("common.or")}</span>
       </div>
       <div className="social-logins">
         {/* Assicurati di avere le rotte del backend per questi */}
         <a href="/api/auth/google" className="button social-button google">
-          Register with Google
+          {t("settings.register.register_with_google")}
         </a>
       </div>
       <p className="footer-text">
-        By clicking login, you agree to our{" "}
-        <Link to="/terms">Terms of Service</Link> and{" "}
-        <Link to="/privacy">Privacy Policy</Link>
+        {t("settings.login.agree_with")}{" "}
+        <Link to="/terms">{t("common.terms")}</Link> {t("common.and")}{" "}
+        <Link to="/privacy">{t("common.privacy")}</Link>
       </p>
     </div>
   );

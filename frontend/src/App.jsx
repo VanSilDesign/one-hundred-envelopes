@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // Layout & UI
 import RootLayout from "./pages/RootLayout.jsx";
@@ -12,9 +13,7 @@ import LoginPage from "./pages/Login.jsx";
 import RegisterPage from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
-import DashboardPage from "./pages/Dashboard.jsx";
 import StatsLayout from "./components/stats/StatsLayout.jsx";
-import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
 // User Pages
 import UserSettings from "./components/user/UserSettings.jsx";
@@ -29,6 +28,7 @@ import EditProfile from "./components/user/EditProfile.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
+  const { t } = useTranslation();
 
   const router = createBrowserRouter([
     {
@@ -46,8 +46,6 @@ function App() {
           path: "user",
           element: <UserLayout />,
           children: [
-            { path: "dashboard", element: <DashboardPage /> },
-            { path: "history", element: <EnvelopesHistory /> },
             {
               path: "profile",
               children: [
@@ -68,7 +66,7 @@ function App() {
   if (isLoading)
     return (
       <div>
-        <p>Caricamento...</p>
+        <p>{t("settings.loading")}</p>
       </div>
     );
 

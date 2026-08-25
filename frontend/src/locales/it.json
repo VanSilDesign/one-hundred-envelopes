@@ -12,23 +12,74 @@
     "badges": {
       "title": "I tuoi badges",
       "count_one": "Hai {{count}} badge attivo",
-      "count_other": "Hai {{count}} badges attivi"
+      "count_other": "Hai {{count}} badges attivi",
+      "loading": "Sto lucidando le medaglie..."
     },
-
     "change_settings": "Cambia le impostazioni",
     "change_settings_desc": "Scegli le diverse impostazioni per modificare la tua sfida",
     "details": "Dettagli",
     "user_id": "User ID",
-    "avatar_image": "Immagine del profilo"
+    "avatar_image": "Immagine del profilo",
+    "password": {
+      "input_password": "Imposta Nuova Password",
+      "password_success": "Password aggiornata con successo!",
+      "current_password": "Vecchia Password*",
+      "new_password": "Nuova Password*",
+      "confirm_new_password": "Conferma Nuova Password*",
+      "valid_password": "Per favore inserisci una password valida!",
+      "no_valid_credentials": "Credenziali non valide",
+      "updated_password": "Password aggiornata! Ora puoi fare il login."
+    },
+    "login": {
+      "login_to_progress": "Accedi per vedere i tuoi progressi",
+      "valid_email": "Per favore inserisci una email valida!",
+      "no_account": "Non hai un account? ",
+      "no_password": "Hai dimenticato la password?",
+      "login_with_google": "Accedi con Google",
+      "agree_with": "Cloccando consenti a",
+      "login_success": "Login effettuato con successo!"
+    },
+    "register": {
+      "failed_signup": "Registrazione fallita",
+      "title": "Registra il tuo account",
+      "desc": "Tutti i campi con * sono obbligatori",
+      "valid_username": "Lo username non può essere vuoto!",
+      "action_btn": "Registrati",
+      "loading": "Registrazione...",
+      "already_logged": "Hai già un account?",
+      "register_with_google": "Register with Google"
+    },
+    "forgot_password": {
+      "title": "Recupera Password",
+      "desc": "Inserisci la tua email e ti invieremo le istruzioni per resettare la password.",
+      "success": "📧 Controlla la tua posta! Ti abbiamo inviato un link di recupero.",
+      "send_link": "Invia Link"
+    }
   },
   "menu": {
+    "menu": "Menu",
     "home": "Home",
-    "stats:": "Statistiche",
+    "stats": "Statistiche",
     "challenges": "Sfide",
-    "user": "Profilo"
+    "user": "Profilo",
+    "settings": "Impostazioni",
+    "welcome": "Bentornato, "
   },
-  "homepage": {},
-  "stats": {},
+  "homepage": {
+    "no_challenges": "Non hai ancora una sfida attiva.",
+    "welcome": "Bentornato! Pronto a risparmiare?",
+    "progression": "La tua progressione",
+    "delete_number": "Cancella numero",
+    "opened_envelopes": "Buste aperte: ",
+    "total_saved": "Totale risparmiato: ",
+    "if_login": "Se vuoi salvare le buste già aperte, sbloccare fantastici badge e completare la tua sfida personale, effettua il login o registrati!",
+    "no_user_title": "Pesca un numero da 1 a 100",
+    "no_user_desc": "Puoi estrarre un numero casuale da 1 a 100 fin da subito.",
+    "user": {
+      "title": "Scegli la tua busta ({{currency}})"
+    }
+  },
+  "statistics": {},
   "challenges": {},
   "common": {
     "lang": {
@@ -37,8 +88,33 @@
     },
     "loading": "Caricamento...",
     "no_login": "Effettua il login per vedere questa pagina.",
+    "or": "o",
+    "and": "e",
+    "terms": "Termini di Servizio",
+    "privacy": "Informativa sulla Privacy",
     "alerts": {
-      "link_to_mail": "Controlla la tua posta! Ti abbiamo inviato il link."
-    }
+      "link_to_mail": "Controlla la tua posta! Ti abbiamo inviato il link.",
+      "complete_challenge": "Sfida completata!",
+      "check_data": "Controlla i dati inseriti!",
+      "empty_fields": "I campi sono vuoti!",
+      "created_account": "Account creato! Abbiamo preparato la tua prima sfida. Controlla la mail per sbloccare il tuo badge!"
+    },
+    "sort": "Pesca",
+    "save": "Salva",
+    "save_in:progress": "Salvataggio in corso...",
+    "delete": "Cancella",
+    "back": "Torna Indietro",
+    "cancel": "Annulla",
+    "intro": "Login to save your history, check your progress and set different score.",
+    "login": "Accedi",
+    "signup": "Registrati",
+    "logout": "Esci"
+  },
+  "errors": {
+    "error_generic": "Si è verificato un errore. Riprova.",
+    "error_password": "Le password non coincidono!",
+    "server_error": "Errore di connessione al server",
+    "save_error": "Errore nel salvataggio:",
+    "link_error": "Il link è scaduto o non è valido."
   }
 }

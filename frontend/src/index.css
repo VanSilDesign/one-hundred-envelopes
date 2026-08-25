@@ -676,7 +676,6 @@ fieldset {
 .control-error {
   color: var(--error);
   font-size: 1.2rem;
-  height: 1.5rem;
   padding: 0.5rem 0;
   text-align: left;
 }
