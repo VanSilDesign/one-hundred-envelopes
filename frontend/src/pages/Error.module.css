@@ -1,0 +1,13 @@
+main {
+    text-align: center;
+    margin: 2rem;
+}
+
+.error_title {
+    margin-bottom: 2rem;
+}
+
+.error_image {
+    margin-top: 2rem;
+    max-width: 250px;
+}

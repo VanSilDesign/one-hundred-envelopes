@@ -88,7 +88,7 @@ export default function Settings() {
     e.preventDefault(); // Impedisce il ricaricamento della pagina
 
     if (!summary.isValidSetting) return; // Doppia sicurezza
-    console.log("summary", summary);
+    //console.log("summary", summary);
 
     try {
       const response = await fetch("/api/challenge/initialize", {
@@ -120,7 +120,7 @@ export default function Settings() {
         id="maxValue"
         type="number"
         name="maxValue"
-        value={settingValues.maxValue}
+        value={settingValues.maxValue || ""}
         onChange={handleChange}
       />
       <Input
@@ -128,7 +128,7 @@ export default function Settings() {
         id="step"
         type="number"
         name="step"
-        value={settingValues.step}
+        value={settingValues.step || ""}
         onChange={handleChange}
       />
       <Input
@@ -136,7 +136,7 @@ export default function Settings() {
         id="numberOfEnvelopes"
         type="number"
         name="numberOfEnvelopes"
-        value={settingValues.numberOfEnvelopes}
+        value={settingValues.numberOfEnvelopes || ""}
         onChange={handleChange}
       />
       <div className="control no-margin">

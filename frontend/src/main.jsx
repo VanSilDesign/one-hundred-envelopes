@@ -6,11 +6,11 @@ import { AuthProvider } from "./components/context/AuthContext.jsx";
 import { SettingsProvider } from "./components/context/SettingsContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  
     <AuthProvider>
       <SettingsProvider>
         <App />
       </SettingsProvider>
     </AuthProvider>
-  </React.StrictMode>,
+ ,
 );

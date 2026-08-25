@@ -106,7 +106,7 @@
   position: absolute;
   left: 15px;
   font-weight: 800;
-  font-size: 0.9rem;
+  font-size: 1.4rem;
   z-index: 5; /* Sopra il riempimento, sotto l'icona */
   pointer-events: none;
   transition: color 0.5s ease; /* Transizione morbida del cambio colore */
@@ -121,12 +121,12 @@
 .goal-icon {
   position: absolute;
   right: 15px;
-  font-size: 20px;
+  font-size: 2rem;
   transition: color 0.5s ease; /* Transizione morbida del cambio colore */
 }
 
 .current-saved {
-  font-size: 14px;
+  font-size: 1.4rem;
   color: #8d99ae;
 }
 

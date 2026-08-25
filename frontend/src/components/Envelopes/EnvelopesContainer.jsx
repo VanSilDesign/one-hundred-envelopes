@@ -16,8 +16,15 @@ function EnvelopesContainer({
   const [lastAmount, setLastAmount] = useState(0); // <--- AGGIUNGI QUESTO
 
   const handleChoose = () => {
-    const availableEnvelopes = amounts.filter((env) => !env.isOpened);
-    if (availableEnvelopes.length === 0) return alert("Sfida completata!");
+    let availableEnvelopes = [];
+    if (!user) {
+      availableEnvelopes = Array.from({ length: 100 }, (_, i) => ({
+        value: i + 1,
+      }));
+    } else {
+      availableEnvelopes = amounts.filter((env) => !env.isOpened);
+      if (availableEnvelopes.length === 0) return alert("Sfida completata!");
+    }
 
     const randomIndex = Math.floor(Math.random() * availableEnvelopes.length);
     const selected = availableEnvelopes[randomIndex];
@@ -59,11 +66,17 @@ function EnvelopesContainer({
         challengeName={challengeTitle || "la tua sfida"}
         onClose={() => setShowModal(false)}
       />
-      <h2>Scegli la tua busta ({currency || "€"})</h2>
+      {!user && (
+        <div>
+          <h2>Pesca un numero da 1 a 100</h2>
+          <p>Puoi estrarre un numero casuale da 1 a 100 fin da subito.</p>
+        </div>
+      )}
+      {user && <h2>Scegli la tua busta ({currency || "€"})</h2>}
       <EnvelopeCounter count={selectedNumber} />
       <div className="envelopes-button">
         <IconButton onClick={handleChoose} disabled={isSaving}>
-          Scegli
+          Pesca
         </IconButton>
         {user && (
           <IconButton

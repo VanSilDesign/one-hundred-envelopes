@@ -6,6 +6,7 @@ const DbConnection = require("./app/config/db-connection");
 const isLoggedIn = require("./app/middleware/is-logged-in");
 const flash = require("connect-flash");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -49,7 +50,7 @@ const statsRouter = require("./app/routes/api/stats");
 
 // --- ROTTE ---
 app.use("/api/auth", authRouter);
-app.use("/api/user", isLoggedIn, userRouter);
+app.use("/api/user", userRouter);
 app.use("/api/numbers", numberRouter);
 app.use("/api/challenge", challengeRouter);
 app.use("/api/stats", statsRouter);
@@ -66,3 +67,6 @@ conn.on("dbConnection", (conn) => {
   });
 });
 conn.getConnection();
+
+// --- UPLOAD FILES ---
+app.use(express.static(path.join(__dirname, "public")));

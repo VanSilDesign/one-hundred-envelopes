@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const NumberSchema = new mongoose.Schema(
+const numberSchema = new mongoose.Schema(
   {
     // Colleghiamo la busta all'utente (relazione 1-a-molti)
     userId: {
@@ -25,4 +25,4 @@ const NumberSchema = new mongoose.Schema(
   // Questo aggiunge automaticamente 'createdAt' e 'updatedAt' (fondamentale per le Stats!)
 );
 
-module.exports = mongoose.model("number", NumberSchema);
+module.exports = mongoose.model("number", numberSchema);

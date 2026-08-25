@@ -16,6 +16,7 @@ function StatsLayout() {
       try {
         const response = await fetch("/api/stats/get-current");
         const json = await response.json();
+        //console.log("json", json);
 
         if (json.history) {
           // 1. Raggruppiamo i valori per data
@@ -61,14 +62,13 @@ function StatsLayout() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Caricamento statistiche...</div>;
-  if (!userData) return <div>Impossibile caricare le statistiche.</div>;
-
+  if (loading) return <div><p>Caricamento statistiche...</p></div>;
+  
   return (
     <div className="stats-layout">
       <header className="stats-header">
         <h2>Dashboard Personale</h2>
-        <p>Stai facendo un ottimo lavoro con la sfida delle buste!</p>
+        <p>Stai facendo un ottimo lavoro!</p>
       </header>
 
       <SavingsProgressBar
@@ -102,33 +102,9 @@ function StatsLayout() {
       </div>
 
       {/* 2. AREA GRAFICI (Condizionale) */}
-      <div className="charts-main-grid">
-        {/* Il Grafico dei risparmi è la nostra "Premium Feature" */}
-        <div
-          className={`area-chart-section ${!user?.isPremium ? "chart-container locked-feature" : ""}`}
-        >
+      <div className="charts-main-grid two-on-one">
+        <div className={`area-chart-section`}>
           <SavingsChart data={userData.chartData} />
-
-          {!user?.isPremium && (
-            <div className="premium-overlay">
-              <span>🔒 Funzione Premium</span>
-              <p>Visualizza l'andamento dei tuoi risparmi nel tempo</p>
-              <button className="upgrade-btn">Scopri Premium</button>
-            </div>
-          )}
-        </div>
-        {/* Il Grafico dei risparmi è la nostra "Premium Feature" */}
-        <div
-          className={`area-chart-section ${!user?.isPremium ? "chart-container locked-feature" : ""}`}
-        >
-          <DrawHistoryChart data={userData.chartData} />
-          {!user?.isPremium && (
-            <div className="premium-overlay">
-              <span>🔒 Funzione Premium</span>
-              <p>Visualizza l'andamento dei tuoi risparmi nel tempo</p>
-              <button className="upgrade-btn">Scopri Premium</button>
-            </div>
-          )}
         </div>
 
         {/* Il grafico a torta del progresso può restare visibile (o essere limitato anche lui) */}
@@ -137,6 +113,39 @@ function StatsLayout() {
             completed={userData.summary.envelopesCompleted}
             total={userData.summary.totalEnvelopes}
           />
+        </div>
+      </div>
+      <div className="charts-main-grid one-on-two">
+        {/* Il grafico a torta del progresso può restare visibile (o essere limitato anche lui) */}
+
+        <div
+          className={`pie-chart-section ${!user?.isPremium ? "chart-container locked-feature" : ""}`}
+        >
+          <CompletionPieChart
+            completed={userData.summary.envelopesCompleted}
+            total={userData.summary.totalEnvelopes}
+          />
+          {!user?.isPremium && (
+            <div className="premium-overlay">
+              <span>🔒 Funzione Premium</span>
+              <p>Visualizza il progresso dei tuoi risparmi nel tempo</p>
+              <button className="upgrade-btn">Scopri Premium</button>
+            </div>
+          )}
+        </div>
+
+        {/* Il Grafico dei risparmi è la nostra "Premium Feature" */}
+        <div
+          className={`area-chart-section ${!user?.isPremium ? "chart-container locked-feature" : ""}`}
+        >
+          <DrawHistoryChart data={userData.chartData} />
+          {!user?.isPremium && (
+            <div className="premium-overlay">
+              <span>🔒 Funzione Premium</span>
+              <p>Visualizza il valore dei sorteggi</p>
+              <button className="upgrade-btn">Scopri Premium</button>
+            </div>
+          )}
         </div>
       </div>
     </div>

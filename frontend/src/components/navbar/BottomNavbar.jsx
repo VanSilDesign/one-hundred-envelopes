@@ -1,8 +1,13 @@
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { Home, ChartSpline, FolderOpen, User } from "lucide-react"; // Usiamo Lucide per icone moderne
 import "./BottomNavbar.css";
 
 export default function BottomNavbar() {
+  const {user} = useAuth();
+
+  if (!user) return null;
+
   return (
     <div className="bottom-nav">
       <div className="bottom-nav-container">
@@ -11,13 +16,14 @@ export default function BottomNavbar() {
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
+          end
         >
           <Home size={24} />
           <span>Home</span>
         </NavLink>
 
         <NavLink
-          to="/stats"
+          to="/user/stats"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -27,7 +33,7 @@ export default function BottomNavbar() {
         </NavLink>
 
         <NavLink
-          to="/challenges"
+          to="/user/challenges"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }
@@ -37,7 +43,7 @@ export default function BottomNavbar() {
         </NavLink>
 
         <NavLink
-          to="/profile"
+          to="/user/profile"
           className={({ isActive }) =>
             isActive ? "nav-item active" : "nav-item"
           }

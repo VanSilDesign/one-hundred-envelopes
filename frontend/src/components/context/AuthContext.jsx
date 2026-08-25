@@ -37,15 +37,21 @@ export const AuthProvider = ({ children }) => {
 
   const login = (userData) => {
     setUser(userData);
+    setIsLoading(false);
   };
 
   const logout = async () => {
     try {
+      // Optimistic UI Update ✨✨! Svuota lo stato immediatamente prima di cancellare i cookie!!!
+      setUser(null);
+
       await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
-      setUser(null);
+
+      // Forza il ricaricamento completo e in pratica pialla la pagina
+      // window.location.href = "/";
     } catch (error) {
       console.error("Errore durante il logout", error);
     }

@@ -1,0 +1,100 @@
+.skeleton-wrapper {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  /* Regola la larghezza in base alla dimensione dei tuoi badge */
+  min-height: 170px; /* Regola l'altezza */
+  border-radius: 12px; 
+}
+
+/* L'effetto animato dello skeleton */
+
+.skeleton-loader {
+  width: 50px;
+  height: 28px;
+  --_g: no-repeat radial-gradient(farthest-side,#f8af84 94%,#0000);
+  background:
+    var(--_g) 50%  0,
+    var(--_g) 100% 0;
+  background-size: 12px 12px;
+  position: relative;
+  animation: l23-0 1.5s linear infinite;
+}
+.skeleton-loader:before {
+  content: "";
+  position: absolute;
+  height: 12px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #f8af84;
+  left:0;
+  top:0;
+  animation: 
+    l23-1 1.5s linear infinite,
+    l23-2 0.5s cubic-bezier(0,200,.8,200) infinite;
+}
+@keyframes l23-0 {
+  0%,31%  {background-position: 50% 0   ,100% 0}
+  33%     {background-position: 50% 100%,100% 0}
+  43%,64% {background-position: 50% 0   ,100% 0}
+  66%     {background-position: 50% 0   ,100% 100%}
+  79%     {background-position: 50% 0   ,100% 0}
+  100%    {transform:translateX(calc(-100%/3))}
+}
+@keyframes l23-1 {
+  100% {left:calc(100% + 7px)}
+}
+@keyframes l23-2 {
+  100% {top:-0.1px}
+}
+/* Vecchio effetto animato */
+/* .skeleton-loader {
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(
+    90deg,
+    #e0e0e0 25%,
+    #f0f0f0 50%,
+    #e0e0e0 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: inherit;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+ */
+/* Transizione morbida per l'immagine vera */
+.badge-image.loading {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.badge-image.loaded {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.image-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  font-size: 2rem;
+  border-radius: inherit;
+}

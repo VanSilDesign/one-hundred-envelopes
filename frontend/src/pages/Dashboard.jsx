@@ -1,4 +1,4 @@
-import EnvelopesHistory from "./envelopes/EnvelopeHistory";
+import EnvelopesHistory from "../components/envelopes/EnvelopeHistory";
 
 export default function DashboardPage({
   numbers,
@@ -10,7 +10,7 @@ export default function DashboardPage({
     <div className="dashboard-container">
       <h1>La mia Dashboard</h1>
       <p>Benvenuto nella tua area riservata.</p>
-      
+
       <EnvelopesHistory
         numbers={numbers}
         isLoading={isLoading}

@@ -1,14 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
 
 export default function Sidebar({ isOpen, onClose }) {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     onClose();
+    navigate("/");
   };
+
   return (
     <>
       {/* Overlay: lo sfondo scuro che chiude il menu se cliccato */}

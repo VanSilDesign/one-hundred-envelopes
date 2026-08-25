@@ -1,112 +1,78 @@
-import { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Layout & UI
-import Header from "./components/Header.jsx";
-import Sidebar from "./components/sidebar/Sidebar.jsx";
-import Modal from "./components/modals/Modal.jsx";
-import ErrorPage from "./components/modals/ErrorPage";
+import RootLayout from "./pages/RootLayout.jsx";
+import UserLayout from "./pages/user/UserLayout.jsx";
+import ErrorPage from "./pages/Error.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
-import BottomNavbar from "./components/navbar/BottomNavbar.jsx";
 
 // Pages
-import HomePage from "./components/Homepage.jsx";
-import LoginPage from "./components/LoginPage.jsx";
-import RegisterPage from "./components/RegisterPage";
-import DashboardPage from "./components/DashboardPage.jsx"; // La tua nuova Dashboard a quadratini
-import Settings from "./components/Settings.jsx";
+import HomePage from "./pages/Home.jsx";
+import LoginPage from "./pages/Login.jsx";
+import RegisterPage from "./pages/Register.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import DashboardPage from "./pages/Dashboard.jsx";
 import StatsLayout from "./components/stats/StatsLayout.jsx";
 import EnvelopesHistory from "./components/envelopes/EnvelopeHistory.jsx";
 
+// User Pages
+import UserSettings from "./components/user/UserSettings.jsx";
+import Settings from "./components/Settings.jsx";
+import BadgesPage from "./components/user/BadgesPage.jsx";
+import VerifyEmail from "./components/user/VerifyEmail.jsx";
+import ChangePassword from "./components/user/ChangePassword.jsx";
+
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
+import EditProfile from "./components/user/EditProfile.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [error, setError] = useState(null);
 
-  if (isLoading) return <div className="loader">Caricamento...</div>;
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <RootLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+        { index: true, element: <HomePage /> },
+        { path: "login", element: <LoginPage /> },
+        { path: "register", element: <RegisterPage /> },
+        { path: "forgot-password", element: <ForgotPassword /> },
+        { path: "reset-password/:token", element: <ResetPassword /> },
+        { path: "verify-email/:token", element: <VerifyEmail /> },
+        {
+          path: "user",
+          element: <UserLayout />,
+          children: [
+            { path: "dashboard", element: <DashboardPage /> },
+            { path: "history", element: <EnvelopesHistory /> },
+            {
+              path: "profile",
+              children: [
+                { index: true, element: <UserSettings /> },
+                { path: "edit", element: <EditProfile /> },
+                { path: "badges", element: <BadgesPage /> },
+                { path: "setting", element: <Settings /> },
+                { path: "change-password", element: <ChangePassword /> },
+              ],
+            },
+            { path: "stats", element: <StatsLayout /> },
+          ],
+        },
+      ],
+    },
+  ]);
 
-  return (
-    <Router>
-      {/* Gestione Errori Globale */}
-      <Modal open={!!error} onClose={() => setError(null)}>
-        {error && (
-          <ErrorPage
-            title="Errore"
-            message={error.message}
-            onConfirm={() => setError(null)}
-          />
-        )}
-      </Modal>
+  if (isLoading)
+    return (
+      <div>
+        <p>Caricamento...</p>
+      </div>
+    );
 
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-      <Header onMenuClick={() => setIsSidebarOpen(true)} />
-
-      <main>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-
-          <Route
-            path="/"
-            element={
-              <HomePage user={user} />
-            }
-          />
-
-          {/* Private Routes - Challenge & Stats */}
-          <Route
-            path="/user/dashboard"
-            element={
-              <PrivateRoute user={user}>
-                {/* Qui ora passeremo alla DashboardPage che caricherà i suoi dati internamente */}
-                <DashboardPage />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/user/history"
-            element={
-              <PrivateRoute user={user}>
-                <EnvelopesHistory />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/stats"
-            element={
-              <PrivateRoute user={user}>
-                <StatsLayout />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute user={user}>
-                <Settings />
-              </PrivateRoute>
-            }
-          />
-
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-        <BottomNavbar />
-      </main>
-    </Router>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

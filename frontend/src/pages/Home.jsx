@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from "react";
-import EnvelopesContainer from "./envelopes/EnvelopesContainer";
-import EnvelopesGridDisplay from "./envelopes/EnvelopesGridDisplay";
+import { useAuth } from "../components/context/AuthContext";
+import EnvelopesContainer from "../components/envelopes/EnvelopesContainer";
+import EnvelopesGridDisplay from "../components/envelopes/EnvelopesGridDisplay";
 import { Link } from "react-router-dom";
 
-export default function HomePage({ user }) {
+export default function HomePage() {
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {user} = useAuth();
 
   // Funzione per caricare la sfida dal database
   const fetchChallenge = useCallback(async () => {
@@ -28,7 +30,12 @@ export default function HomePage({ user }) {
     fetchChallenge();
   }, [fetchChallenge]);
 
-  if (loading) return <div className="loader">Caricamento...</div>;
+  if (loading)
+    return (
+      <div>
+        <h2>Caricamento...</h2>
+      </div>
+    );
 
   // Se l'utente non ha ancora creato una sfida (es. primo accesso)
   if (!challenge) {
@@ -41,6 +48,7 @@ export default function HomePage({ user }) {
 
   return (
     <div className="dashboard-container">
+      {!user && <div className="center"></div>}
       {user && (
         <div className="center">
           <p>Bentornato! Pronto a risparmiare?</p>
@@ -55,7 +63,7 @@ export default function HomePage({ user }) {
           onSaveSuccess={fetchChallenge} // Fondamentale: ricarica la griglia dopo il Save
         />
       </section>
-      {(user) ? (
+      {user ? (
         <section className="grid-section">
           <h3 className="stat-title">La tua progressione</h3>
           <div className="stats-grid two-columns">
@@ -63,7 +71,9 @@ export default function HomePage({ user }) {
               <p className="stats-title">Buste aperte: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge?.amounts?.filter((env) => env.isOpened).length || 0} / 100
+                  {challenge?.amounts?.filter((env) => env.isOpened).length ||
+                    0}{" "}
+                  / 100
                 </strong>
               </p>
             </div>
@@ -71,7 +81,9 @@ export default function HomePage({ user }) {
               <p className="stats-title">Totale risparmiato: </p>
               <p className="stats-value">
                 <strong>
-                  {challenge?.amounts?.filter((env) => env.isOpened).reduce((acc, env) => acc + env.value, 0) || 0}
+                  {challenge?.amounts
+                    ?.filter((env) => env.isOpened)
+                    .reduce((acc, env) => acc + env.value, 0) || 0}
                   €
                 </strong>
               </p>
@@ -84,10 +96,18 @@ export default function HomePage({ user }) {
         </section>
       ) : (
         <div className="login-section center">
-          <p>Registrati per iniziare la tua sfida.</p>
-          <Link to="/login" className="button">
-            Login
-          </Link>
+          <p>
+            Se vuoi salvare le buste già aperte, sbloccare fantastici badge e
+            completare la tua sfida personale, effettua il login o registrati!
+          </p>
+          <div className="button-box">
+            <Link to="/login" className="button">
+              Login
+            </Link>
+            <Link to="/register" className="button">
+              Registrati
+            </Link>
+          </div>
         </div>
       )}
     </div>
