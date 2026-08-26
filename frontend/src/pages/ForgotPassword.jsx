@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Mail, ArrowLeft, Loader2, CircleDivideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Mail, ArrowLeft, Loader2, CircleDivideIcon } from "lucide-react";
 import Input from "../components/UI/Input.jsx";
 import useInput from "../hooks/useInput.jsx";
 import { isEmail, isNotEmpty } from "../util/validation.js";
@@ -8,6 +9,7 @@ import apiAxios from "../api/axiosConfig.js";
 
 export default function ForgotPassword() {
   const [status, setStatus] = useState(null); //stati: loading, success, error,
+  const { t } = useTranslation();
 
   const {
     value: emailValue,
@@ -35,7 +37,7 @@ export default function ForgotPassword() {
       setStatus("error");
 
       // Opzionale: un alert per capire cosa è andato storto
-      alert(error.response?.data?.message || "Errore nel server");
+      alert(error.response?.data?.message || `${t("errors.error_generic")}`);
     }
   };
 
@@ -47,16 +49,13 @@ export default function ForgotPassword() {
         </Link>
       </div>
 
-      <h2>Recupera Password</h2>
+      <h2>{t("settings.forgot_password.title")}</h2>
 
-      <p className="auth-subtitle">
-        Inserisci la tua email e ti invieremo le istruzioni per resettare la
-        password.
-      </p>
+      <p className="auth-subtitle">{t("settings.forgot_password.desc")}</p>
       <div className="control">
         {status === "success" ? (
           <div className="success-message">
-            📧 Controlla la tua posta! Ti abbiamo inviato un link di recupero.
+            {t("setting.forgot_password.success")}
           </div>
         ) : (
           <form className="control-column" onSubmit={handleSubmit}>
@@ -69,7 +68,7 @@ export default function ForgotPassword() {
               onBlur={handleEmailBlur}
               onChange={handleEmailChange}
               value={emailValue}
-              error={emailHasError && "Please enter a valid email!"}
+              error={emailHasError && `${t("settings.login.valid_email")}`}
             />
 
             <div className="form-actions">
@@ -81,7 +80,7 @@ export default function ForgotPassword() {
                 {status === "loading" ? (
                   <Loader2 className="spinner" />
                 ) : (
-                  "Invia Link"
+                  `${t("settings.forgot_password.send_link")}`
                 )}
               </button>
             </div>

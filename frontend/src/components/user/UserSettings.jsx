@@ -8,16 +8,20 @@ import {
   ChevronRight,
   ShieldCheck,
 } from "lucide-react";
-import "./UserSettings.css";
 import { Link, useNavigate } from "react-router-dom";
 import apiAxios from "../../api/axiosConfig.js";
-const BACKEND_URL = "http://localhost:3000"; // Porta del server Express
-import defaultAvatar from "../../assets/default-avatar.png";
 import { getCleanFileName } from "../../util/helper.js";
+import { useTranslation } from "react-i18next";
+
+import LanguagePicker from "../UI/LanguagePicker.jsx";
+import defaultAvatar from "../../assets/default-avatar.png";
+import "./UserSettings.css";
+
+const BACKEND_URL = "http://localhost:3000"; // Porta del server Express
 
 export default function UserSettings() {
   const { user, logout, isLoading } = useAuth();
-  console.log(user.image);
+  const { t } = useTranslation();
 
   const [previewUrl, setPreviewUrl] = useState(defaultAvatar);
 
@@ -39,10 +43,10 @@ export default function UserSettings() {
   if (isLoading)
     return (
       <div>
-        <p>Caricamento...</p>
+        <p>{t("common.loading")}</p>
       </div>
     );
-  if (!user) return <div>Effettua il login per vedere questa pagina.</div>;
+  if (!user) return <div>{t("settings.no_login")}</div>;
 
   const handleRequestVerification = async () => {
     try {
@@ -50,7 +54,7 @@ export default function UserSettings() {
       const response = await apiAxios.post("/api/auth/send-verification");
       console.log(response);
 
-      alert("Controlla la tua posta! Ti abbiamo inviato il link.");
+      alert(`${t("settings.link_to_mail")}`);
     } catch (err) {
       console.error("handleRequestVerification Errore nell'invio:", err);
     }
@@ -58,29 +62,38 @@ export default function UserSettings() {
 
   const stringImage = getCleanFileName(user.image);
 
+  const activeBadges = user.badges?.filter((b) => b.isUnlocked).length || 0;
+
   return (
     <div className="settings-container">
       <header className="settings-header">
-        <h2>User settings</h2>
-        </header>
-        <div className="profile-section">
-          <div className="avatar-placeholder">
-            <img src={previewUrl} alt="Avatar Image" />
-          </div>
-          <div className="profile-info">
-            {/* Usiamo lo username dal JSON */}
-            <h3>
-              {user.username} <span className="badge-user">{user.role}</span>
-            </h3>
-            <div className="quick-actions">
-              <Bell size={18} />
-              <Globe size={18} />
-              <button className="button button-exit" onClick={handleLogout}>
+        <h2>{t("settings.title")}</h2>
+      </header>
+      <div className="profile-section">
+        <div className="avatar-placeholder">
+          <img src={previewUrl} alt="Avatar Image" />
+        </div>
+        <div className="profile-info">
+          {/* Usiamo lo username dal JSON */}
+          <h3>
+            {user.username} <span className="badge-user">{user.role}</span>
+          </h3>
+
+          <div className="quick-actions">
+            <div className="icons-box">
+              <button id="bell" className="button button-flat">
+                <Bell size={18} />
+              </button>
+
+              <LanguagePicker />
+
+              <button className="button button-flat" onClick={handleLogout}>
                 <LogOut size={18} className="logout-icon" />
               </button>
             </div>
           </div>
         </div>
+      </div>
 
       <section className="settings-menu">
         <div
@@ -88,12 +101,14 @@ export default function UserSettings() {
         >
           <button onClick={handleRequestVerification} className="menu-text">
             <h4>
-              {user.isVerified ? "Account Verified" : "Verify your account"}
+              {user.isVerified
+                ? `${t("settings.account_verified")}`
+                : `${t("settings.verify_account")}`}
             </h4>
             <p>
               {user.isVerified
-                ? "You earned the Verify Account Badge!"
-                : "Send a verifying email and earn a badge!"}
+                ? `${t("settings.badges_earned")}`
+                : `${t("settings.verify_email")}`}
             </p>
           </button>
           {user.isVerified ? (
@@ -105,45 +120,45 @@ export default function UserSettings() {
 
         <Link to="/user/profile/edit" className="menu-item">
           <div className="menu-text">
-            <h4>Edit Profile</h4>
-            <p>Edit avatar image and username</p>
+            <h4>{t("settings.edit_profile")}</h4>
+            <p>{t("settings.edit_profile_desc")}</p>
           </div>
           <ChevronRight size={20} />
         </Link>
 
         <Link to="/user/profile/change-password" className="menu-item">
           <div className="menu-text">
-            <h4>Change Password</h4>
-            <p>Change your password</p>
+            <h4>{t("settings.change_password")}</h4>
+            <p>{t("settings.change_password_desc")}</p>
           </div>
           <ChevronRight size={20} />
         </Link>
 
         <Link to="/user/profile/badges" className="menu-item">
           <div className="menu-text">
-            <h4>Your badges</h4>
-            <p>{user.badges?.length || 0} badges earned</p>
+            <h4>{t("settings.badges.title")}</h4>
+            <p>{t("settings.badges.count", { count: activeBadges })}</p>
           </div>
           <ChevronRight size={20} />
         </Link>
 
         <Link to="/user/profile/settings" className="menu-item">
           <div className="menu-text">
-            <h4>Change Settings</h4>
-            <p>Choose different settings for your challenges</p>
+            <h4>{t("settings.change_settings")}</h4>
+            <p>{t("settings.change_settings_desc")}</p>
           </div>
           <ChevronRight size={20} />
         </Link>
       </section>
 
       <section className="details-section">
-        <h3>Details</h3>
+        <h3>{t("settings.details")}</h3>
         <div className="detail-field">
-          <label>User ID</label>
+          <label>{t("settings.user_id")}</label>
           <input type="text" value={user._id} readOnly />
         </div>
         <div className="detail-field">
-          <label>Avatar Image</label>
+          <label>{t("settings.avatar_image")}</label>
           <input type="text" value={stringImage} readOnly />
         </div>
       </section>

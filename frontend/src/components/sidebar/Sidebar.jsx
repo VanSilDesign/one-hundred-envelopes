@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import "./Sidebar.css";
 
 export default function Sidebar({ isOpen, onClose }) {
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -19,7 +21,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
       <aside className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-header">
-          <h2>Menu</h2>
+          <h2>{t("menu.menu")}</h2>
           <button className="close-btn" onClick={onClose}>
             ×
           </button>
@@ -29,32 +31,22 @@ export default function Sidebar({ isOpen, onClose }) {
           {user ? (
             <div className="user-section">
               <p>
-                Welcome, <strong>{user.username}</strong>!
+                {t("menu.welcome")}<strong>{user.username}</strong>!
               </p>
               <ul>
                 <li>
                   <Link to="/" onClick={onClose}>
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/user/dashboard" onClick={onClose}>
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/stats" onClick={onClose}>
-                    Stats
+                    {t("menu.home")}
                   </Link>
                 </li>
                 <li>
                   <Link to="/settings" onClick={onClose}>
-                    Settings
+                    {t("menu.settings")}
                   </Link>
                 </li>
                 <li>
                   <button className="logout-btn" onClick={handleLogout}>
-                    Logout
+                    {t("common.logout")}
                   </button>
                 </li>
               </ul>
@@ -62,11 +54,10 @@ export default function Sidebar({ isOpen, onClose }) {
           ) : (
             <div className="guest-section">
               <p>
-                Login to save your history, check your progress and set
-                different score.
+                {t("common.intro")}
               </p>
               <Link to="/login" className="button" onClick={onClose}>
-                Login
+                {t("common.login")}
               </Link>
             </div>
           )}

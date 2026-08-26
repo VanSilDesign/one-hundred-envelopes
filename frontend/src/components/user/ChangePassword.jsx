@@ -1,14 +1,16 @@
-import {useNavigate } from "react-router-dom";
-import apiAxios from "../../api/axiosConfig.js";
 import { useState } from "react";
+import {useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { ArrowLeft } from "lucide-react";
+import apiAxios from "../../api/axiosConfig.js";
+import { isNotEmpty, hasMinLength } from "../../util/validation.js";
 import useInput from "../../hooks/useInput.jsx";
 import Input from "../UI/Input.jsx";
-import { isNotEmpty, hasMinLength } from "../../util/validation.js";
-import { ArrowLeft } from "lucide-react";
 
 function ChangePassword() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const {
     value: currentPassword,
@@ -34,7 +36,7 @@ function ChangePassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (newPassword !== confirmNewPassword) {
-      return alert("Le password non coincidono!");
+      return alert(`${t("errors.error_password")}`);
     }
 
     try {
@@ -43,47 +45,47 @@ function ChangePassword() {
         newPassword,
       });
 
-      alert("Password aggiornata con successo!");
+      alert(`${t("settings.password.password_success")}`);
       navigate("/user/profile"); // Torna alle impostazioni del profilo
     } catch (err) {
       console.error(err);
       // Prende il messaggio dal backend, es: "La password attuale non è corretta."
       console.log(err);
       const errorMsg =
-        err.response?.data?.message || "Si è verificato un errore. Riprova.";
+        err.response?.data?.message || `${t("errors.error_generic")}`;
       setMessage(errorMsg);
     }
   };
   return (
     <div className="form-container">
       <header className="form-header">
-        <h2>Imposta Nuova Password</h2>
+        <h2>{t("settings.input_password")}</h2>
       </header>
       
       <form onSubmit={handleSubmit}>
         <div className="control-column">
           <Input
-            label="Vecchia Password*"
+            label={t("settings.password.current_password")}
             id="current-password"
             type="password"
             name="currentPassword"
             onBlur={handleCurrentPasswordBlur}
             onChange={handleCurrentPasswordChange}
             value={currentPassword}
-            error={currentPasswordHasError && "Per favore inserisci una password valida"}
+            error={currentPasswordHasError && `${t("settings.password.valid_password")}`}
           />
           <Input
-            label="Nuova Password*"
+            label={t("settings.password.new_password")}
             id="new-password"
             type="password"
             name="newPassword"
             onBlur={handleNewPasswordBlur}
             onChange={handleNewPasswordChange}
             value={newPassword}
-            error={newPasswordHasError && "Per favore inserisci una password valida"}
+            error={newPasswordHasError && `${t("settings.password.valid_password")}`}
           />
           <Input
-            label="Conferma Nuova Password*"
+            label={t("settings.password.confirm_new_password")}
             id="confirm-new-password"
             type="password"
             name="confirmNewPassword"
@@ -91,12 +93,12 @@ function ChangePassword() {
             onChange={handleConfirmNewPasswordChange}
             value={confirmNewPassword}
             error={
-              confirmNewPasswordHasError && "Per favore inserisci una password valida"
+              confirmNewPasswordHasError && `${t("settings.password.valid_password")}`
             }
           />
           <div className="form-actions">
-            <button className="button button-flat" onClick={() => navigate("/user/profile")}>Annulla</button>
-            <button className="button">Salva</button>
+            <button className="button button-back" onClick={() => navigate("/user/profile")}>{t("common.cancel")}</button>
+            <button className="button">{t("common.save")}</button>
           </div>
         </div>
       </form>

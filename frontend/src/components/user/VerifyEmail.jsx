@@ -123,7 +123,7 @@ export default function VerifyEmail() {
     return (
       <div className="verify-container">
         <h2>Token scaduto o non valido. ❌</h2>
-        <button className="continue-btn" onClick={() => navigate("/")}>
+        <button className="button continue-btn" onClick={() => navigate("/")}>
           Torna alla Home
         </button>
       </div>

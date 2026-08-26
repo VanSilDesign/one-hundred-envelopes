@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
 import "./EnvelopesGridDisplay.css"; // Creeremo questo file tra un secondo
 
 export default function EnvelopesGridDisplay({ amounts, onUpdateSuccess }) {
+  const { t } = useTranslation();
+
   const handleCloseEnvelope = async (e, value) => {
     e.stopPropagation(); // Evita che il click sulla X attivi altri eventi sul quadratino
 
@@ -48,7 +51,7 @@ export default function EnvelopesGridDisplay({ amounts, onUpdateSuccess }) {
           ))}
         </div>
       )}
-      {!amounts && <div className="center"><p>Nessuna sfida in corso</p></div>}
+      {!amounts && <div className="center"><p>{t("homepage.no_challenge")}</p></div>}
     </div>
   );
 }

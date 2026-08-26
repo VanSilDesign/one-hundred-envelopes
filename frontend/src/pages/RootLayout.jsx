@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../components/context/AuthContext.jsx";
 
 // Layout & UI
 import Modal from "../components/modals/Modal.jsx";
 import Header from "../components/Header.jsx";
 import Sidebar from "../components/sidebar/Sidebar.jsx";
 import BottomNavbar from "../components/navbar/BottomNavbar.jsx";
+import Footer from "../components/Footer.jsx";
 
 function RootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -30,6 +30,7 @@ function RootLayout() {
         <Outlet />
       </main>
       <BottomNavbar />
+      <Footer />
     </>
   );
 }

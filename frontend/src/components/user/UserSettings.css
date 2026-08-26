@@ -14,8 +14,8 @@
 }
 
 .settings-header h2 {
-    margin: 0;
-    text-transform: uppercase;
+  margin: 0;
+  text-transform: uppercase;
 }
 
 .profile-section {
@@ -36,9 +36,16 @@
 }
 
 .avatar-placeholder img {
-  max-width: 100%;
-  border-radius: 50%;
-  border: 2px solid #e8a593;
+	max-width: 100%;
+	border-radius: 50%;
+	border: 2px solid #e8a593;
+	width: 12rem;
+	height: 12rem;
+	display: flex;
+	flex-flow: revert;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -50,7 +57,6 @@
     width: 16rem;
     height: 16rem;
   }
-
 }
 
 .profile-info {
@@ -81,6 +87,8 @@
 
 .quick-actions {
   width: 100%;
+}
+.icons-box {
   display: flex;
   flex-flow: row;
   justify-content: flex-end;
@@ -91,6 +99,50 @@
 }
 
 .quick-actions .logout-icon {
+  color: #8f3a2b;
+}
+
+/* Wrapper del globo per gestire l'hover e il posizionamento del menu */
+.language-picker-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* Rimuovi "visibility: hidden" e aggiungi posizionamento assoluto */
+.language-box {
+  position: absolute;
+  top: 100%; /* Compare subito sotto il bottone */
+  right: 0;
+  z-index: 10; /* Rimane sopra gli altri elementi */
+  background-color: #ffffff;
+  border: 1px solid rgba(141, 131, 125, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 6px;
+  padding: 4px 0;
+  min-width: 110px;
+}
+
+.language-box ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.language-box li button {
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font-size: 1.2rem;
+  color: #4a4a4a;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.language-box li button:hover {
+  background-color: rgba(141, 131, 125, 0.15);
   color: #8f3a2b;
 }
 
@@ -122,7 +174,11 @@
   justify-content: center;
   align-items: baseline;
   padding: 0;
-  font-family: "Lato", system-ui, -apple-system, sans-serif;;
+  font-family:
+    "Lato",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .menu-item button.menu-text h4 {
@@ -219,9 +275,9 @@
 }
 
 @media screen and (min-width: 768px) {
-.details-section h3 {
-  font-size: 1.6rem;
-}
+  .details-section h3 {
+    font-size: 1.6rem;
+  }
   .detail-field {
     width: 100%;
     height: auto;

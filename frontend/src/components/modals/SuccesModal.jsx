@@ -45,7 +45,7 @@ export default function SuccessModal({
           <strong>{challengeName}</strong>!
         </p>
 
-        <button className="continue-btn" onClick={onClose}>
+        <button className="button continue-btn" onClick={onClose}>
           Continua
         </button>
       </div>
