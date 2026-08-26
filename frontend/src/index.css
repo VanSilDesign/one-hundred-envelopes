@@ -190,6 +190,7 @@ body {
 main {
   width: 90%;
   max-width: 800px;
+  min-height: 50vh;
   margin: 0 auto;
 }
 

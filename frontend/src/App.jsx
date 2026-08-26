@@ -19,7 +19,6 @@ import CookiesPage from "./pages/CookiesPage.jsx";
 
 // User Pages
 import UserSettings from "./components/user/UserSettings.jsx";
-import Settings from "./components/Settings.jsx";
 import BadgesPage from "./components/user/BadgesPage.jsx";
 import VerifyEmail from "./components/user/VerifyEmail.jsx";
 import ChangePassword from "./components/user/ChangePassword.jsx";
@@ -27,6 +26,7 @@ import ChangePassword from "./components/user/ChangePassword.jsx";
 // Context
 import { useAuth } from "./components/context/AuthContext.jsx";
 import EditProfile from "./components/user/EditProfile.jsx";
+import ChallengesSettings from "./components/challenges/ChallengesSettings.jsx";
 
 function App() {
   const { user, isLoading } = useAuth();
@@ -54,11 +54,11 @@ function App() {
                 { index: true, element: <UserSettings /> },
                 { path: "edit", element: <EditProfile /> },
                 { path: "badges", element: <BadgesPage /> },
-                { path: "setting", element: <Settings /> },
                 { path: "change-password", element: <ChangePassword /> },
               ],
             },
             { path: "stats", element: <StatsLayout /> },
+            { path: "challenges", element: <ChallengesSettings />}
           ],
         },
         { path: "terms", element: <TermsPage /> },

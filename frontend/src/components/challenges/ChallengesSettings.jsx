@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import calculateSavings from "../util/calc.js";
-import Input from "./UI/Input";
+import calculateSavings from "../../util/calc.js";
+import Input from "../UI/Input.jsx";
 
-export default function Settings() {
+export default function ChallengesSettings() {
   const [settingValues, setSettingValues] = useState({
     maxValue: 100,
     step: 1,

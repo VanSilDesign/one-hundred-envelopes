@@ -141,14 +141,6 @@ export default function UserSettings() {
           </div>
           <ChevronRight size={20} />
         </Link>
-
-        <Link to="/user/profile/settings" className="menu-item">
-          <div className="menu-text">
-            <h4>{t("settings.change_settings")}</h4>
-            <p>{t("settings.change_settings_desc")}</p>
-          </div>
-          <ChevronRight size={20} />
-        </Link>
       </section>
 
       <section className="details-section">
