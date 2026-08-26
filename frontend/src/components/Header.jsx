@@ -1,9 +1,12 @@
 import logoImg from "../assets/logo_envelope.png";
 import { useLocation, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import "./Header.css";
 
 export default function Header({ onMenuClick }) {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const { t } = useTranslation();
 
   return (
     <header id="main-header">
@@ -33,7 +36,7 @@ export default function Header({ onMenuClick }) {
             to="/"
             className={`${isHome ? "home-variant" : "compact-variant"}`}
           >
-            <img src={logoImg} alt="A open envelope with a heart inside" />
+            <img src={logoImg} alt={t("common.logo_alt")} />
             {!isHome && <span className="site-title">100 Envelopes</span>}
             {isHome && <h1>100 envelopes</h1>}
           </Link>

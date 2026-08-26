@@ -79,6 +79,9 @@
       "title": "Choose your envelope ({{currency}})"
     }
   },
+  "footer": {
+    "rights": "All right reserved"
+  },
   "stats": {},
   "challenges": {},
   "common": {
@@ -92,6 +95,11 @@
     "and": "and",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
+    "cookies": "Cookies Policy",
+    "contacts": "Contacts",
+    "instruction": "How to play",
+    "about_us": "About us",
+    "logo_alt": "A open envelope with a heart inside",
     "alerts": {
       "link_to_mail": "Check your email! We've sent you the link.",
       "complete_challenge": "Challenge completed!",

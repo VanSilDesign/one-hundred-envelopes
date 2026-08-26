@@ -1,0 +1,118 @@
+
+/* Stile base dell'header */
+#main-header {
+  position: relative;
+  transition: all 0.3s ease;
+  padding: 0 0 1.6rem;
+  display: block;
+  margin: 1rem auto;
+  font-family: var(--font-main);
+  color: var(--text-main);
+  border-bottom: 1px solid var(--disabled-color);
+}
+
+#main-header a {
+  text-decoration: none;
+  color: inherit;
+  font-family: var(--font-main);
+}
+
+/* Variante HOME: Grande e centrato */
+.home-variant {
+  flex-direction: column;
+  align-items: center;
+  height: 200px; /* Esempio */
+}
+
+.home-variant img {
+  object-fit: contain;
+  display: block;
+  width: 9.6rem;
+  height: 9.6rem;
+  padding: 1rem;
+  margin: 0 auto 1rem auto;
+  border: 2px solid #e8a593;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+}
+.home-variant h1 {
+  margin: 0;
+  font-size: 3.2rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media screen and (min-width: 576px) {
+  .home-variant img {
+    width: 12.8rem;
+    height: 12.8rem;
+  }
+  .home-variant h1 {
+    font-size: 4rem;
+  }
+}
+
+/* Variante COMPACT: Logo e Menu sulla stessa riga */
+.compact-variant {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 46px;
+  margin: 0;
+}
+
+.main-header-container {
+  width: 90%;
+  max-width: 50rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .main-header-container {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+/* Nascondi o rimpicciolisci il logo nella versione compatta */
+.compact-variant img {
+  height: 40px;
+  width: auto;
+}
+
+.compact-variant span {
+  font-size: 2.4rem;
+  height: 46px;
+  line-height: 46px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.menu-toggle {
+  position: absolute;
+  right: 15px;
+  left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.menu-toggle:hover {
+  transform: scale(1.1);
+}
+
+.menu-toggle svg path {
+  stroke: var(--text-title); /* Colore che riprende il tuo stile */
+}

@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import RootLayout from "./pages/RootLayout.jsx";
 import UserLayout from "./pages/user/UserLayout.jsx";
 import ErrorPage from "./pages/Error.jsx";
-import PrivateRoute from "./components/PrivateRoute.jsx";
 
 // Pages
 import HomePage from "./pages/Home.jsx";
@@ -14,6 +13,9 @@ import RegisterPage from "./pages/Register.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import StatsLayout from "./components/stats/StatsLayout.jsx";
+import TermsPage from "./pages/TermsPage.jsx";
+import PrivacyPage from "./pages/PrivacyPage.jsx";
+import CookiesPage from "./pages/CookiesPage.jsx";
 
 // User Pages
 import UserSettings from "./components/user/UserSettings.jsx";
@@ -59,6 +61,9 @@ function App() {
             { path: "stats", element: <StatsLayout /> },
           ],
         },
+        { path: "terms", element: <TermsPage /> },
+        { path: "privacy", element: <PrivacyPage /> },
+        { path: "cookies", element: <CookiesPage /> },
       ],
     },
   ]);

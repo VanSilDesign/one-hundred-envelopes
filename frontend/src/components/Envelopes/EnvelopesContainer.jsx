@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import EnvelopeCounter from "./EnvelopeCounter.jsx";
 import IconButton from "../UI/IconButton.jsx";
 import SuccessModal from "../modals/SuccesModal.jsx";
+import "./EnvelopesContainer.css";
 
 function EnvelopesContainer({
   user,

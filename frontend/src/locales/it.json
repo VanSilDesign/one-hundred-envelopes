@@ -79,6 +79,9 @@
       "title": "Scegli la tua busta ({{currency}})"
     }
   },
+  "footer": {
+    "rights": "Tutti i diritti riservati."
+  },
   "statistics": {},
   "challenges": {},
   "common": {
@@ -92,6 +95,11 @@
     "and": "e",
     "terms": "Termini di Servizio",
     "privacy": "Informativa sulla Privacy",
+    "cookies": "Informativa sui Cookies",
+    "contacts": "Contatti",
+    "instruction": "Come giocare",
+    "about_us": "Chi siamo",
+    "logo_alt": "Una busta da lettere aperta con un cuore al suo interno",
     "alerts": {
       "link_to_mail": "Controlla la tua posta! Ti abbiamo inviato il link.",
       "complete_challenge": "Sfida completata!",
